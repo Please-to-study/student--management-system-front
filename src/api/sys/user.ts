@@ -3,7 +3,10 @@ import { LoginParams, LoginResultModel, GetUserInfoModel } from './model/userMod
 
 import { ErrorMessageMode } from '#/axios';
 
+const BASE_URL = 'http://localhost:8080/codeManageSystem';
+
 enum Api {
+  // Login = '/manager/login',
   Login = '/login',
   Logout = '/logout',
   GetUserInfo = '/getUserInfo',
@@ -17,6 +20,7 @@ enum Api {
 export function loginApi(params: LoginParams, mode: ErrorMessageMode = 'modal') {
   return defHttp.post<LoginResultModel>(
     {
+      // url: BASE_URL + Api.Login,
       url: Api.Login,
       params,
     },

@@ -55,6 +55,7 @@
 
       const { prefixCls } = useDesign('layout-menu');
 
+      // toRef 是对定义的响应对象的某个属性进行引用
       const { menusRef } = useSplitMenu(toRef(props, 'splitType'));
 
       const { getIsMobile } = useAppInject();

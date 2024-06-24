@@ -8,10 +8,10 @@
     v-show="getShow"
     @keypress.enter="handleLogin"
   >
-    <FormItem name="account" class="enter-x">
+    <FormItem name="username" class="enter-x">
       <Input
         size="large"
-        v-model:value="formData.account"
+        v-model:value="formData.username"
         :placeholder="t('sys.login.userName')"
         class="fix-auto-fill"
       />
@@ -27,20 +27,20 @@
 
     <ARow class="enter-x">
       <ACol :span="12">
-        <FormItem>
-          <!-- No logic, you need to deal with it yourself -->
-          <Checkbox v-model:checked="rememberMe" size="small">
-            {{ t('sys.login.rememberMe') }}
-          </Checkbox>
-        </FormItem>
+<!--        <FormItem>-->
+<!--          &lt;!&ndash; No logic, you need to deal with it yourself &ndash;&gt;-->
+<!--          <Checkbox v-model:checked="rememberMe" size="small">-->
+<!--            {{ t('sys.login.rememberMe') }}-->
+<!--          </Checkbox>-->
+<!--        </FormItem>-->
       </ACol>
       <ACol :span="12">
-        <FormItem :style="{ 'text-align': 'right' }">
-          <!-- No logic, you need to deal with it yourself -->
-          <Button type="link" size="small" @click="setLoginState(LoginStateEnum.RESET_PASSWORD)">
-            {{ t('sys.login.forgetPassword') }}
-          </Button>
-        </FormItem>
+<!--        <FormItem :style="{ 'text-align': 'right' }">-->
+<!--          &lt;!&ndash; No logic, you need to deal with it yourself &ndash;&gt;-->
+<!--          <Button type="link" size="small" @click="setLoginState(LoginStateEnum.RESET_PASSWORD)">-->
+<!--            {{ t('sys.login.forgetPassword') }}-->
+<!--          </Button>-->
+<!--        </FormItem>-->
       </ACol>
     </ARow>
 
@@ -52,33 +52,33 @@
         {{ t('sys.login.registerButton') }}
       </Button> -->
     </FormItem>
-    <ARow class="enter-x" :gutter="[16, 16]">
-      <ACol :md="8" :xs="24">
-        <Button block @click="setLoginState(LoginStateEnum.MOBILE)">
-          {{ t('sys.login.mobileSignInFormTitle') }}
-        </Button>
-      </ACol>
-      <ACol :md="8" :xs="24">
-        <Button block @click="setLoginState(LoginStateEnum.QR_CODE)">
-          {{ t('sys.login.qrSignInFormTitle') }}
-        </Button>
-      </ACol>
-      <ACol :md="8" :xs="24">
-        <Button block @click="setLoginState(LoginStateEnum.REGISTER)">
-          {{ t('sys.login.registerButton') }}
-        </Button>
-      </ACol>
-    </ARow>
+<!--    <ARow class="enter-x" :gutter="[16, 16]">-->
+<!--      <ACol :md="8" :xs="24">-->
+<!--        <Button block @click="setLoginState(LoginStateEnum.MOBILE)">-->
+<!--          {{ t('sys.login.mobileSignInFormTitle') }}-->
+<!--        </Button>-->
+<!--      </ACol>-->
+<!--      <ACol :md="8" :xs="24">-->
+<!--        <Button block @click="setLoginState(LoginStateEnum.QR_CODE)">-->
+<!--          {{ t('sys.login.qrSignInFormTitle') }}-->
+<!--        </Button>-->
+<!--      </ACol>-->
+<!--      <ACol :md="8" :xs="24">-->
+<!--        <Button block @click="setLoginState(LoginStateEnum.REGISTER)">-->
+<!--          {{ t('sys.login.registerButton') }}-->
+<!--        </Button>-->
+<!--      </ACol>-->
+<!--    </ARow>-->
 
-    <Divider class="enter-x">{{ t('sys.login.otherSignIn') }}</Divider>
+<!--    <Divider class="enter-x">{{ t('sys.login.otherSignIn') }}</Divider>-->
 
-    <div class="flex justify-evenly enter-x" :class="`${prefixCls}-sign-in-way`">
-      <GithubFilled />
-      <WechatFilled />
-      <AlipayCircleFilled />
-      <GoogleCircleFilled />
-      <TwitterCircleFilled />
-    </div>
+<!--    <div class="flex justify-evenly enter-x" :class="`${prefixCls}-sign-in-way`">-->
+<!--      <GithubFilled />-->
+<!--      <WechatFilled />-->
+<!--      <AlipayCircleFilled />-->
+<!--      <GoogleCircleFilled />-->
+<!--      <TwitterCircleFilled />-->
+<!--    </div>-->
   </Form>
 </template>
 <script lang="ts" setup>
@@ -119,7 +119,7 @@
   const rememberMe = ref(false);
 
   const formData = reactive({
-    account: 'vben',
+    username: 'vben',
     password: '123456',
   });
 
@@ -134,9 +134,10 @@
     if (!data) return;
     try {
       loading.value = true;
+      //
       const userInfo = await userStore.login({
-        password: data.password,
-        username: data.account,
+        password: formData.password,
+        username: formData.username,
         mode: 'none', //不要默认的错误提示
       });
       if (userInfo) {

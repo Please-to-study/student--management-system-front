@@ -35,6 +35,7 @@
 
   defineOptions({ name: 'SimpleMenu', inheritAttrs: false });
 
+  // 获取父组件传递过来的参数
   const props = defineProps({
     items: {
       type: Array as PropType<MenuType[]>,
