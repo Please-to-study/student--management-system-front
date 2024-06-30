@@ -1,0 +1,9 @@
+{
+  "studentManagement": "StudentManagement",
+  "basicInfo" : {
+    "basicInfo" : "BasicInfo"
+  },
+  "spendingInfo" : {
+    "spendingInfo" : "SpendingInfo"
+  }
+}

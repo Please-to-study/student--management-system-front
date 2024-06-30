@@ -1,0 +1,9 @@
+{
+  "studentManagement": "学生信息管理",
+  "basicInfo" : {
+    "basicInfo" : "基本信息"
+  },
+  "spendingInfo" : {
+    "spendingInfo" : "缴费信息"
+  }
+}
