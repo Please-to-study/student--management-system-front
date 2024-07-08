@@ -3,7 +3,19 @@
   "basicInfo" : {
     "basicInfo" : "基本信息"
   },
+  "studentInfoDetail": {
+    "studentInfoDetail": "学生信息详情"
+  },
   "spendingInfo" : {
     "spendingInfo" : "缴费信息"
+  },
+  "courseBalance" : {
+    "courseBalance" : "课程结余信息"
+  },
+  "competitionInformation" : {
+    "competitionInformation" : "参赛信息"
+  },
+  "programmingRating" : {
+    "programmingRating" : "编程能力评级"
   }
 }

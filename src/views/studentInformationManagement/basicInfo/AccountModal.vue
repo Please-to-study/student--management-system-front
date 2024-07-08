@@ -52,14 +52,15 @@
     ]);
   });
 
-  const getTitle = computed(() => (!unref(isUpdate) ? '新增账号' : '编辑账号'));
+  const getTitle = computed(() => (!unref(isUpdate) ? '新增学生' : '编辑学生'));
 
   async function handleSubmit() {
-    // console.log('这是确定按钮');
     try {
       const values = await validate();
       setModalProps({ confirmLoading: true });
-      // TODO custom api
+      // TODO custom api  新增学生信息功能function
+      // todolist
+      // isUpdate为false ---> 创建账号  isUpdate为true ---> 修改账号信息
       console.log(values);
       closeModal();
       emit('success', { isUpdate: unref(isUpdate), values: { ...values, id: rowId.value } });

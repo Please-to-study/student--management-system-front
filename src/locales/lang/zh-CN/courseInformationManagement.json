@@ -1,0 +1,15 @@
+{
+  "courseManagement": "课程信息管理",
+  "courseInfo" : {
+    "courseInfo" : "课程信息"
+  },
+  "scheduleInfo" : {
+    "scheduleInfo" : "课表信息 "
+  },
+  "learningRecord" : {
+    "learningRecord" : "学习记录"
+  },
+  "courseworkInformation" : {
+    "courseworkInformation" : "课程作业信息"
+  }
+}

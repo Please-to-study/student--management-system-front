@@ -64,14 +64,14 @@ export const columns: BasicColumn[] = [
 
 export const searchFormSchema: FormSchema[] = [
   {
-    field: 'name',
-    label: '姓名',
+    field: 'account',
+    label: '用户名',
     component: 'Input',
     colProps: { span: 8 },
   },
   {
-    field: 'phone',
-    label: '电话',
+    field: 'nickname',
+    label: '昵称',
     component: 'Input',
     colProps: { span: 8 },
   },

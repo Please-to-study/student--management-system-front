@@ -52,15 +52,13 @@
     ]);
   });
 
-  const getTitle = computed(() => (!unref(isUpdate) ? '新增缴费' : '编辑缴费'));
+  const getTitle = computed(() => (!unref(isUpdate) ? '新增账号' : '编辑账号'));
 
   async function handleSubmit() {
     try {
       const values = await validate();
       setModalProps({ confirmLoading: true });
-      // TODO custom api
-      // todolist
-      // isUpdate为false ---> 新增缴费  isUpdate为true ---> 编辑缴费
+      // TODO custom api  新增学生信息功能function
       console.log(values);
       closeModal();
       emit('success', { isUpdate: unref(isUpdate), values: { ...values, id: rowId.value } });

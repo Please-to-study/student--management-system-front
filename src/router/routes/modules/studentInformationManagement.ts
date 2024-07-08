@@ -5,9 +5,9 @@ import { t } from '@/hooks/web/useI18n';
 
 const studentInformationManagement: AppRouteModule = {
   path: '/studentInformationManagement',
-  name: 'studentInformationManagement',
+  name: 'StudentInformationManagement',
   component: LAYOUT,
-  redirect: '/studentInformationManagement/basicInfo',
+  redirect: '/studentInformationManagement/studentBasicInfo',
   meta: {
     orderNo: 1,
     icon: 'ion:grid-outline',
@@ -15,8 +15,8 @@ const studentInformationManagement: AppRouteModule = {
   },
   children: [
     {
-      path: 'basicInfo',
-      name: 'basicInfo',
+      path: 'studentBasicInfo',
+      name: 'StudentBasicInfo',
       component: () => import('@/views/studentInformationManagement/basicInfo/index.vue'),
       meta: {
         // affix: true,
@@ -24,12 +24,49 @@ const studentInformationManagement: AppRouteModule = {
       },
     },
     {
+      path: 'studentInfoDetail/:id',
+      name: 'StudentInfoDetail',
+      component: () => import('@/views/studentInformationManagement/basicInfo/StudentDetailInfo.vue'),
+      meta: {
+        // affix: true,
+        hideMenu: true,
+        title: t('studentInformationManagement.studentInfoDetail.studentInfoDetail'),
+      },
+    },
+    {
       path: 'spendingInfo',
-      name: 'spendingInfo',
+      name: 'SpendingInfo',
       component: () => import('@/views/studentInformationManagement/spendingInfo/index.vue'),
       meta: {
         // affix: true,
         title: t('studentInformationManagement.spendingInfo.spendingInfo'),
+      },
+    },
+    {
+      path: 'courseBalance',
+      name: 'CourseBalance',
+      component: () => import('@/views/studentInformationManagement/courseBalance/index.vue'),
+      meta: {
+        // affix: true,
+        title: t('studentInformationManagement.courseBalance.courseBalance'),
+      },
+    },
+    {
+      path: 'competitionInformation',
+      name: 'CompetitionInformation',
+      component: () => import('@/views/studentInformationManagement/competitionInformation/index.vue'),
+      meta: {
+        // affix: true,
+        title: t('studentInformationManagement.competitionInformation.competitionInformation'),
+      },
+    },
+    {
+      path: 'programmingRating',
+      name: 'ProgrammingRating',
+      component: () => import('@/views/studentInformationManagement/programmingRating/index.vue'),
+      meta: {
+        // affix: true,
+        title: t('studentInformationManagement.programmingRating.programmingRating'),
       },
     },
   ],

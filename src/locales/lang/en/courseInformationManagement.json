@@ -1,0 +1,15 @@
+{
+  "courseManagement": "CourseManagement",
+  "courseInfo" : {
+    "courseInfo" : "CourseInfo"
+  },
+  "scheduleInfo" : {
+    "scheduleInfo" : "ScheduleInfo"
+  },
+  "learningRecord" : {
+    "learningRecord" : "LearningRecord"
+  },
+  "courseworkInformation" : {
+    "courseworkInformation" : "CourseworkInformation"
+  }
+}

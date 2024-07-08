@@ -59,7 +59,7 @@
   const searchInfo = reactive<Recordable>({});
   const [registerTable, { reload, updateTableDataRecord, getSearchInfo }] = useTable({
     title: '学生列表',
-    // 获取学生列表数据请求函数，统一在/src/api中进行封装即可
+    // --todolist-- 获取学生列表数据请求函数，统一在/src/api中进行封装即可
     api: getAccountList,
     rowKey: 'id',
     columns,
@@ -72,6 +72,7 @@
     showTableSetting: true,
     bordered: true,
     handleSearchInfoFn(info) {
+      // --todolist-- 查询按钮操作
       console.log('handleSearchInfoFn', info);
       return info;
     },
@@ -122,6 +123,6 @@
   }
 
   function handleView(record: Recordable) {
-    go('/system/account_detail/' + record.id);
+    go('/studentInformationManagement/studentInfoDetail/' + record.id);
   }
 </script>

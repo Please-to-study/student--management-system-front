@@ -1,0 +1,15 @@
+{
+  "teacherManagement": "TeacherManagement",
+  "basicInfo" : {
+    "basicInfo" : "BasicInfo"
+  },
+  "teacherSchedule" : {
+    "teacherSchedule" : "TeacherSchedule"
+  },
+  "courseRecord" : {
+    "courseRecord" : "CourseRecord"
+  },
+  "tuitionFee" : {
+    "tuitionFee" : "TuitionFee"
+  }
+}

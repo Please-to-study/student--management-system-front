@@ -3,7 +3,20 @@
   "basicInfo" : {
     "basicInfo" : "BasicInfo"
   },
+  "studentInfoDetail": {
+    "studentInfoDetail": "StudentInfoDetail"
+  },
   "spendingInfo" : {
     "spendingInfo" : "SpendingInfo"
+  },
+  "courseBalance" : {
+    "courseBalance" : "CourseBalance"
+  },
+  "competitionInformation" : {
+    "competitionInformation" : "CompetitionInformation"
+  },
+  "programmingRating" : {
+    "programmingRating" : "ProgrammingRating"
   }
+
 }

@@ -1,0 +1,15 @@
+{
+  "teacherManagement": "教师信息管理",
+  "basicInfo" : {
+    "basicInfo" : "基本信息"
+  },
+  "teacherSchedule" : {
+    "teacherSchedule" : "教师课表"
+  },
+  "courseRecord" : {
+    "courseRecord" : "上课记录"
+  },
+  "tuitionFee" : {
+    "tuitionFee" : "课时费用"
+  }
+}
