@@ -34,6 +34,16 @@ const studentInformationManagement: AppRouteModule = {
       },
     },
     {
+      path: 'spendingInfoDetail/:id',
+      name: 'SpendingInfoDetail',
+      component: () => import('@/views/studentInformationManagement/spendingInfo/SpendingDetailInfo.vue'),
+      meta: {
+        // affix: true,
+        hideMenu: true,
+        title: t('studentInformationManagement.spendingInfoDetail.spendingInfoDetail'),
+      },
+    },
+    {
       path: 'spendingInfo',
       name: 'SpendingInfo',
       component: () => import('@/views/studentInformationManagement/spendingInfo/index.vue'),

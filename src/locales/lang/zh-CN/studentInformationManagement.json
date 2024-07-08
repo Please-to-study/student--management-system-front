@@ -9,6 +9,9 @@
   "spendingInfo" : {
     "spendingInfo" : "缴费信息"
   },
+  "spendingInfoDetail" : {
+    "spendingInfoDetail" : "缴费信息详情"
+  },
   "courseBalance" : {
     "courseBalance" : "课程结余信息"
   },

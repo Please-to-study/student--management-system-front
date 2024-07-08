@@ -9,6 +9,9 @@
   "spendingInfo" : {
     "spendingInfo" : "SpendingInfo"
   },
+  "spendingInfoDetail" : {
+    "spendingInfoDetail" : "SpendingInfoDetail"
+  },
   "courseBalance" : {
     "courseBalance" : "CourseBalance"
   },
