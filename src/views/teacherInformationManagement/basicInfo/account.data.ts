@@ -36,24 +36,34 @@ export const columns: BasicColumn[] = [
     width: 80,
   },
   {
-    title: '当前学校',
-    dataIndex: 'school',
-    width: 140,
-  },
-  {
-    title: '当前年级',
-    dataIndex: 'grade',
-    width: 120,
-  },
-  {
     title: '家庭地址',
     dataIndex: 'address',
     width: 200,
   },
   {
-    title: '电话',
+    title: '密码',
+    dataIndex: 'password',
+    width: 120,
+  },
+  {
+    title: '联系电话',
     dataIndex: 'phone',
-    width: 160,
+    width: 140,
+  },
+  {
+    title: '教授课程',
+    dataIndex: 'course',
+    width: 120,
+  },
+  {
+    title: '签约形式(全职，兼职)',
+    dataIndex: 'signing',
+    width: 200,
+  },
+  {
+    title: '课时费计算方式',
+    dataIndex: 'payStyle',
+    width: 140,
   },
   {
     title: '备注',
@@ -64,14 +74,14 @@ export const columns: BasicColumn[] = [
 
 export const searchFormSchema: FormSchema[] = [
   {
-    field: 'account',
-    label: '用户名',
+    field: 'name',
+    label: '姓名',
     component: 'Input',
     colProps: { span: 8 },
   },
   {
-    field: 'nickname',
-    label: '昵称',
+    field: 'phone',
+    label: '电话',
     component: 'Input',
     colProps: { span: 8 },
   },

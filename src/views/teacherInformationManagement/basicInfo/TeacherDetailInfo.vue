@@ -1,12 +1,12 @@
 <template>
   <PageWrapper
-    :title="`学生` + userId + `的资料`"
+    :title="`教师` + userId + `的资料`"
 
     contentBackground
     @back="goBack"
   >
     <template #extra>
-      <a-button type="primary" danger> 禁用账号 </a-button>
+<!--      <a-button type="primary" danger> 禁用账号 </a-button>-->
 <!--      <a-button type="primary"> 修改密码 </a-button>-->
     </template>
 <!--    <template #footer>-->
@@ -82,8 +82,8 @@
   // TODO
   // 本页代码仅作演示，实际应当通过userId从接口获得用户的相关资料
 
-  // 设置Tab的标题（不会影响页面标题）
-  setTitle('详情：用户' + userId.value);
+  // --todolist-- 设置Tab的标题（不会影响页面标题）
+  setTitle('详情：教师' + userId.value);
 
   // 页面左侧点击返回链接时的操作
   function goBack() {

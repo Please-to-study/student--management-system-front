@@ -52,13 +52,15 @@
     ]);
   });
 
-  const getTitle = computed(() => (!unref(isUpdate) ? '新增账号' : '编辑账号'));
+  const getTitle = computed(() => (!unref(isUpdate) ? '新增教师' : '编辑教师'));
 
   async function handleSubmit() {
     try {
       const values = await validate();
       setModalProps({ confirmLoading: true });
       // TODO custom api  新增学生信息功能function
+      // todolist
+      // isUpdate为false ---> 新增教师  isUpdate为true ---> 编辑教师
       console.log(values);
       closeModal();
       emit('success', { isUpdate: unref(isUpdate), values: { ...values, id: rowId.value } });

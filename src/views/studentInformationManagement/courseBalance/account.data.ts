@@ -28,50 +28,45 @@ export const columns: BasicColumn[] = [
   {
     title: '姓名',
     dataIndex: 'name',
-    width: 120,
-  },
-  {
-    title: '性别',
-    dataIndex: 'gender',
     width: 80,
   },
   {
-    title: '当前学校',
-    dataIndex: 'school',
-    width: 140,
-  },
-  {
-    title: '当前年级',
-    dataIndex: 'grade',
+    title: '课程名称',
+    dataIndex: 'courseName',
     width: 120,
   },
   {
-    title: '家庭地址',
-    dataIndex: 'address',
-    width: 200,
+    title: '完成课时',
+    dataIndex: 'finishCourse',
+    width: 120,
   },
   {
-    title: '电话',
-    dataIndex: 'phone',
-    width: 160,
+    title: '已缴费课时',
+    dataIndex: 'leftCourse',
+    width: 120,
   },
   {
-    title: '备注',
-    dataIndex: 'notes',
-    width: 200,
+    title: '剩余课时',
+    dataIndex: 'totalCourse',
+    width: 120,
+  },
+  {
+    title: '报名时间',
+    dataIndex: 'payTime',
+    width: 120,
   },
 ];
 
 export const searchFormSchema: FormSchema[] = [
   {
-    field: 'account',
-    label: '用户名',
+    field: 'name',
+    label: '姓名',
     component: 'Input',
     colProps: { span: 8 },
   },
   {
-    field: 'nickname',
-    label: '昵称',
+    field: 'courseName',
+    label: '课程名称',
     component: 'Input',
     colProps: { span: 8 },
   },

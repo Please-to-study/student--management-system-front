@@ -3,6 +3,9 @@
   "basicInfo" : {
     "basicInfo" : "基本信息"
   },
+  "teacherInfoDetail": {
+    "teacherInfoDetail": "教师详细信息"
+  },
   "teacherSchedule" : {
     "teacherSchedule" : "教师课表"
   },

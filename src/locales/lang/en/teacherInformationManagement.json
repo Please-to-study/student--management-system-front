@@ -3,6 +3,9 @@
   "basicInfo" : {
     "basicInfo" : "BasicInfo"
   },
+  "teacherInfoDetail": {
+    "teacherInfoDetail": "TeacherInfoDetail"
+  },
   "teacherSchedule" : {
     "teacherSchedule" : "TeacherSchedule"
   },

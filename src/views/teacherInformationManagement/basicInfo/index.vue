@@ -3,7 +3,7 @@
 <!--    <DeptTree class="w-1/4 xl:w-1/5" @select="handleSelect" />-->
     <BasicTable @register="registerTable" class="" :searchInfo="searchInfo">
       <template #toolbar>
-        <a-button type="primary" @click="handleCreate">新增学生</a-button>
+        <a-button type="primary" @click="handleCreate">新增教师</a-button>
 <!--        <a-button type="primary" @click="handleExport">导出账号</a-button>-->
       </template>
       <template #bodyCell="{ column, record }">
@@ -12,12 +12,12 @@
             :actions="[
               {
                 icon: 'clarity:info-standard-line',
-                tooltip: '查看用户详情',
+                tooltip: '查看教师详情',
                 onClick: handleView.bind(null, record),
               },
               {
                 icon: 'clarity:note-edit-line',
-                tooltip: '编辑用户资料',
+                tooltip: '编辑教师资料',
                 onClick: handleEdit.bind(null, record),
               },
               {
@@ -58,7 +58,7 @@
   const [registerModal, { openModal }] = useModal();
   const searchInfo = reactive<Recordable>({});
   const [registerTable, { reload, updateTableDataRecord, getSearchInfo }] = useTable({
-    title: '学生列表',
+    title: '教师列表',
     // 获取学生列表数据请求函数，统一在/src/api中进行封装即可
     api: getAccountList,
     rowKey: 'id',
@@ -72,7 +72,7 @@
     showTableSetting: true,
     bordered: true,
     handleSearchInfoFn(info) {
-      // todo查询按钮操作
+      // todolist 查询按钮操作
       console.log('handleSearchInfoFn', info);
       return info;
     },
@@ -123,6 +123,6 @@
   }
 
   function handleView(record: Recordable) {
-    go('/system/account_detail/' + record.id);
+    go('/teacherInformationManagement/teacherInfoDetail/' + record.id);
   }
 </script>

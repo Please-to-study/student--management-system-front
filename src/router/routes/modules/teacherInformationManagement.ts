@@ -24,6 +24,16 @@ const teacherInformationManagement: AppRouteModule = {
       },
     },
     {
+      path: 'teacherInfoDetail/:id',
+      name: 'TeacherInfoDetail',
+      component: () => import('@/views/teacherInformationManagement/basicInfo/TeacherDetailInfo.vue'),
+      meta: {
+        // affix: true,
+        hideMenu: true,
+        title: t('teacherInformationManagement.teacherInfoDetail.teacherInfoDetail'),
+      },
+    },
+    {
       path: 'teacherSchedule',
       name: 'teacherSchedule',
       component: () => import('@/views/teacherInformationManagement/teacherSchedule/index.vue'),
