@@ -2,98 +2,75 @@ import { getAllRoleList, isAccountExist } from '@/api/demo/system';
 import { BasicColumn, FormSchema } from '@/components/Table';
 import { AccountListItem } from '@/api/demo/model/systemModel';
 
-/**
- * transform mock data
- * {
- *  0: '华东分部',
- * '0-0': '华东分部-研发部'
- * '0-1': '华东分部-市场部',
- *  ...
- * }
- */
-export const deptMap = (() => {
-  const pDept = ['华东分部', '华南分部', '西北分部'];
-  const cDept = ['研发部', '市场部', '商务部', '财务部'];
-
-  return pDept.reduce((map, p, pIdx) => {
-    map[pIdx] = p;
-
-    cDept.forEach((c, cIndex) => (map[`${pIdx}-${cIndex}`] = `${p}-${c}`));
-
-    return map;
-  }, {});
-})();
-
 export const columns: BasicColumn[] = [
   {
-    title: '姓名',
-    dataIndex: 'name',
-    width: 120,
-  },
-  {
-    title: '性别',
-    dataIndex: 'gender',
-    width: 80,
-  },
-  {
-    title: '家庭地址',
-    dataIndex: 'address',
-    width: 200,
-  },
-  {
-    title: '密码',
-    dataIndex: 'password',
+    title: '教师姓名',
+    dataIndex: 'teacherName',
     width: 120,
   },
   {
     title: '联系电话',
-    dataIndex: 'phone',
+    dataIndex: 'teacherPhone',
     width: 140,
   },
   {
+    title: '性别',
+    dataIndex: 'teacherGender',
+    width: 80,
+  },
+  {
+    title: '家庭地址',
+    dataIndex: 'teacherAddress',
+    width: 200,
+  },
+  {
+    title: '密码',
+    dataIndex: 'teacherPassword',
+    width: 120,
+  },
+  {
     title: '教授课程',
-    dataIndex: 'course',
+    dataIndex: 'teacherCourse',
     width: 120,
   },
   {
     title: '签约形式(全职，兼职)',
-    dataIndex: 'signing',
+    dataIndex: 'teacherSigning',
     width: 200,
   },
   {
     title: '课时费计算方式',
-    dataIndex: 'payStyle',
-    width: 140,
+    dataIndex: 'teacherPayStyle',
+    width: 120,
   },
   {
     title: '备注',
-    dataIndex: 'notes',
+    dataIndex: 'teacherNotes',
     width: 200,
   },
 ];
 
 export const searchFormSchema: FormSchema[] = [
   {
-    field: 'name',
-    label: '姓名',
+    field: 'teacherName',
+    label: '教师姓名',
     component: 'Input',
     colProps: { span: 8 },
   },
   {
-    field: 'phone',
-    label: '电话',
+    field: 'teacherPhone',
+    label: '教师电话',
     component: 'Input',
     colProps: { span: 8 },
   },
 ];
 
-// 添加学生账户表单
+// 添加教师账户
 export const accountFormSchema: FormSchema[] = [
   {
-    field: 'name',
-    label: '姓名',
+    field: 'teacherName',
+    label: '教师姓名',
     component: 'Input',
-    // helpMessage: ['本字段演示异步验证', '不能输入带有admin的用户名'],
     rules: [
       {
         required: true,
@@ -115,15 +92,21 @@ export const accountFormSchema: FormSchema[] = [
     ],
   },
   {
-    field: 'pwd',
-    label: '密码',
-    component: 'InputPassword',
+    field: 'teacherPhone',
+    label: '联系电话',
+    component: 'Input',
     required: true,
-    ifShow: false,
+  },
+  {
+    field: 'teacherPassword',
+    label: '密码',
+    component: 'Input',
+    required: true,
+    defaultValue: '123456',
   },
   {
     label: '性别',
-    field: 'gender',
+    field: 'teacherGender',
     component: 'Select',
     componentProps: {
       options: [
@@ -142,34 +125,27 @@ export const accountFormSchema: FormSchema[] = [
     required: true,
   },
   {
-    field: 'school',
-    label: '当前学校',
+    field: 'teacherAddress',
+    label: '家庭地址',
     component: 'Input',
     // required: true,
   },
   {
-    field: 'grade',
-    label: '当前年级',
-    component: 'Input',
-    // required: true,
+    field: 'teacherSigning',
+    label: '签约形式',
+    component: 'Select',
+    required: true,
   },
 
   {
-    label: '家庭地址',
-    field: 'address',
-    component: 'Input',
-    // required: true,
-  },
-  {
-    label: '电话',
-    field: 'phone',
-    component: 'Input',
+    label: '课时费计算',
+    field: 'teacherPayStyle',
+    component: 'Select',
     required: true,
   },
   {
     label: '备注',
-    field: 'notes',
+    field: 'teacherNotes',
     component: 'InputTextArea',
   },
 ];
-

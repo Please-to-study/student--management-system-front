@@ -1,10 +1,8 @@
 <template>
   <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
-<!--    <DeptTree class="w-1/4 xl:w-1/5" @select="handleSelect" />-->
     <BasicTable @register="registerTable" class="" :searchInfo="searchInfo">
       <template #toolbar>
         <a-button type="primary" @click="handleCreate">新增学生</a-button>
-<!--        <a-button type="primary" @click="handleExport">导出账号</a-button>-->
       </template>
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'action'">
@@ -12,12 +10,12 @@
             :actions="[
               {
                 icon: 'clarity:info-standard-line',
-                tooltip: '查看用户详情',
+                tooltip: '查看学生详情',
                 onClick: handleView.bind(null, record),
               },
               {
                 icon: 'clarity:note-edit-line',
-                tooltip: '编辑用户资料',
+                tooltip: '编辑学生资料',
                 onClick: handleEdit.bind(null, record),
               },
               {
@@ -43,8 +41,8 @@
 
   import { BasicTable, useTable, TableAction } from '@/components/Table';
   import { getAccountList } from '@/api/demo/system';
+  import { getAllStudentBasicInfoList } from '@/api/studentInformationManagement/studentInformationManagement';
   import { PageWrapper } from '@/components/Page';
-  import DeptTree from './DeptTree.vue';
 
   import { useModal } from '@/components/Modal';
   import AccountModal from './AccountModal.vue';

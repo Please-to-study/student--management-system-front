@@ -18,6 +18,9 @@
   "competitionInformation" : {
     "competitionInformation" : "CompetitionInformation"
   },
+  "competitionInfoDetail": {
+    "competitionInfoDetail": "CompetitionInfoDetail"
+  },
   "programmingRating" : {
     "programmingRating" : "ProgrammingRating"
   }

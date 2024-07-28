@@ -2,85 +2,99 @@ import { getAllRoleList, isAccountExist } from '@/api/demo/system';
 import { BasicColumn, FormSchema } from '@/components/Table';
 import { AccountListItem } from '@/api/demo/model/systemModel';
 
-/**
- * transform mock data
- * {
- *  0: '华东分部',
- * '0-0': '华东分部-研发部'
- * '0-1': '华东分部-市场部',
- *  ...
- * }
- */
-export const deptMap = (() => {
-  const pDept = ['华东分部', '华南分部', '西北分部'];
-  const cDept = ['研发部', '市场部', '商务部', '财务部'];
-
-  return pDept.reduce((map, p, pIdx) => {
-    map[pIdx] = p;
-
-    cDept.forEach((c, cIndex) => (map[`${pIdx}-${cIndex}`] = `${p}-${c}`));
-
-    return map;
-  }, {});
-})();
-
 export const columns: BasicColumn[] = [
   {
+    title: '学号',
+    dataIndex: 'studentNumber',
+    width: 120,
+  },
+  {
     title: '姓名',
-    dataIndex: 'name',
+    dataIndex: 'studentName',
+    width: 120,
+  },
+  {
+    title: 'OJ账号',
+    dataIndex: 'studentAccount',
     width: 120,
   },
   {
     title: '性别',
-    dataIndex: 'gender',
+    dataIndex: 'studentGender',
     width: 80,
   },
   {
     title: '当前学校',
-    dataIndex: 'school',
+    dataIndex: 'studentSchool',
+    width: 140,
+  },
+  {
+    title: '入学年级',
+    dataIndex: 'studentEnterGrade',
     width: 140,
   },
   {
     title: '当前年级',
-    dataIndex: 'grade',
+    dataIndex: 'studentCurrentGrade',
     width: 120,
   },
   {
+    title: '电话',
+    dataIndex: 'studentPhone',
+    width: 160,
+  },
+  {
     title: '家庭地址',
-    dataIndex: 'address',
+    dataIndex: 'studentAddress',
     width: 200,
   },
   {
-    title: '电话',
-    dataIndex: 'phone',
+    title: '报名日期',
+    dataIndex: 'studentTime',
+    width: 160,
+  },
+  {
+    title: '学习状态',
+    dataIndex: 'studentStatus',
     width: 160,
   },
   {
     title: '备注',
-    dataIndex: 'notes',
+    dataIndex: 'studentNotes',
     width: 200,
   },
 ];
 
 export const searchFormSchema: FormSchema[] = [
   {
-    field: 'name',
-    label: '姓名',
+    field: 'studentNumber',
+    label: '学号',
     component: 'Input',
-    colProps: { span: 8 },
+    colProps: { span: 6 },
   },
   {
-    field: 'phone',
+    field: 'studentName',
+    label: '姓名',
+    component: 'Input',
+    colProps: { span: 6 },
+  },
+  {
+    field: 'studentPhone',
     label: '电话',
     component: 'Input',
-    colProps: { span: 8 },
+    colProps: { span: 6 },
   },
 ];
 
 // 添加学生账户表单
 export const accountFormSchema: FormSchema[] = [
   {
-    field: 'name',
+    field: 'studentNumber',
+    label: '学号',
+    component: 'Input',
+  },
+  {
+    field: 'studentName',
     label: '姓名',
     component: 'Input',
     // helpMessage: ['本字段演示异步验证', '不能输入带有admin的用户名'],
@@ -105,15 +119,8 @@ export const accountFormSchema: FormSchema[] = [
     ],
   },
   {
-    field: 'pwd',
-    label: '密码',
-    component: 'InputPassword',
-    required: true,
-    ifShow: false,
-  },
-  {
     label: '性别',
-    field: 'gender',
+    field: 'studentGender',
     component: 'Select',
     componentProps: {
       options: [
@@ -132,13 +139,30 @@ export const accountFormSchema: FormSchema[] = [
     required: true,
   },
   {
-    field: 'school',
+    label: '电话',
+    field: 'studentPhone',
+    component: 'Input',
+    required: true,
+  },
+  {
+    label: 'OJ账号',
+    field: 'studentAccount',
+    component: 'Input',
+  },
+  {
+    field: 'studentSchool',
     label: '当前学校',
     component: 'Input',
     // required: true,
   },
   {
-    field: 'grade',
+    field: 'studentEnterGrade',
+    label: '入学年级',
+    component: 'Input',
+    // required: true,
+  },
+  {
+    field: 'studentCurrentGrade',
     label: '当前年级',
     component: 'Input',
     // required: true,
@@ -146,20 +170,13 @@ export const accountFormSchema: FormSchema[] = [
 
   {
     label: '家庭地址',
-    field: 'address',
+    field: 'studentAddress',
     component: 'Input',
     // required: true,
   },
   {
-    label: '电话',
-    field: 'phone',
-    component: 'Input',
-    required: true,
-  },
-  {
     label: '备注',
-    field: 'notes',
+    field: 'studentNotes',
     component: 'InputTextArea',
   },
 ];
-

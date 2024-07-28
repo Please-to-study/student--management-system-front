@@ -24,6 +24,16 @@ const courseInformationManagement: AppRouteModule = {
       },
     },
     {
+      path: 'courseDetailInfo/:id',
+      name: 'CourseDetailInfo',
+      component: () => import('@/views/courseInformationManagement/courseInfo/CourseDetailInfo.vue'),
+      meta: {
+        // affix: true,
+        hideMenu: true,
+        title: t('courseInformationManagement.courseDetailInfo.courseDetailInfo'),
+      },
+    },
+    {
       path: 'scheduleInfo',
       name: 'scheduleInfo',
       component: () => import('@/views/courseInformationManagement/scheduleInfo/index.vue'),
@@ -48,6 +58,16 @@ const courseInformationManagement: AppRouteModule = {
       meta: {
         // affix: true,
         title: t('courseInformationManagement.courseworkInformation.courseworkInformation'),
+      },
+    },
+    {
+      path: 'courseworkInfoDetail/:id',
+      name: 'CourseworkInfoDetail',
+      component: () => import('@/views/courseInformationManagement/courseworkInformation/CourseworkInfoDetail.vue'),
+      meta: {
+        // affix: true,
+        hideMenu: true,
+        title: t('courseInformationManagement.courseworkInfoDetail.courseworkInfoDetail'),
       },
     },
   ],

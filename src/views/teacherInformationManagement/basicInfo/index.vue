@@ -23,7 +23,7 @@
               {
                 icon: 'ant-design:delete-outlined',
                 color: 'error',
-                tooltip: '删除此账号',
+                tooltip: '删除此教师',
                 popConfirm: {
                   title: '是否确认删除',
                   placement: 'left',
@@ -44,7 +44,6 @@
   import { BasicTable, useTable, TableAction } from '@/components/Table';
   import { getAccountList } from '@/api/demo/system';
   import { PageWrapper } from '@/components/Page';
-  import DeptTree from './DeptTree.vue';
 
   import { useModal } from '@/components/Modal';
   import AccountModal from './AccountModal.vue';
@@ -102,10 +101,6 @@
     console.log(record);
   }
 
-  function handleExport() {
-    console.log(getSearchInfo());
-  }
-
   function handleSuccess({ isUpdate, values }) {
     if (isUpdate) {
       // 演示不刷新表格直接更新内部数据。
@@ -115,11 +110,6 @@
     } else {
       reload();
     }
-  }
-
-  function handleSelect(deptId = '') {
-    searchInfo.deptId = deptId;
-    reload();
   }
 
   function handleView(record: Recordable) {

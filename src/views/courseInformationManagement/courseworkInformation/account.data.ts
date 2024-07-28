@@ -2,76 +2,49 @@ import { getAllRoleList, isAccountExist } from '@/api/demo/system';
 import { BasicColumn, FormSchema } from '@/components/Table';
 import { AccountListItem } from '@/api/demo/model/systemModel';
 
-/**
- * transform mock data
- * {
- *  0: '华东分部',
- * '0-0': '华东分部-研发部'
- * '0-1': '华东分部-市场部',
- *  ...
- * }
- */
-export const deptMap = (() => {
-  const pDept = ['华东分部', '华南分部', '西北分部'];
-  const cDept = ['研发部', '市场部', '商务部', '财务部'];
-
-  return pDept.reduce((map, p, pIdx) => {
-    map[pIdx] = p;
-
-    cDept.forEach((c, cIndex) => (map[`${pIdx}-${cIndex}`] = `${p}-${c}`));
-
-    return map;
-  }, {});
-})();
-
 export const columns: BasicColumn[] = [
   {
-    title: '姓名',
-    dataIndex: 'name',
+    title: '课程名称',
+    dataIndex: 'courseName',
     width: 120,
   },
   {
-    title: '性别',
-    dataIndex: 'gender',
-    width: 80,
+    title: '布置教师',
+    dataIndex: 'teacherName',
+    width: 120,
   },
   {
-    title: '当前学校',
-    dataIndex: 'school',
+    title: '资料类型',
+    dataIndex: 'materialsStyle',
+    width: 120,
+  },
+  {
+    title: '作业题目',
+    dataIndex: 'materialsTitle',
+    width: 200,
+  },
+  {
+    title: '作业介绍',
+    dataIndex: 'materialsIntroduce',
+    width: 200,
+  },
+  {
+    title: '日期',
+    dataIndex: 'materialsDate',
     width: 140,
-  },
-  {
-    title: '当前年级',
-    dataIndex: 'grade',
-    width: 120,
-  },
-  {
-    title: '家庭地址',
-    dataIndex: 'address',
-    width: 200,
-  },
-  {
-    title: '电话',
-    dataIndex: 'phone',
-    width: 160,
-  },
-  {
-    title: '备注',
-    dataIndex: 'notes',
-    width: 200,
   },
 ];
 
 export const searchFormSchema: FormSchema[] = [
   {
-    field: 'account',
-    label: '用户名',
+    field: 'materialsTitle',
+    label: '作业题目',
     component: 'Input',
     colProps: { span: 8 },
   },
   {
-    field: 'nickname',
-    label: '昵称',
+    field: 'courseName',
+    label: '课程名称',
     component: 'Input',
     colProps: { span: 8 },
   },

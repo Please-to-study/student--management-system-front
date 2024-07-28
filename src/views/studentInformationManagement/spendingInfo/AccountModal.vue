@@ -17,7 +17,7 @@
   const isUpdate = ref(true);
   const rowId = ref('');
 
-  const [registerForm, { setFieldsValue, updateSchema, resetFields, validate }] = useForm({
+  const [registerForm, { getFieldsValue, setFieldsValue, updateSchema, resetFields, validate }] = useForm({
     labelWidth: 100,
     baseColProps: { span: 24 },
     schemas: accountFormSchema,
@@ -39,15 +39,21 @@
       });
     }
 
+    if (!unref(isUpdate)) {
+      const { payPrice, courseTime, payPreferential, otherFee } = getFieldsValue();
+      // console.log("data", data)
+      setFieldsValue({
+        payableFee: payPrice * courseTime - payPreferential - otherFee,
+      });
+    }
+
     const treeData = await getDeptList();
     updateSchema([
       {
-        field: 'pwd',
-        show: !unref(isUpdate),
-      },
-      {
-        field: 'dept',
-        componentProps: { treeData },
+        field: 'payableFee',
+        componentProps: {
+          disabled: unref(isUpdate),
+        },
       },
     ]);
   });

@@ -18,6 +18,9 @@
   "competitionInformation" : {
     "competitionInformation" : "参赛信息"
   },
+  "competitionInfoDetail": {
+    "competitionInfoDetail": "参赛信息详情"
+  },
   "programmingRating" : {
     "programmingRating" : "编程能力评级"
   }

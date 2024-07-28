@@ -3,6 +3,9 @@
   "courseInfo" : {
     "courseInfo" : "CourseInfo"
   },
+  "courseDetailInfo": {
+    "courseDetailInfo": "CourseDetailInfo"
+  },
   "scheduleInfo" : {
     "scheduleInfo" : "ScheduleInfo"
   },
@@ -11,5 +14,8 @@
   },
   "courseworkInformation" : {
     "courseworkInformation" : "CourseworkInformation"
+  },
+  "courseworkInfoDetail" : {
+    "courseworkInfoDetail" : "CourseworkInfoDetail"
   }
 }

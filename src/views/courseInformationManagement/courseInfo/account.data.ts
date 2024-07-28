@@ -2,92 +2,90 @@ import { getAllRoleList, isAccountExist } from '@/api/demo/system';
 import { BasicColumn, FormSchema } from '@/components/Table';
 import { AccountListItem } from '@/api/demo/model/systemModel';
 
-/**
- * transform mock data
- * {
- *  0: '华东分部',
- * '0-0': '华东分部-研发部'
- * '0-1': '华东分部-市场部',
- *  ...
- * }
- */
-export const deptMap = (() => {
-  const pDept = ['华东分部', '华南分部', '西北分部'];
-  const cDept = ['研发部', '市场部', '商务部', '财务部'];
-
-  return pDept.reduce((map, p, pIdx) => {
-    map[pIdx] = p;
-
-    cDept.forEach((c, cIndex) => (map[`${pIdx}-${cIndex}`] = `${p}-${c}`));
-
-    return map;
-  }, {});
-})();
-
 export const columns: BasicColumn[] = [
   {
-    title: '姓名',
-    dataIndex: 'name',
+    title: '课程名称',
+    dataIndex: 'courseName',
     width: 120,
   },
   {
-    title: '性别',
-    dataIndex: 'gender',
-    width: 80,
-  },
-  {
-    title: '当前学校',
-    dataIndex: 'school',
-    width: 140,
-  },
-  {
-    title: '当前年级',
-    dataIndex: 'grade',
+    title: '课程类别',
+    dataIndex: 'courseCategory',
     width: 120,
   },
   {
-    title: '家庭地址',
-    dataIndex: 'address',
-    width: 200,
+    title: '主任课老师',
+    dataIndex: 'teacherName',
+    width: 120,
   },
   {
-    title: '电话',
-    dataIndex: 'phone',
-    width: 160,
+    title: '上课校区',
+    dataIndex: 'courseAddress',
+    width: 120,
+  },
+  {
+    title: '上课时间',
+    dataIndex: 'courseDate',
+    width: 120,
+  },
+  {
+    title: '上课时段',
+    dataIndex: 'courseTime',
+    width: 120,
+  },
+  {
+    title: '开始时间',
+    dataIndex: 'courseStartTime',
+    width: 120,
+  },
+  {
+    title: '课程单价',
+    dataIndex: 'coursePrice',
+    width: 120,
+  },
+  {
+    title: '课程总课时',
+    dataIndex: 'courseNumber',
+    width: 120,
+  },
+  {
+    title: '课程简介',
+    dataIndex: 'courseIntroduce',
+    width: 120,
   },
   {
     title: '备注',
-    dataIndex: 'notes',
-    width: 200,
+    dataIndex: 'courseNotes',
+    width: 120,
   },
 ];
 
 export const searchFormSchema: FormSchema[] = [
   {
-    field: 'account',
-    label: '用户名',
+    field: 'courseName',
+    label: '课程名称',
     component: 'Input',
     colProps: { span: 8 },
   },
   {
-    field: 'nickname',
-    label: '昵称',
+    field: 'courseAddress',
+    label: '上课校区',
     component: 'Input',
     colProps: { span: 8 },
   },
 ];
 
-// 添加学生账户表单
+// 添加课程form
 export const accountFormSchema: FormSchema[] = [
   {
-    field: 'name',
-    label: '姓名',
+    field: 'courseName',
+    label: '课程名称',
     component: 'Input',
     // helpMessage: ['本字段演示异步验证', '不能输入带有admin的用户名'],
     rules: [
       {
         required: true,
-        message: '请输入用户名',
+        message: '请输入课程名称',
       },
       // {
       //   trigger: 'blur',
@@ -105,61 +103,106 @@ export const accountFormSchema: FormSchema[] = [
     ],
   },
   {
-    field: 'pwd',
-    label: '密码',
-    component: 'InputPassword',
+    label: '课程类别',
+    field: 'courseCategory',
+    component: 'Input',
     required: true,
-    ifShow: false,
   },
   {
-    label: '性别',
-    field: 'gender',
+    field: 'teacherId',
+    label: '任课老师',
+    component: 'ApiSelect',
+    componentProps: {
+      api: getAllRoleList,
+      // --todolist--  更改对应字段
+      labelField: 'teacherName',
+      valueField: 'teacherId',
+    },
+    required: true,
+  },
+  {
+    field: 'courseAddress',
+    label: '上课校区',
+    component: 'Input',
+    required: true,
+  },
+  {
+    field: 'courseDate',
+    label: '上课时间',
     component: 'Select',
     componentProps: {
       options: [
         {
-          label: '男',
+          label: '星期一',
           value: '1',
           key: '1',
         },
         {
-          label: '女',
+          label: '星期二',
           value: '2',
           key: '2',
+        },
+        {
+          label: '星期三',
+          value: '3',
+          key: '3',
+        },
+        {
+          label: '星期四',
+          value: '4',
+          key: '4',
+        },
+        {
+          label: '星期五',
+          value: '5',
+          key: '5',
+        },
+        {
+          label: '星期六',
+          value: '6',
+          key: '6',
+        },
+        {
+          label: '星期日',
+          value: '7',
+          key: '7',
         },
       ],
     },
     required: true,
   },
   {
-    field: 'school',
-    label: '当前学校',
-    component: 'Input',
-    // required: true,
+    label: '上课时段',
+    field: 'courseTime',
+    component: 'TimeRangePicker',
+    required: true,
   },
   {
-    field: 'grade',
-    label: '当前年级',
-    component: 'Input',
-    // required: true,
-  },
-
-  {
-    label: '家庭地址',
-    field: 'address',
-    component: 'Input',
-    // required: true,
+    label: '开始日期',
+    field: 'courseStartTime',
+    component: 'DatePicker',
+    required: true,
   },
   {
-    label: '电话',
-    field: 'phone',
+    label: '课程单价',
+    field: 'coursePrice',
     component: 'Input',
     required: true,
   },
   {
+    label: '总课时',
+    field: 'courseNumber',
+    component: 'Input',
+    required: true,
+  },
+  {
+    label: '课程简介',
+    field: 'courseIntroduce',
+    component: 'InputTextArea',
+  },
+  {
     label: '备注',
-    field: 'notes',
+    field: 'courseNotes',
     component: 'InputTextArea',
   },
 ];
-

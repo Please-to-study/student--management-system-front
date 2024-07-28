@@ -3,7 +3,7 @@
 <!--    <DeptTree class="w-1/4 xl:w-1/5" @select="handleSelect" />-->
     <BasicTable @register="registerTable" class="" :searchInfo="searchInfo">
       <template #toolbar>
-        <a-button type="primary" @click="handleCreate">新增学生</a-button>
+        <a-button type="primary" @click="handleCreate">新增参赛信息</a-button>
 <!--        <a-button type="primary" @click="handleExport">导出账号</a-button>-->
       </template>
       <template #bodyCell="{ column, record }">
@@ -12,18 +12,18 @@
             :actions="[
               {
                 icon: 'clarity:info-standard-line',
-                tooltip: '查看用户详情',
+                tooltip: '查看参赛详情',
                 onClick: handleView.bind(null, record),
               },
               {
                 icon: 'clarity:note-edit-line',
-                tooltip: '编辑用户资料',
+                tooltip: '编辑参赛资料',
                 onClick: handleEdit.bind(null, record),
               },
               {
                 icon: 'ant-design:delete-outlined',
                 color: 'error',
-                tooltip: '删除此账号',
+                tooltip: '删除此信息',
                 popConfirm: {
                   title: '是否确认删除',
                   placement: 'left',
@@ -44,7 +44,6 @@
   import { BasicTable, useTable, TableAction } from '@/components/Table';
   import { getAccountList } from '@/api/demo/system';
   import { PageWrapper } from '@/components/Page';
-  import DeptTree from './DeptTree.vue';
 
   import { useModal } from '@/components/Modal';
   import AccountModal from './AccountModal.vue';
@@ -58,8 +57,8 @@
   const [registerModal, { openModal }] = useModal();
   const searchInfo = reactive<Recordable>({});
   const [registerTable, { reload, updateTableDataRecord, getSearchInfo }] = useTable({
-    title: '学生列表',
-    // 获取学生列表数据请求函数，统一在/src/api中进行封装即可
+    title: '参赛信息列表',
+    // --todolist-- 获取学生列表数据请求函数，统一在/src/api中进行封装即可
     api: getAccountList,
     rowKey: 'id',
     columns,
@@ -80,7 +79,6 @@
       width: 120,
       title: '操作',
       dataIndex: 'action',
-      // slots: { customRender: 'action' },
     },
   });
 
@@ -102,10 +100,6 @@
     console.log(record);
   }
 
-  function handleExport() {
-    console.log(getSearchInfo());
-  }
-
   function handleSuccess({ isUpdate, values }) {
     if (isUpdate) {
       // 演示不刷新表格直接更新内部数据。
@@ -117,12 +111,7 @@
     }
   }
 
-  function handleSelect(deptId = '') {
-    searchInfo.deptId = deptId;
-    reload();
-  }
-
   function handleView(record: Recordable) {
-    go('/system/account_detail/' + record.id);
+    go('/studentInformationManagement/competitionInfoDetail/' + record.id);
   }
 </script>

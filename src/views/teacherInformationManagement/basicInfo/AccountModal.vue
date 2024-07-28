@@ -8,7 +8,6 @@
   import { BasicModal, useModalInner } from '@/components/Modal';
   import { BasicForm, useForm } from '@/components/Form';
   import { accountFormSchema } from './account.data';
-  import { getDeptList } from '@/api/demo/system';
 
   defineOptions({ name: 'AccountModal' });
 
@@ -39,15 +38,24 @@
       });
     }
 
-    const treeData = await getDeptList();
     updateSchema([
       {
-        field: 'pwd',
-        show: !unref(isUpdate),
+        field: 'teacherName',
+        componentProps: {
+          disabled: unref(isUpdate),
+        },
       },
       {
-        field: 'dept',
-        componentProps: { treeData },
+        field: 'teacherGender',
+        componentProps: {
+          disabled: unref(isUpdate),
+        },
+      },
+      {
+        field: 'teacherPhone',
+        componentProps: {
+          disabled: unref(isUpdate),
+        },
       },
     ]);
   });

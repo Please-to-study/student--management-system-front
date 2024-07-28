@@ -42,12 +42,11 @@
     const treeData = await getDeptList();
     updateSchema([
       {
-        field: 'pwd',
-        show: !unref(isUpdate),
-      },
-      {
-        field: 'dept',
-        componentProps: { treeData },
+        field: 'studentNumber',
+        ifShow: unref(isUpdate),
+        componentProps: {
+          disabled: unref(isUpdate),
+        },
       },
     ]);
   });

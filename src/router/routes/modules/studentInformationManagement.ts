@@ -71,6 +71,16 @@ const studentInformationManagement: AppRouteModule = {
       },
     },
     {
+      path: 'competitionInfoDetail/:id',
+      name: 'CompetitionInfoDetail',
+      component: () => import('@/views/studentInformationManagement/competitionInformation/CompetitionInfoDetail.vue'),
+      meta: {
+        // affix: true,
+        hideMenu: true,
+        title: t('studentInformationManagement.competitionInfoDetail.competitionInfoDetail'),
+      },
+    },
+    {
       path: 'programmingRating',
       name: 'ProgrammingRating',
       component: () => import('@/views/studentInformationManagement/programmingRating/index.vue'),

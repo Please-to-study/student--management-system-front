@@ -39,20 +39,23 @@
       });
     }
 
-    const treeData = await getDeptList();
     updateSchema([
       {
-        field: 'pwd',
-        show: !unref(isUpdate),
+        field: 'studentName',
+        componentProps: {
+          disabled: unref(isUpdate),
+        },
       },
       {
-        field: 'dept',
-        componentProps: { treeData },
+        field: 'studentPhone',
+        componentProps: {
+          disabled: unref(isUpdate),
+        },
       },
     ]);
   });
 
-  const getTitle = computed(() => (!unref(isUpdate) ? '新增账号' : '编辑账号'));
+  const getTitle = computed(() => (!unref(isUpdate) ? '新增信息' : '编辑信息'));
 
   async function handleSubmit() {
     try {

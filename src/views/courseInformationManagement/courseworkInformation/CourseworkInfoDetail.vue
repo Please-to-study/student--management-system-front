@@ -1,13 +1,19 @@
 <template>
   <PageWrapper
-    :title="`教师` + userId + `的资料`"
+    :title="`课程作业` + userId + `的信息`"
+
     contentBackground
     @back="goBack"
   >
     <template #extra>
-      <a-button type="primary" danger> 禁用账号 </a-button>
+<!--      <a-button type="primary" danger> 禁用账号 </a-button>-->
 <!--      <a-button type="primary"> 修改密码 </a-button>-->
     </template>
+<!--    <template #footer>-->
+<!--      <a-tabs default-active-key="detail" v-model:activeKey="currentKey">-->
+<!--        <a-tab-pane key="detail" tab="用户资料" />-->
+<!--      </a-tabs>-->
+<!--    </template>-->
     <div class="pt-4 m-4 desc-wrap">
       <Description
         size="middle"
@@ -76,12 +82,12 @@
   // TODO
   // 本页代码仅作演示，实际应当通过userId从接口获得用户的相关资料
 
-  // --todolist-- 设置Tab的标题（不会影响页面标题）
-  setTitle('详情：教师' + userId.value);
+  // 设置Tab的标题（不会影响页面标题）
+  setTitle('详情：课程作业' + userId.value);
 
   // 页面左侧点击返回链接时的操作
   function goBack() {
-    go('/teacherInformationManagement/basicInfo');
+    go('/courseInformationManagement/courseworkInformation');
   }
 </script>
 

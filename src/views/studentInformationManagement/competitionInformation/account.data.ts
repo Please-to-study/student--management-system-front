@@ -2,76 +2,69 @@ import { getAllRoleList, isAccountExist } from '@/api/demo/system';
 import { BasicColumn, FormSchema } from '@/components/Table';
 import { AccountListItem } from '@/api/demo/model/systemModel';
 
-/**
- * transform mock data
- * {
- *  0: '华东分部',
- * '0-0': '华东分部-研发部'
- * '0-1': '华东分部-市场部',
- *  ...
- * }
- */
-export const deptMap = (() => {
-  const pDept = ['华东分部', '华南分部', '西北分部'];
-  const cDept = ['研发部', '市场部', '商务部', '财务部'];
-
-  return pDept.reduce((map, p, pIdx) => {
-    map[pIdx] = p;
-
-    cDept.forEach((c, cIndex) => (map[`${pIdx}-${cIndex}`] = `${p}-${c}`));
-
-    return map;
-  }, {});
-})();
-
 export const columns: BasicColumn[] = [
   {
-    title: '姓名',
-    dataIndex: 'name',
+    title: '学生姓名',
+    dataIndex: 'studentName',
     width: 120,
   },
   {
-    title: '性别',
-    dataIndex: 'gender',
-    width: 80,
-  },
-  {
-    title: '当前学校',
-    dataIndex: 'school',
-    width: 140,
-  },
-  {
-    title: '当前年级',
-    dataIndex: 'grade',
+    title: '学生电话',
+    dataIndex: 'studentPhone',
     width: 120,
   },
   {
-    title: '家庭地址',
-    dataIndex: 'address',
-    width: 200,
+    title: '赛事名称',
+    dataIndex: 'competitionName',
+    width: 120,
   },
   {
-    title: '电话',
-    dataIndex: 'phone',
-    width: 160,
+    title: '获奖情况',
+    dataIndex: 'competitionHonor',
+    width: 120,
   },
   {
-    title: '备注',
-    dataIndex: 'notes',
-    width: 200,
+    title: '比赛分数',
+    dataIndex: 'competitionScore',
+    width: 120,
+  },
+  {
+    title: '比赛类型',
+    dataIndex: 'competitionStyle',
+    width: 120,
+  },
+  {
+    title: '主办方',
+    dataIndex: 'competitionHost',
+    width: 120,
+  },
+  {
+    title: '报名方式',
+    dataIndex: 'competitionRegister',
+    width: 120,
+  },
+  {
+    title: '比赛语言',
+    dataIndex: 'competitionLanguage',
+    width: 120,
+  },
+  {
+    title: '比赛日期',
+    dataIndex: 'competitionDate',
+    width: 120,
   },
 ];
 
 export const searchFormSchema: FormSchema[] = [
   {
-    field: 'account',
-    label: '用户名',
+    field: 'studentName',
+    label: '学生姓名',
     component: 'Input',
     colProps: { span: 8 },
   },
   {
-    field: 'nickname',
-    label: '昵称',
+    field: 'competitionName',
+    label: '赛事名称',
     component: 'Input',
     colProps: { span: 8 },
   },
@@ -80,8 +73,8 @@ export const searchFormSchema: FormSchema[] = [
 // 添加学生账户表单
 export const accountFormSchema: FormSchema[] = [
   {
-    field: 'name',
-    label: '姓名',
+    field: 'studentName',
+    label: '学生姓名',
     component: 'Input',
     // helpMessage: ['本字段演示异步验证', '不能输入带有admin的用户名'],
     rules: [
@@ -105,61 +98,57 @@ export const accountFormSchema: FormSchema[] = [
     ],
   },
   {
-    field: 'pwd',
-    label: '密码',
-    component: 'InputPassword',
+    field: 'studentPhone',
+    label: '电话',
+    component: 'Input',
     required: true,
-    ifShow: false,
   },
   {
-    label: '性别',
-    field: 'gender',
+    label: '赛事名称',
+    field: 'competitionName',
     component: 'Select',
     componentProps: {
-      options: [
-        {
-          label: '男',
-          value: '1',
-          key: '1',
-        },
-        {
-          label: '女',
-          value: '2',
-          key: '2',
-        },
-      ],
+
     },
     required: true,
   },
   {
-    field: 'school',
-    label: '当前学校',
-    component: 'Input',
-    // required: true,
-  },
-  {
-    field: 'grade',
-    label: '当前年级',
-    component: 'Input',
-    // required: true,
-  },
-
-  {
-    label: '家庭地址',
-    field: 'address',
-    component: 'Input',
-    // required: true,
-  },
-  {
-    label: '电话',
-    field: 'phone',
+    field: 'competitionHonor',
+    label: '获奖情况',
     component: 'Input',
     required: true,
   },
   {
-    label: '备注',
-    field: 'notes',
-    component: 'InputTextArea',
+    field: 'competitionScore',
+    label: '分数',
+    component: 'Input',
+    required: true,
+  },
+  {
+    field: 'competitionLanguage',
+    label: '比赛语言',
+    component: 'Input',
+    required: true,
+  },
+  {
+    field: 'competitionDate',
+    label: '比赛日期',
+    component: 'Input',
+    required: true,
+  },
+  {
+    label: '比赛类型',
+    field: 'competitionStyle',
+    component: 'Input',
+  },
+  {
+    label: '主办方',
+    field: 'competitionHost',
+    component: 'Input',
+  },
+  {
+    label: '报名方式',
+    field: 'competitionRegister',
+    component: 'Input',
   },
 ];
-

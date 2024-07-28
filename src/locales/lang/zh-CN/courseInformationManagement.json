@@ -3,13 +3,19 @@
   "courseInfo" : {
     "courseInfo" : "课程信息"
   },
+  "courseDetailInfo": {
+    "courseDetailInfo": "课程详细信息"
+  },
   "scheduleInfo" : {
     "scheduleInfo" : "课表信息 "
   },
   "learningRecord" : {
-    "learningRecord" : "学习记录"
+    "learningRecord" : "学生学习记录"
   },
   "courseworkInformation" : {
     "courseworkInformation" : "课程作业信息"
+  },
+  "courseworkInfoDetail" : {
+    "courseworkInfoDetail" : "课程作业信息详情"
   }
 }
