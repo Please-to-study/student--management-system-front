@@ -2,61 +2,39 @@ import { getAllRoleList, isAccountExist } from '@/api/demo/system';
 import { BasicColumn, FormSchema } from '@/components/Table';
 import { AccountListItem } from '@/api/demo/model/systemModel';
 
-/**
- * transform mock data
- * {
- *  0: '华东分部',
- * '0-0': '华东分部-研发部'
- * '0-1': '华东分部-市场部',
- *  ...
- * }
- */
-export const deptMap = (() => {
-  const pDept = ['华东分部', '华南分部', '西北分部'];
-  const cDept = ['研发部', '市场部', '商务部', '财务部'];
-
-  return pDept.reduce((map, p, pIdx) => {
-    map[pIdx] = p;
-
-    cDept.forEach((c, cIndex) => (map[`${pIdx}-${cIndex}`] = `${p}-${c}`));
-
-    return map;
-  }, {});
-})();
-
 export const columns: BasicColumn[] = [
   {
-    title: '姓名',
+    title: '星期一',
     dataIndex: 'name',
-    width: 120,
+    width: 200,
   },
   {
-    title: '性别',
+    title: '星期二',
     dataIndex: 'gender',
-    width: 80,
+    width: 200,
   },
   {
-    title: '当前学校',
+    title: '星期三',
     dataIndex: 'school',
-    width: 140,
+    width: 200,
   },
   {
-    title: '当前年级',
+    title: '星期四',
     dataIndex: 'grade',
-    width: 120,
+    width: 200,
   },
   {
-    title: '家庭地址',
+    title: '星期五',
     dataIndex: 'address',
     width: 200,
   },
   {
-    title: '电话',
+    title: '星期六',
     dataIndex: 'phone',
-    width: 160,
+    width: 200,
   },
   {
-    title: '备注',
+    title: '星期日',
     dataIndex: 'notes',
     width: 200,
   },
@@ -162,4 +140,3 @@ export const accountFormSchema: FormSchema[] = [
     component: 'InputTextArea',
   },
 ];
-

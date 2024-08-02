@@ -41,13 +41,14 @@
 
     updateSchema([
       {
-        field: 'studentName',
+        field: 'studentNumber',
+        ifShow: unref(isUpdate),
         componentProps: {
           disabled: unref(isUpdate),
         },
       },
       {
-        field: 'studentPhone',
+        field: 'studentName',
         componentProps: {
           disabled: unref(isUpdate),
         },

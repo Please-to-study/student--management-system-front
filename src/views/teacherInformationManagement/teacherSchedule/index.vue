@@ -1,41 +1,41 @@
 <template>
   <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
-    <!--    <BasicTable @register="registerTable" class="" :searchInfo="searchInfo">-->
-    <!--      <template #toolbar>-->
-    <!--        <a-button type="primary" @click="handleCreate">新增学生</a-button>-->
-    <!--      </template>-->
-    <!--      <template #bodyCell="{ column, record }">-->
-    <!--        <template v-if="column.key === 'action'">-->
-    <!--          <TableAction-->
-    <!--            :actions="[-->
-    <!--              {-->
-    <!--                icon: 'clarity:info-standard-line',-->
-    <!--                tooltip: '查看用户详情',-->
-    <!--                onClick: handleView.bind(null, record),-->
-    <!--              },-->
-    <!--              {-->
-    <!--                icon: 'clarity:note-edit-line',-->
-    <!--                tooltip: '编辑用户资料',-->
-    <!--                onClick: handleEdit.bind(null, record),-->
-    <!--              },-->
-    <!--              {-->
-    <!--                icon: 'ant-design:delete-outlined',-->
-    <!--                color: 'error',-->
-    <!--                tooltip: '删除此账号',-->
-    <!--                popConfirm: {-->
-    <!--                  title: '是否确认删除',-->
-    <!--                  placement: 'left',-->
-    <!--                  confirm: handleDelete.bind(null, record),-->
-    <!--                },-->
-    <!--              },-->
-    <!--            ]"-->
-    <!--          />-->
-    <!--        </template>-->
-    <!--      </template>-->
-    <!--    </BasicTable>-->
-    <!--    <AccountModal @register="registerModal" @success="handleSuccess" />-->
-    <TimeTable></TimeTable>
-<!--    <CurriculumTable :timeList="timeList" :dataList="dataList" />-->
+    <BasicTable @register="registerTable" class="" :searchInfo="searchInfo">
+      <template #toolbar>
+        <a-button type="primary" @click="handleCreate">新增学生</a-button>
+      </template>
+      <template #bodyCell="{ column, record }">
+        <template v-if="column.key === 'action'">
+          <TableAction
+            :actions="[
+              {
+                icon: 'clarity:info-standard-line',
+                tooltip: '查看用户详情',
+                onClick: handleView.bind(null, record),
+              },
+              {
+                icon: 'clarity:note-edit-line',
+                tooltip: '编辑用户资料',
+                onClick: handleEdit.bind(null, record),
+              },
+              {
+                icon: 'ant-design:delete-outlined',
+                color: 'error',
+                tooltip: '删除此账号',
+                popConfirm: {
+                  title: '是否确认删除',
+                  placement: 'left',
+                  confirm: handleDelete.bind(null, record),
+                },
+              },
+            ]"
+          />
+        </template>
+      </template>
+    </BasicTable>
+    <AccountModal @register="registerModal" @success="handleSuccess" />
+    <!--    <TimeTable></TimeTable>-->
+    <!--    <CurriculumTable :timeList="timeList" :dataList="dataList" />-->
   </PageWrapper>
 </template>
 <script lang="ts" setup>
@@ -64,6 +64,9 @@
     api: getAccountList,
     rowKey: 'id',
     columns,
+    showIndexColumn: false,
+    striped: false,
+    pagination: false,
     formConfig: {
       labelWidth: 120,
       schemas: searchFormSchema,

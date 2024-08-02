@@ -54,6 +54,9 @@ export const searchFormSchema: FormSchema[] = [
     field: 'date',
     label: '月份',
     component: 'MonthPicker',
+    componentProps: {
+      style: { width: '100%' },
+    },
     colProps: { span: 6 },
     required: true,
   },

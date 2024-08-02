@@ -4,9 +4,14 @@ import { AccountListItem } from '@/api/demo/model/systemModel';
 
 export const columns: BasicColumn[] = [
   {
+    title: '学号',
+    dataIndex: 'studentNumber',
+    width: 140,
+  },
+  {
     title: '学生姓名',
     dataIndex: 'studentName',
-    width: 120,
+    width: 100,
   },
   {
     title: '学生电话',
@@ -53,49 +58,67 @@ export const columns: BasicColumn[] = [
     dataIndex: 'competitionDate',
     width: 120,
   },
+  {
+    title: '当前年级',
+    dataIndex: 'competitionGrade',
+    width: 120,
+  },
 ];
 
 export const searchFormSchema: FormSchema[] = [
   {
+    field: 'studentNumber',
+    label: '学号',
+    component: 'Input',
+    colProps: { span: 6 },
+  },
+  {
     field: 'studentName',
     label: '学生姓名',
     component: 'Input',
-    colProps: { span: 8 },
+    colProps: { span: 6 },
   },
   {
     field: 'competitionName',
     label: '赛事名称',
     component: 'Input',
-    colProps: { span: 8 },
+    colProps: { span: 6 },
   },
 ];
 
 // 添加学生账户表单
 export const accountFormSchema: FormSchema[] = [
   {
-    field: 'studentName',
-    label: '学生姓名',
+    field: 'studentNumber',
+    label: '学号',
     component: 'Input',
-    // helpMessage: ['本字段演示异步验证', '不能输入带有admin的用户名'],
-    rules: [
-      {
-        required: true,
-        message: '请输入用户名',
-      },
-      // {
-      //   trigger: 'blur',
-      //   validator(_, value) {
-      //     return new Promise((resolve, reject) => {
-      //       if (!value) return resolve();
-      //       isAccountExist(value)
-      //         .then(resolve)
-      //         .catch((err) => {
-      //           reject(err.message || '验证失败');
-      //         });
-      //     });
-      //   },
-      // },
-    ],
+    required: true,
+  },
+  {
+    field: 'studentName',
+    component: 'Select',
+    label: '姓名',
+    componentProps: ({ formModel, formActionType }) => {
+      return {
+        // --todolist-- getSameStudent获取数据
+        showSearch: true,
+        placeholder: '请选择学生',
+        onSearch: (value) => {
+          console.log('search value: ', value);
+          let studentOptions = [];
+          const { updateSchema } = formActionType;
+          updateSchema([
+            {
+              field: 'studentName',
+              componentProps: {
+                options: studentOptions,
+              },
+            },
+          ]);
+        },
+      };
+    },
+    required: true,
   },
   {
     field: 'studentPhone',
@@ -135,6 +158,11 @@ export const accountFormSchema: FormSchema[] = [
     label: '比赛日期',
     component: 'Input',
     required: true,
+  },
+  {
+    field: 'competitionGrade',
+    label: '当前年级',
+    component: 'Input',
   },
   {
     label: '比赛类型',

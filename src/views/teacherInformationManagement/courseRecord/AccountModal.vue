@@ -7,7 +7,7 @@
   import { ref, computed, unref } from 'vue';
   import { BasicModal, useModalInner } from '@/components/Modal';
   import { BasicForm, useForm } from '@/components/Form';
-  import { getDeptList } from '@/api/demo/system';
+  import { accountFormSchema } from './account.data';
 
   defineOptions({ name: 'AccountModal' });
 
@@ -19,6 +19,7 @@
   const [registerForm, { setFieldsValue, updateSchema, resetFields, validate }] = useForm({
     labelWidth: 100,
     baseColProps: { span: 24 },
+    schemas: accountFormSchema,
     showActionButtonGroup: false,
     actionColOptions: {
       span: 23,
@@ -36,27 +37,17 @@
         ...data.record,
       });
     }
-
-    const treeData = await getDeptList();
-    updateSchema([
-      {
-        field: 'pwd',
-        show: !unref(isUpdate),
-      },
-      {
-        field: 'dept',
-        componentProps: { treeData },
-      },
-    ]);
   });
 
-  const getTitle = computed(() => (!unref(isUpdate) ? '新增账号' : '编辑账号'));
+  const getTitle = computed(() => (!unref(isUpdate) ? '新增教师' : '编辑教师'));
 
   async function handleSubmit() {
     try {
       const values = await validate();
       setModalProps({ confirmLoading: true });
       // TODO custom api  新增学生信息功能function
+      // todolist
+      // isUpdate为false ---> 新增教师  isUpdate为true ---> 编辑教师
       console.log(values);
       closeModal();
       emit('success', { isUpdate: unref(isUpdate), values: { ...values, id: rowId.value } });
