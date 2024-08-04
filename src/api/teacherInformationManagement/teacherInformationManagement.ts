@@ -9,6 +9,7 @@ import {
   UpdateCourseRecordParams,
 } from '@/api/teacherInformationManagement/model/courseRecord';
 import { QueryTuitionFeeParams } from '@/api/teacherInformationManagement/model/tuitionFee';
+import { QueryTeacherScheduleParams } from '@/api/teacherInformationManagement/model/teacherSchedule';
 
 enum Api {
   // 基本信息
@@ -17,6 +18,8 @@ enum Api {
   DeleteTeacher = '/teacherInfo/deleteTeacher',
   AllBasicInfoList = '/teacherInfo/getAllTeacher',
   SpecialBasicInfoList = '/teacherInfo/getSpecialTeacher',
+  // 教室课表api
+  TeacherSchedule = '/teacherInfo/getTeacherSchedule',
   // 教师上课记录api
   DeleteCourseRecord = '/teacherInfo/deleteCourseRecord',
   UpdateCourseRecord = '/teacherInfo/updateCourseRecord',
@@ -40,6 +43,10 @@ export const getAllTeacherBasicInfoList = () => defHttp.get<>({ url: Api.AllBasi
 
 export const getSpecialTeacherBasicInfoList = (params: QueryTeacherInfoParams) =>
   defHttp.get<>({ url: Api.SpecialBasicInfoList, params });
+
+// 教师课表api
+export const getTeacherSchedule = (params: QueryTeacherScheduleParams) =>
+  defHttp.get<>({ url: Api.TeacherSchedule, params });
 
 // 教师上课记录api list
 export const updateCourseRecord = (params: UpdateCourseRecordParams) =>

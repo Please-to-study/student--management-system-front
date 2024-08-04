@@ -175,12 +175,18 @@ export const accountFormSchema: FormSchema[] = [
     label: '上课时段',
     field: 'courseTime',
     component: 'TimeRangePicker',
+    componentProps: {
+      style: { width: '100%' },
+    },
     required: true,
   },
   {
     label: '开始日期',
     field: 'courseStartTime',
     component: 'DatePicker',
+    componentProps: {
+      style: { width: '100%' },
+    },
     required: true,
   },
   {

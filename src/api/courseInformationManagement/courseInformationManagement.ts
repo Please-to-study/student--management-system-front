@@ -19,6 +19,8 @@ import {
 
 enum Api {
   // 基本信息
+  AddCourse = '/courseInfo/addCourse',
+
   AddStudent = '/studentInfo/addStudent',
   UpdateStudent = '/studentInfo/updateStudent',
   DeleteStudent = '/studentInfo/deleteStudent',
