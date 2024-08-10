@@ -1,10 +1,5 @@
 import { defHttp } from '@/utils/http/axios';
 import { AddSpendingInfoParams, QuerySpendingInfoParams } from './model/spendingInfo';
-import {
-  AddStudentInfoParams,
-  QueryStudentInfoParams,
-  UpdateStudentInfoParams,
-} from '@/api/studentInformationManagement/model/basicInfo';
 import { QueryCourseBalanceParams } from '@/api/studentInformationManagement/model/courseBalance';
 import {
   AddCompetitionInfoParams,
@@ -16,18 +11,21 @@ import {
   QueryProgramRateParams,
   UpdateProgramRateParams,
 } from '@/api/studentInformationManagement/model/programmingRating';
+import {
+  AddCourseInfoParams,
+  QueryCourseInfoParams,
+  UpdateCourseInfoParams,
+} from '@/api/courseInformationManagement/model/basicInfo';
 
 enum Api {
   // 基本信息
   AddCourse = '/courseInfo/addCourse',
+  UpdateCourse = '/courseInfo/updateCourse',
+  DeleteCourse = '/courseInfo/deleteCourse',
+  AllCourseInfoList = '/courseInfo/getAllCourse',
+  SpecialCourseInfoList = '/courseInfo/getSpecialCourse',
 
-  AddStudent = '/studentInfo/addStudent',
-  UpdateStudent = '/studentInfo/updateStudent',
-  DeleteStudent = '/studentInfo/deleteStudent',
-  AllBasicInfoList = '/studentInfo/getAllStudent',
-  SpecialBasicInfoList = '/studentInfo/getSpecialStudent',
-  SameStudentList = '/studentInfo/getSameStudent',
-  // 缴费信息api
+  // 课表信息api
   AddSpending = '/spendingInfo/addSpending',
   AllSpendingInfoList = '/spendingInfo/getAllSpendingInfo',
   SpecialSpendingInfoList = '/spendingInfo/getSpecialSpending',
@@ -48,23 +46,19 @@ enum Api {
   SpecialProgramRateInfoList = '/studentInfo/getSpecialProgramRateInfo',
 }
 
-// 基本信息功能模块api list
-export const addStudent = (params: AddStudentInfoParams) =>
-  defHttp.post({ url: Api.AddStudent, params });
+// 课程信息功能模块api list
+export const addCourse = (params: AddCourseInfoParams) =>
+  defHttp.post({ url: Api.AddCourse, params });
 
-export const updateStudent = (params: UpdateStudentInfoParams) =>
-  defHttp.post({ url: Api.UpdateStudent, params });
+export const updateCourse = (params: UpdateCourseInfoParams) =>
+  defHttp.post({ url: Api.UpdateCourse, params });
 
-export const deleteStudent = (id: string) =>
-  defHttp.post({ url: Api.DeleteStudent, params: { id } });
+export const deleteCourse = (id: string) => defHttp.post({ url: Api.DeleteCourse, params: { id } });
 
-export const getAllStudentBasicInfoList = () => defHttp.get({ url: Api.AllBasicInfoList });
+export const getAllCourseInfoList = () => defHttp.get({ url: Api.AllCourseInfoList });
 
-export const getSpecialStudentBasicInfoList = (params: QueryStudentInfoParams) =>
-  defHttp.get<>({ url: Api.SpecialBasicInfoList, params });
-
-export const getSameStudent = (name: string) =>
-  defHttp.get<>({ url: Api.SameStudentList, params: { name } });
+export const getSpecialCourseInfoList = (params: QueryCourseInfoParams) =>
+  defHttp.get<>({ url: Api.SpecialCourseInfoList, params });
 
 // 缴费信息功能模块api list
 export const AddSpending = (params: AddSpendingInfoParams) =>

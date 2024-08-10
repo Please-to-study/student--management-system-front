@@ -4,18 +4,21 @@ export type QueryCourseInfoParams = {
 };
 
 export type AddCourseInfoParams = {
-  studentName: string;
-  studentGender: number;
-  studentPhone: string;
-  studentAccount: string | null;
-  studentSchool: string | null;
-  studentEnterGrade: string | null;
-  studentCurrentGrade: string | null;
-  studentAddress: string | null;
-  studentNotes: string | null;
+  courseName: string;
+  courseCategory: string;
+  teacherId: string;
+  courseAddress: string;
+  courseStartTime: string;
+  coursePrice: number;
+  courseNumber: number;
+  courseIntroduce: string;
+  courseNotes: string;
+  courseArget: any[];
+  // courseBeginTime: string;
+  // courseEndTime: string;
+  // courseWeekend: string;
 };
 
 export type UpdateCourseInfoParams = AddCourseInfoParams & {
-  studentId: string;
-  studentNumber: string;
+  courseId: string;
 };
