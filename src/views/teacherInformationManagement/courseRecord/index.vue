@@ -45,15 +45,24 @@
 
   import { columns, searchFormSchema } from './account.data';
   import { useGo } from '@/hooks/web/usePage';
+  import { isUndefined } from '@/utils/is';
+  import { useMessage } from '@/hooks/web/useMessage';
+  import {
+    deleteCourseRecord,
+    getAllCourseRecordList,
+    getSpecialCourseRecordList,
+  } from '@/api/teacherInformationManagement/teacherInformationManagement';
 
   defineOptions({ name: 'AccountManagement' });
 
+  const { createMessage } = useMessage();
   const go = useGo();
   const [registerModal, { openModal }] = useModal();
   const searchInfo = reactive<Recordable>({});
   const [registerTable, { reload, updateTableDataRecord, getSearchInfo }] = useTable({
     title: '教师上课记录列表',
     // 获取学生列表数据请求函数，统一在/src/api中进行封装即可
+    // getAllCourseRecordList  getAccountList
     api: getAccountList,
     rowKey: 'id',
     columns,
@@ -67,6 +76,15 @@
     bordered: true,
     handleSearchInfoFn(info) {
       // --todolist-- 查询按钮操作
+      const teacherIdFlag = isUndefined(info.teacherId) || info.teacherId?.length === 0;
+      const courseIdFlag = isUndefined(info.courseId) || info.courseId?.length === 0;
+      const isEmpty = teacherIdFlag && courseIdFlag;
+      if (isEmpty) {
+        createMessage.error('请至少输入一个查询条件');
+        return;
+      }
+      // --todolist--
+      getSpecialCourseRecordList(info);
       console.log('handleSearchInfoFn', info);
       return info;
     },
@@ -93,6 +111,8 @@
   }
 
   function handleDelete(record: Recordable) {
+    deleteCourseRecord(record.courseRecordId);
+    reload();
     console.log(record);
   }
 
@@ -108,6 +128,6 @@
   }
 
   function handleView(record: Recordable) {
-    // go('/system/account_detail/' + record.id);
+    go('/teacherInformationManagement/courseRecordDetail/' + record.courseRecordId);
   }
 </script>

@@ -162,4 +162,3 @@ export const accountFormSchema: FormSchema[] = [
     component: 'InputTextArea',
   },
 ];
-

@@ -1,8 +1,24 @@
-import { getAllRoleList, isAccountExist } from '@/api/demo/system';
 import { BasicColumn, FormSchema } from '@/components/Table';
-import { AccountListItem } from '@/api/demo/model/systemModel';
+import {
+  validateStudentPhone,
+  queryValidateStudentNumber,
+  queryValidateStudentName,
+} from '@/views/studentInformationManagement/studentValidate';
+import {
+  getAllCourseInfoList,
+  getSpecialCourseInfoList,
+} from '@/api/courseInformationManagement/courseInformationManagement';
+import { ref, unref } from "vue";
+import { getSameStudent } from "@/api/studentInformationManagement/studentInformationManagement";
+import { DescItem } from "@/components/Description";
 
 export const columns: BasicColumn[] = [
+  {
+    title: '缴费ID',
+    dataIndex: 'payId',
+    width: 120,
+    ifShow: false,
+  },
   {
     title: '课程名称',
     dataIndex: 'courseName',
@@ -72,21 +88,43 @@ export const columns: BasicColumn[] = [
 
 export const searchFormSchema: FormSchema[] = [
   {
-    field: 'studentName',
-    label: '学生姓名',
-    component: 'Input',
-    colProps: { span: 6 },
-  },
-  {
     field: 'studentNumber',
     label: '学号',
     component: 'Input',
     colProps: { span: 6 },
+    rules: [
+      {
+        trigger: 'blur',
+        validator: queryValidateStudentNumber(),
+      },
+    ],
+  },
+  {
+    field: 'studentName',
+    label: '姓名',
+    component: 'Input',
+    colProps: { span: 6 },
+    rules: [
+      {
+        trigger: 'blur',
+        validator: queryValidateStudentName(),
+      },
+    ],
   },
   {
     field: 'courseName',
     label: '课程名称',
-    component: 'Input',
+    component: 'ApiSelect',
+    // resultField: ''
+    componentProps: {
+      api: getAllCourseInfoList,
+      // api: getAllRoleList,
+      // --todolist--  更改对应字段
+      labelField: 'courseName',
+      valueField: 'courseId',
+      // labelField: 'roleName',
+      // valueField: 'roleValue',
+    },
     colProps: { span: 6 },
   },
 ];
@@ -97,32 +135,37 @@ export const accountFormSchema: FormSchema[] = [
     // 单价和课时与课程名称相关联，选定课程自动填充不可更改
     field: 'courseName',
     label: '课程名称',
-    component: 'Select',
+    component: 'ApiSelect',
     componentProps: ({ formModel, formActionType }) => {
       return {
-        // options: getCourseList,
+        api: getAllCourseInfoList,
+        // options: getAllCourseInfoList,
         placeholder: '请选择课程',
-        onChange: (e: any) => {
-          // console.log(e)
-          if (e === undefined) {
-            // --todolist--
-          }
-          let courseTimeOptions = [];
-          let payPriceOptions = [];
-          formModel.courseTime = undefined; //  reset city value
-          formModel.payPrice = undefined;
+        labelField: 'courseName',
+        valueField: 'courseId',
+        onChange: async (e: any) => {
+          // if (!isUndefined(e)) {
+          //   // --todolist--  根据e.courseId 拿到
+          //   const { result } = getSpecialCourseInfoList({ courseId: e.courseId, courseAddress: ''});
+          // }
+          const { result } = await getSpecialCourseInfoList({
+            courseId: e.courseId,
+            courseAddress: '',
+          });
+          formModel.courseTime = result.courseTime;
+          formModel.payPrice = result.payPrice;
           const { updateSchema } = formActionType;
           updateSchema([
             {
               field: 'courseTime',
               componentProps: {
-                options: courseTimeOptions,
+                disabled: true,
               },
             },
             {
               field: 'payPrice',
               componentProps: {
-                options: payPriceOptions,
+                disabled: true,
               },
             },
           ]);
@@ -132,39 +175,20 @@ export const accountFormSchema: FormSchema[] = [
     required: true,
   },
   {
-    field: 'courseId',
-    label: '课程id',
-    component: 'ApiSelect',
-    componentProps: {
-      api: getAllRoleList,
-      // --todolist--  更改对应字段
-      labelField: 'courseName',
-      valueField: 'courseId',
-    },
-    required: true,
-    ifShow: false,
-  },
-  {
     field: 'studentName',
     component: 'Select',
-    label: '姓名',
+    label: '学生姓名',
     componentProps: ({ formModel, formActionType }) => {
+      const studentOptions = ref<any[]>([]);
       return {
         // --todolist-- getSameStudent获取数据
+        options: unref(studentOptions),
         showSearch: true,
         placeholder: '请选择学生',
-        onSearch: (value) => {
-          console.log("search value: ",value)
-          let studentOptions = [];
-          const { updateSchema } = formActionType;
-          updateSchema([
-            {
-              field: 'studentName',
-              componentProps: {
-                options: studentOptions,
-              },
-            },
-          ]);
+        onSearch: async (value) => {
+          console.log('search value: ', value);
+          const { result } = await getSameStudent(value);
+          studentOptions.value = result.items;
         },
       };
     },
@@ -174,52 +198,89 @@ export const accountFormSchema: FormSchema[] = [
     field: 'studentPhone',
     label: '电话',
     component: 'Input',
-    required: true,
+    rules: [
+      {
+        required: true,
+        message: '请输入电话',
+      },
+      {
+        trigger: 'blur',
+        validator: validateStudentPhone(),
+      },
+    ],
   },
   {
     field: 'payPrice',
     label: '单价',
-    component: 'Input',
+    component: 'InputNumber',
     required: true,
+    componentProps: ({ formModel, formActionType }) => {
+      return {
+        onChange: (e: any) => {
+          formModel.payableFee = formModel.payPrice * formModel.courseTime - formModel.payPreferential - formModel.otherFee;
+        },
+      };
+    },
     // defaultValue: 100,
   },
   {
     field: 'courseTime',
     label: '课时',
-    component: 'Input',
+    component: 'InputNumber',
     required: true,
+    componentProps: ({ formModel, formActionType }) => {
+      return {
+        onChange: (e: any) => {
+          formModel.payableFee = formModel.payPrice * formModel.courseTime - formModel.payPreferential - formModel.otherFee;
+        },
+      };
+    },
     // defaultValue: 1,
   },
   {
     field: 'payPreferential',
     label: '优惠',
-    component: 'Input',
+    component: 'InputNumber',
     required: true,
+    componentProps: ({ formModel, formActionType }) => {
+      return {
+        onChange: (e: any) => {
+          formModel.payableFee = formModel.payPrice * formModel.courseTime - formModel.payPreferential - formModel.otherFee;
+        },
+      };
+    },
     // defaultValue: 10,
   },
   {
     field: 'otherFee',
     label: '其他费用',
-    component: 'Input',
+    component: 'InputNumber',
     required: true,
-    // defaultValue: 5,
+    componentProps: ({ formModel, formActionType }) => {
+      return {
+        onChange: (e: any) => {
+          formModel.payableFee = formModel.payPrice * formModel.courseTime - formModel.payPreferential - formModel.otherFee;
+        },
+      };
+    },
   },
   // 实付费用自己输入、应缴金额动态计算
   {
     field: 'payableFee',
     label: '应缴金额',
-    component: 'Input',
+    component: 'InputNumber',
     componentProps: {
       prefix: '￥',
       bordered: false,
-      allowClear: false,
+      disabled: true,
+      // allowClear: false,
     },
     required: true,
   },
   {
     field: 'actuallyPay',
     label: '实付费用',
-    component: 'Input',
+    component: 'InputNumber',
     required: true,
   },
   {
@@ -241,159 +302,62 @@ export const accountFormSchema: FormSchema[] = [
   },
 ];
 
-export const data: AccountListItem[] = [
+export const spendingSchema: DescItem[] = [
   {
-    id: '0',
-    account: 'Jason',
-    email: 'm.bwiszgfvjp@pjzccoin.ru',
-    nickname: '邱霞',
-    role: 'Ruth',
-    createTime: '1994-04-03 02:18:29',
-    remark: '至术响其快称相多质起月三水或正',
-    dept: 0,
-    status: '1',
+    label: '缴费ID',
+    field: 'payId',
   },
   {
-    id: '1',
-    account: 'Kevin',
-    email: 'w.nqhjwvbm@wvxr.st',
-    nickname: '程丽',
-    role: 'Edward',
-    createTime: '2017-02-18 15:59:42',
-    remark: '家别保指品物角路王专',
-    dept: 0,
-    status: '1',
+    label: '课程名称',
+    field: 'courseName',
   },
   {
-    id: '2',
-    account: 'Susan',
-    email: 's.tkp@fxwha.uy',
-    nickname: '谭平',
-    role: 'Kevin',
-    createTime: '1996-02-28 18:43:51',
-    remark: '事为样复西局族南养号交国斗说部队记也按西',
-    dept: 1,
-    status: '1',
+    label: '学号',
+    field: 'studentNumber',
   },
   {
-    id: '3',
-    account: 'Brian',
-    email: 'n.crv@mudxsqlfq.ro',
-    nickname: '邱洋',
-    role: 'Sarah',
-    createTime: '1974-09-23 11:23:34',
-    remark: '后引条了持内证器代采火行',
-    dept: 0,
-    status: '1',
+    label: '学生姓名',
+    field: 'studentName',
   },
   {
-    id: '4',
-    account: 'David',
-    email: 'h.nqiwjklrsr@zbfkz.an',
-    nickname: '曹强',
-    role: 'Mark',
-    createTime: '2020-12-26 08:06:06',
-    remark: '月半快实革产一世群设军法改商以个段革',
-    dept: 1,
-    status: '0',
+    label: '缴费时间',
+    field: 'payTime',
   },
   {
-    id: '5',
-    account: 'Matthew',
-    email: 'e.pxvfz@orptfexwn.gb',
-    nickname: '易杰',
-    role: 'Deborah',
-    createTime: '1997-07-08 17:32:30',
-    remark: '民科属交值员见价两品质要约',
-    dept: 0,
-    status: '1',
+    label: '单价',
+    field: 'payPrice',
   },
   {
-    id: '6',
-    account: 'George',
-    email: 'm.yscygfxy@fftslpdd.kr',
-    nickname: '龚军',
-    role: 'Susan',
-    createTime: '2017-02-21 21:14:14',
-    remark: '同七口即里局消名样情却此心你团通',
-    dept: 1,
-    status: '0',
+    label: '课时',
+    field: 'courseTime',
   },
   {
-    id: '7',
-    account: 'Robert',
-    email: 'n.gergpy@hujc.cv',
-    nickname: '徐娜',
-    role: 'Jeffrey',
-    createTime: '2024-04-28 12:58:40',
-    remark: '济现后张产细色马更品理强米行节集月',
-    dept: 1,
-    status: '0',
+    label: '优惠',
+    field: 'payPreferential',
   },
   {
-    id: '8',
-    account: 'Mark',
-    email: 'c.ibhhkpi@bybctabuxg.nu',
-    nickname: '史艳',
-    role: 'Brenda',
-    createTime: '2000-08-23 00:43:57',
-    remark: '有在须装务路活且为理内制技器五海号利进',
-    dept: 0,
-    status: '1',
+    label: '应缴金额',
+    field: 'payableFee',
   },
   {
-    id: '9',
-    account: 'Kimberly',
-    email: 'x.ybv@gyxk.ec',
-    nickname: '龙芳',
-    role: 'George',
-    createTime: '1997-04-04 00:08:50',
-    remark: '性好真革计议根工速叫再快身计',
-    dept: 1,
-    status: '1',
+    label: '实付费用',
+    field: 'actuallyPay',
   },
   {
-    id: '6',
-    account: 'George',
-    email: 'm.yscygfxy@fftslpdd.kr',
-    nickname: '龚军',
-    role: 'Susan',
-    createTime: '2017-02-21 21:14:14',
-    remark: '同七口即里局消名样情却此心你团通',
-    dept: 1,
-    status: '0',
+    label: '其他费用',
+    field: 'otherFee',
   },
   {
-    id: '7',
-    account: 'Robert',
-    email: 'n.gergpy@hujc.cv',
-    nickname: '徐娜',
-    role: 'Jeffrey',
-    createTime: '2024-04-28 12:58:40',
-    remark: '济现后张产细色马更品理强米行节集月',
-    dept: 1,
-    status: '0',
+    label: '支付方式',
+    field: 'payStyle',
   },
   {
-    id: '8',
-    account: 'Mark',
-    email: 'c.ibhhkpi@bybctabuxg.nu',
-    nickname: '史艳',
-    role: 'Brenda',
-    createTime: '2000-08-23 00:43:57',
-    remark: '有在须装务路活且为理内制技器五海号利进',
-    dept: 0,
-    status: '1',
+    label: '收款人',
+    field: 'payee',
   },
   {
-    id: '9',
-    account: 'Kimberly',
-    email: 'x.ybv@gyxk.ec',
-    nickname: '龙芳',
-    role: 'George',
-    createTime: '1997-04-04 00:08:50',
-    remark: '性好真革计议根工速叫再快身计',
-    dept: 1,
-    status: '1',
+    label: '备注',
+    field: 'payNotes',
   },
 ];
+

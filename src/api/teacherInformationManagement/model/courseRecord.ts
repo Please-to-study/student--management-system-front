@@ -1,9 +1,10 @@
 export type QueryCourseRecordParams = {
-  teacherName?: string | null;
-  courseName?: string | null;
+  teacherId: string;
+  courseId: string;
 };
 
 export type UpdateCourseRecordParams = {
+  courseRecordId: string;
   teacherId: string;
   courseId: string;
   courseCategory: string;

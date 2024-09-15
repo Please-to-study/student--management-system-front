@@ -1,6 +1,6 @@
 export type QueryProgramRateParams = {
-  studentNumber?: string | null;
-  studentName?: string | null;
+  studentNumber: string;
+  studentName: string;
 };
 
 export type AddProgramRateParams = {

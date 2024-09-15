@@ -14,7 +14,22 @@
   import { BasicForm, useForm } from '@/components/Form';
   import { accountFormSchema, weekend } from './account.data';
   import { getDeptList } from '@/api/demo/system';
-  import { AddCourseInfoParams } from '@/api/courseInformationManagement/model/basicInfo';
+  import {
+    AddCourseInfoParams,
+    UpdateCourseInfoParams
+  } from "@/api/courseInformationManagement/model/basicInfo";
+  import {
+    AddStudentInfoParams,
+    UpdateStudentInfoParams,
+  } from '@/api/studentInformationManagement/model/basicInfo';
+  import {
+    addStudent,
+    updateStudent,
+  } from '@/api/studentInformationManagement/studentInformationManagement';
+  import {
+    addCourse,
+    updateCourse
+  } from "@/api/courseInformationManagement/courseInformationManagement";
 
   defineOptions({ name: 'AccountModal' });
 
@@ -104,6 +119,18 @@
             courseEndTime: values.tempTimeKey[1],
           });
         }
+      }
+
+      if (!unref(isUpdate)) {
+        // debugger;
+        await addCourse(params);
+      } else {
+        const updateParams: UpdateCourseInfoParams = {
+          ...params,
+          courseId: values.courseId as string,
+        };
+        console.log('updateParams is :', updateParams);
+        await updateCourse(updateParams);
       }
       // eslint-disable-next-line no-debugger
       debugger;

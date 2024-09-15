@@ -1,8 +1,25 @@
-import { getAllRoleList, isAccountExist } from '@/api/demo/system';
 import { BasicColumn, FormSchema } from '@/components/Table';
-import { AccountListItem } from '@/api/demo/model/systemModel';
+import { DescItem } from '@/components/Description';
+import {
+  validateStudentName,
+  validateStudentPhone,
+  queryValidateStudentNumber,
+  queryValidateStudentName,
+  queryValidateStudentPhone,
+} from '@/views/studentInformationManagement/studentValidate';
+
+const genderMap = new Map([
+  ['1', '男'],
+  ['2', '女'],
+]);
 
 export const columns: BasicColumn[] = [
+  {
+    title: '学生ID',
+    dataIndex: 'studentId',
+    width: 120,
+    ifShow: false,
+  },
   {
     title: '学号',
     dataIndex: 'studentNumber',
@@ -21,6 +38,9 @@ export const columns: BasicColumn[] = [
   {
     title: '性别',
     dataIndex: 'studentGender',
+    customRender: ({ value }) => {
+      return genderMap.get(value);
+    },
     width: 80,
   },
   {
@@ -46,6 +66,7 @@ export const columns: BasicColumn[] = [
   {
     title: '家庭地址',
     dataIndex: 'studentAddress',
+    ellipsis: true,
     width: 200,
   },
   {
@@ -71,23 +92,47 @@ export const searchFormSchema: FormSchema[] = [
     label: '学号',
     component: 'Input',
     colProps: { span: 6 },
+    rules: [
+      {
+        trigger: 'blur',
+        validator: queryValidateStudentNumber(),
+      },
+    ],
   },
   {
     field: 'studentName',
     label: '姓名',
     component: 'Input',
     colProps: { span: 6 },
+    rules: [
+      {
+        trigger: 'blur',
+        validator: queryValidateStudentName(),
+      },
+    ],
   },
   {
     field: 'studentPhone',
     label: '电话',
     component: 'Input',
     colProps: { span: 6 },
+    rules: [
+      {
+        trigger: 'blur',
+        validator: queryValidateStudentPhone(),
+      },
+    ],
   },
 ];
 
 // 添加学生账户表单
 export const accountFormSchema: FormSchema[] = [
+  {
+    field: 'studentId',
+    label: '',
+    component: 'Input',
+    ifShow: false,
+  },
   {
     field: 'studentNumber',
     label: '学号',
@@ -101,21 +146,12 @@ export const accountFormSchema: FormSchema[] = [
     rules: [
       {
         required: true,
-        message: '请输入用户名',
+        message: '请输入学生姓名',
       },
-      // {
-      //   trigger: 'blur',
-      //   validator(_, value) {
-      //     return new Promise((resolve, reject) => {
-      //       if (!value) return resolve();
-      //       isAccountExist(value)
-      //         .then(resolve)
-      //         .catch((err) => {
-      //           reject(err.message || '验证失败');
-      //         });
-      //     });
-      //   },
-      // },
+      {
+        trigger: 'blur',
+        validator: validateStudentName(),
+      },
     ],
   },
   {
@@ -142,6 +178,16 @@ export const accountFormSchema: FormSchema[] = [
     label: '电话',
     field: 'studentPhone',
     component: 'Input',
+    rules: [
+      {
+        required: true,
+        message: '请输入电话',
+      },
+      {
+        trigger: 'blur',
+        validator: validateStudentPhone(),
+      },
+    ],
     required: true,
   },
   {
@@ -178,5 +224,49 @@ export const accountFormSchema: FormSchema[] = [
     label: '备注',
     field: 'studentNotes',
     component: 'InputTextArea',
+  },
+];
+
+export const studentSchema: DescItem[] = [
+  {
+    field: 'studentNumber',
+    label: '学号',
+  },
+  {
+    field: 'studentName',
+    label: '姓名',
+  },
+  {
+    label: '性别',
+    field: 'studentGender',
+  },
+  {
+    label: '电话',
+    field: 'studentPhone',
+  },
+  {
+    label: 'OJ账号',
+    field: 'studentAccount',
+  },
+  {
+    field: 'studentSchool',
+    label: '当前学校',
+  },
+  {
+    field: 'studentEnterGrade',
+    label: '入学年级',
+  },
+  {
+    field: 'studentCurrentGrade',
+    label: '当前年级',
+  },
+
+  {
+    label: '家庭地址',
+    field: 'studentAddress',
+  },
+  {
+    label: '备注',
+    field: 'studentNotes',
   },
 ];

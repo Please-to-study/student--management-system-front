@@ -9,6 +9,14 @@
   import { BasicForm, useForm } from '@/components/Form';
   import { accountFormSchema } from './account.data';
   import { getDeptList } from '@/api/demo/system';
+  import {
+    addStudent,
+    updateStudent,
+  } from '@/api/studentInformationManagement/studentInformationManagement';
+  import {
+    AddStudentInfoParams,
+    UpdateStudentInfoParams,
+  } from '@/api/studentInformationManagement/model/basicInfo';
 
   defineOptions({ name: 'AccountModal' });
 
@@ -57,10 +65,20 @@
     try {
       const values = await validate();
       setModalProps({ confirmLoading: true });
-      // TODO custom api  新增学生信息功能function
-      // todolist
       // isUpdate为false ---> 创建账号  isUpdate为true ---> 修改账号信息
-      console.log(values);
+
+      if (!unref(isUpdate)) {
+        const addParams: AddStudentInfoParams = { ...values };
+        // debugger;
+        await addStudent(addParams);
+      } else {
+        const updateParams: UpdateStudentInfoParams = { ...values };
+        console.log('updateParams is :', updateParams);
+        await updateStudent(updateParams);
+      }
+      // console.log(values);
+      // eslint-disable-next-line no-debugger
+      // debugger;
       closeModal();
       emit('success', { isUpdate: unref(isUpdate), values: { ...values, id: rowId.value } });
     } finally {

@@ -26,7 +26,8 @@ const teacherInformationManagement: AppRouteModule = {
     {
       path: 'teacherInfoDetail/:id',
       name: 'TeacherInfoDetail',
-      component: () => import('@/views/teacherInformationManagement/basicInfo/TeacherDetailInfo.vue'),
+      component: () =>
+        import('@/views/teacherInformationManagement/basicInfo/TeacherDetailInfo.vue'),
       meta: {
         // affix: true,
         hideMenu: true,
@@ -49,6 +50,17 @@ const teacherInformationManagement: AppRouteModule = {
       meta: {
         // affix: true,
         title: t('teacherInformationManagement.courseRecord.courseRecord'),
+      },
+    },
+    {
+      path: 'courseRecordDetail/:id',
+      name: 'CourseRecordDetail',
+      component: () =>
+        import('@/views/teacherInformationManagement/courseRecord/CourseRecordDetailInfo.vue'),
+      meta: {
+        // affix: true,
+        hideMenu: true,
+        title: t('teacherInformationManagement.courseRecordDetail.courseRecordDetail'),
       },
     },
     {

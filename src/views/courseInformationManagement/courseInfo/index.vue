@@ -48,15 +48,25 @@
 
   import { columns, searchFormSchema } from './account.data';
   import { useGo } from '@/hooks/web/usePage';
+  import { useMessage } from '@/hooks/web/useMessage';
+  import { isUndefined } from '@/utils/is';
+  import { getSpecialStudentBasicInfoList } from '@/api/studentInformationManagement/studentInformationManagement';
+  import {
+    deleteCourse,
+    getAllCourseInfoList,
+    getSpecialCourseInfoList,
+  } from '@/api/courseInformationManagement/courseInformationManagement';
 
   defineOptions({ name: 'AccountManagement' });
 
+  const { createMessage } = useMessage();
   const go = useGo();
   const [registerModal, { openModal }] = useModal();
   const searchInfo = reactive<Recordable>({});
   const [registerTable, { reload, updateTableDataRecord, getSearchInfo }] = useTable({
     title: '课程列表',
     // --todolist-- 获取学生列表数据请求函数，统一在/src/api中进行封装即可
+    // getAllCourseInfoList  getAccountList
     api: getAccountList,
     rowKey: 'id',
     columns,
@@ -70,8 +80,18 @@
     bordered: true,
     handleSearchInfoFn(info) {
       // todo查询按钮操作
-      console.log('handleSearchInfoFn', info);
-      return info;
+      const courseIdFlag = isUndefined(info.courseId) || info.courseId?.length === 0;
+      const courseAddressIdFlag =
+        isUndefined(info.courseAddressId) || info.courseAddressId?.length === 0;
+      const isEmpty = courseIdFlag && courseAddressIdFlag;
+      if (isEmpty) {
+        createMessage.error('请至少输入一个查询条件');
+        return;
+      }
+      // // --todolist-- 查询按钮操作
+      getSpecialCourseInfoList(info);
+      console.log('handleSearchInfoFn');
+      // return info;
     },
     actionColumn: {
       width: 120,
@@ -96,6 +116,8 @@
   }
 
   function handleDelete(record: Recordable) {
+    deleteCourse(record.courseId);
+    reload();
     console.log(record);
   }
 
@@ -111,6 +133,6 @@
   }
 
   function handleView(record: Recordable) {
-    go('/courseInformationManagement/courseDetailInfo/' + record.id);
+    go('/courseInformationManagement/courseDetailInfo/' + record.courseId);
   }
 </script>

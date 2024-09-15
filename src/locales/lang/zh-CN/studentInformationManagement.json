@@ -23,5 +23,8 @@
   },
   "programmingRating" : {
     "programmingRating" : "编程能力评级"
+  },
+  "programRatingDetail" : {
+    "programRatingDetail" : "编程能力评级详情"
   }
 }

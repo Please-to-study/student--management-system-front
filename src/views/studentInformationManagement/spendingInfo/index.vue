@@ -1,10 +1,8 @@
 <template>
   <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
-<!--    <DeptTree class="w-1/4 xl:w-1/5" @select="handleSelect" />-->
     <BasicTable @register="registerTable" class="" :searchInfo="searchInfo">
       <template #toolbar>
         <a-button type="primary" @click="handleCreate">新增缴费</a-button>
-<!--        <a-button type="primary" @click="handleExport">导出账号</a-button>-->
       </template>
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'action'">
@@ -32,18 +30,25 @@
   import { useModal } from '@/components/Modal';
   import AccountModal from './AccountModal.vue';
 
-  import { columns, data, searchFormSchema } from "./account.data";
+  import { columns, searchFormSchema } from './account.data';
   import { useGo } from '@/hooks/web/usePage';
+  import { useMessage } from '@/hooks/web/useMessage';
+  import { isUndefined } from '@/utils/is';
+  import {
+    getAllSpendingInfoList,
+    getSpecialSpendingInfoList,
+  } from '@/api/studentInformationManagement/studentInformationManagement';
 
   defineOptions({ name: 'AccountManagement' });
 
+  const { createMessage } = useMessage();
   const go = useGo();
   const [registerModal, { openModal }] = useModal();
   const searchInfo = reactive<Recordable>({});
   const [registerTable, { reload, updateTableDataRecord, getSearchInfo }] = useTable({
     title: '缴费信息列表',
     // --todolist--
-    dataSource: data,
+    api: getAllSpendingInfoList,
     rowKey: 'id',
     columns,
     formConfig: {
@@ -55,6 +60,16 @@
     showTableSetting: true,
     bordered: true,
     handleSearchInfoFn(info) {
+      const studentNumberFlag = isUndefined(info.studentNumber) || info.studentNumber?.length === 0;
+      const studentNameFlag = isUndefined(info.studentName) || info.studentName?.length === 0;
+      const courseIdFlag = isUndefined(info.courseId) || info.courseId?.length === 0;
+      const isEmpty = studentNumberFlag && studentNameFlag && courseIdFlag;
+      if (isEmpty) {
+        createMessage.error('请至少输入一个查询条件');
+        return;
+      }
+      // --todolist--
+      getSpecialSpendingInfoList(info);
       console.log('handleSearchInfoFn', info);
       return info;
     },
@@ -105,6 +120,6 @@
   }
 
   function handleView(record: Recordable) {
-    go('/studentInformationManagement/spendingInfoDetail/' + record.id);
+    go('/studentInformationManagement/spendingInfoDetail/' + record.payId);
   }
 </script>

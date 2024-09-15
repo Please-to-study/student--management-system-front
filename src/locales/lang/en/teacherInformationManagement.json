@@ -12,6 +12,9 @@
   "courseRecord" : {
     "courseRecord" : "CourseRecord"
   },
+  "courseRecordDetail" : {
+    "courseRecordDetail" : "CourseRecordDetail"
+  },
   "tuitionFee" : {
     "tuitionFee" : "TuitionFee"
   }

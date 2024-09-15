@@ -1,10 +1,10 @@
 <template>
   <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
-<!--    <DeptTree class="w-1/4 xl:w-1/5" @select="handleSelect" />-->
+    <!--    <DeptTree class="w-1/4 xl:w-1/5" @select="handleSelect" />-->
     <BasicTable @register="registerTable" class="" :searchInfo="searchInfo">
       <template #toolbar>
         <a-button type="primary" @click="handleCreate">新增教师</a-button>
-<!--        <a-button type="primary" @click="handleExport">导出账号</a-button>-->
+        <!--        <a-button type="primary" @click="handleExport">导出账号</a-button>-->
       </template>
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'action'">
@@ -50,16 +50,25 @@
 
   import { columns, searchFormSchema } from './account.data';
   import { useGo } from '@/hooks/web/usePage';
+  import { useMessage } from '@/hooks/web/useMessage';
+  import { isUndefined } from '@/utils/is';
+  import {
+    deleteTeacher,
+    getAllTeacherBasicInfoList,
+    getSpecialTeacherBasicInfoList,
+  } from '@/api/teacherInformationManagement/teacherInformationManagement';
 
   defineOptions({ name: 'AccountManagement' });
 
+  const { createMessage } = useMessage();
   const go = useGo();
   const [registerModal, { openModal }] = useModal();
   const searchInfo = reactive<Recordable>({});
-  const [registerTable, { reload, updateTableDataRecord, getSearchInfo }] = useTable({
+  const [registerTable, { reload, updateTableDataRecord }] = useTable({
     title: '教师列表',
     // 获取学生列表数据请求函数，统一在/src/api中进行封装即可
-    api: getAccountList,
+    // getAllTeacherBasicInfoList  getAccountList
+    api: getAllTeacherBasicInfoList,
     rowKey: 'id',
     columns,
     formConfig: {
@@ -72,8 +81,16 @@
     bordered: true,
     handleSearchInfoFn(info) {
       // todolist 查询按钮操作
-      console.log('handleSearchInfoFn', info);
-      return info;
+      const nameFlag = isUndefined(info.teacherName) || info.teacherName?.length === 0;
+      const phoneFlag = isUndefined(info.teacherPhone) || info.teacherPhone?.length === 0;
+      const isEmpty = nameFlag && phoneFlag;
+      if (isEmpty) {
+        createMessage.error('请至少输入一个查询条件');
+        return;
+      }
+      // // --todolist-- 查询按钮操作
+      getSpecialTeacherBasicInfoList(info);
+      // return info;
     },
     actionColumn: {
       width: 120,
@@ -98,6 +115,8 @@
   }
 
   function handleDelete(record: Recordable) {
+    deleteTeacher(record.teacherId);
+    reload();
     console.log(record);
   }
 
@@ -113,6 +132,6 @@
   }
 
   function handleView(record: Recordable) {
-    go('/teacherInformationManagement/teacherInfoDetail/' + record.id);
+    go('/teacherInformationManagement/teacherInfoDetail/' + record.teacherId);
   }
 </script>

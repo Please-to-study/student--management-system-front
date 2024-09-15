@@ -1,10 +1,10 @@
 <template>
   <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
-<!--    <DeptTree class="w-1/4 xl:w-1/5" @select="handleSelect" />-->
+    <!--    <DeptTree class="w-1/4 xl:w-1/5" @select="handleSelect" />-->
     <BasicTable @register="registerTable" class="" :searchInfo="searchInfo">
       <template #toolbar>
         <a-button type="primary" @click="handleCreate">新增参赛信息</a-button>
-<!--        <a-button type="primary" @click="handleExport">导出账号</a-button>-->
+        <!--        <a-button type="primary" @click="handleExport">导出账号</a-button>-->
       </template>
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'action'">
@@ -50,17 +50,32 @@
 
   import { columns, searchFormSchema } from './account.data';
   import { useGo } from '@/hooks/web/usePage';
+  import { useMessage } from '@/hooks/web/useMessage';
+  import {
+    deleteCompetitionInfo,
+    getAllCompetitionInfoList,
+    getCompetitionInfoList,
+    getSpecialCompetitionInfoList,
+  } from '@/api/studentInformationManagement/studentInformationManagement';
+  import { isUndefined } from '@/utils/is';
 
   defineOptions({ name: 'AccountManagement' });
 
+  const { createMessage } = useMessage();
   const go = useGo();
   const [registerModal, { openModal }] = useModal();
   const searchInfo = reactive<Recordable>({});
-  const [registerTable, { reload, updateTableDataRecord, getSearchInfo }] = useTable({
+  const [registerTable, { reload, updateTableDataRecord }] = useTable({
     title: '参赛信息列表',
     // --todolist-- 获取学生列表数据请求函数，统一在/src/api中进行封装即可
-    api: getAccountList,
-    rowKey: 'id',
+    // getAllCompetitionInfoList  getAccountList
+    api: getCompetitionInfoList,
+    rowKey: 'competitionInfoId',
+    searchInfo: {
+      studentNumber: '',
+      studentId: -1,
+      competitionId: -1,
+    },
     columns,
     formConfig: {
       labelWidth: 120,
@@ -71,8 +86,18 @@
     showTableSetting: true,
     bordered: true,
     handleSearchInfoFn(info) {
-      // todo查询按钮操作
-      console.log('handleSearchInfoFn', info);
+      const studentNumberFlag = isUndefined(info.studentNumber) || info.studentNumber?.length === 0;
+      if (studentNumberFlag) {
+        info.studentNumber = '';
+      }
+      const studentNameFlag = isUndefined(info.studentName) || info.studentName?.length === 0;
+      if (studentNameFlag) {
+        info.studentName = '';
+      }
+      const competitionIdFlag = isUndefined(info.competitionId);
+      if (competitionIdFlag) {
+        info.competitionId = -1;
+      }
       return info;
     },
     actionColumn: {
@@ -97,6 +122,8 @@
   }
 
   function handleDelete(record: Recordable) {
+    deleteCompetitionInfo(record.competitionInfoId);
+    reload();
     console.log(record);
   }
 
@@ -112,6 +139,6 @@
   }
 
   function handleView(record: Recordable) {
-    go('/studentInformationManagement/competitionInfoDetail/' + record.id);
+    go('/studentInformationManagement/competitionInfoDetail/' + record.competitionInfoId);
   }
 </script>

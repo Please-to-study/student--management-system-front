@@ -12,6 +12,9 @@
   "courseRecord" : {
     "courseRecord" : "教师上课记录"
   },
+  "courseRecordDetail" : {
+    "courseRecordDetail" : "教师上课记录详细信息"
+  },
   "tuitionFee" : {
     "tuitionFee" : "课时费用"
   }

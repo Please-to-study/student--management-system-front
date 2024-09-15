@@ -8,7 +8,8 @@
   import { BasicModal, useModalInner } from '@/components/Modal';
   import { BasicForm, useForm } from '@/components/Form';
   import { accountFormSchema } from './account.data';
-  import { getDeptList } from '@/api/demo/system';
+  import { AddSpending } from "@/api/studentInformationManagement/studentInformationManagement";
+  import { AddSpendingInfoParams } from "@/api/studentInformationManagement/model/spendingInfo";
 
   defineOptions({ name: 'AccountModal' });
 
@@ -17,7 +18,7 @@
   const isUpdate = ref(true);
   const rowId = ref('');
 
-  const [registerForm, { getFieldsValue, setFieldsValue, updateSchema, resetFields, validate }] = useForm({
+  const [registerForm, { setFieldsValue, resetFields, validate }] = useForm({
     labelWidth: 100,
     baseColProps: { span: 24 },
     schemas: accountFormSchema,
@@ -38,24 +39,6 @@
         ...data.record,
       });
     }
-
-    if (!unref(isUpdate)) {
-      const { payPrice, courseTime, payPreferential, otherFee } = getFieldsValue();
-      // console.log("data", data)
-      setFieldsValue({
-        payableFee: payPrice * courseTime - payPreferential - otherFee,
-      });
-    }
-
-    const treeData = await getDeptList();
-    updateSchema([
-      {
-        field: 'payableFee',
-        componentProps: {
-          disabled: unref(isUpdate),
-        },
-      },
-    ]);
   });
 
   const getTitle = computed(() => (!unref(isUpdate) ? '新增缴费' : '编辑缴费'));
@@ -64,10 +47,10 @@
     try {
       const values = await validate();
       setModalProps({ confirmLoading: true });
-      // TODO custom api
-      // todolist
       // isUpdate为false ---> 新增缴费  isUpdate为true ---> 编辑缴费
-      console.log(values);
+      const addParams: AddSpendingInfoParams = { ...values };
+      await AddSpending(addParams);
+      console.log('新增缴费: ', values);
       closeModal();
       emit('success', { isUpdate: unref(isUpdate), values: { ...values, id: rowId.value } });
     } finally {

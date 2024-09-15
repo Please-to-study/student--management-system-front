@@ -1,6 +1,12 @@
-import { getAllRoleList, isAccountExist } from '@/api/demo/system';
 import { BasicColumn, FormSchema } from '@/components/Table';
-import { AccountListItem } from '@/api/demo/model/systemModel';
+import {
+  queryValidateStudentName,
+  queryValidateStudentNumber,
+  validateStudentPhone,
+} from '@/views/studentInformationManagement/studentValidate';
+import { ref, unref } from 'vue';
+import { getSameStudent } from '@/api/studentInformationManagement/studentInformationManagement';
+import { DescItem } from '@/components/Description';
 
 export const columns: BasicColumn[] = [
   {
@@ -32,16 +38,28 @@ export const columns: BasicColumn[] = [
 
 export const searchFormSchema: FormSchema[] = [
   {
-    field: 'studentName',
-    label: '学生姓名',
-    component: 'Input',
-    colProps: { span: 8 },
-  },
-  {
     field: 'studentNumber',
     label: '学号',
     component: 'Input',
-    colProps: { span: 8 },
+    colProps: { span: 6 },
+    rules: [
+      {
+        trigger: 'blur',
+        validator: queryValidateStudentNumber(),
+      },
+    ],
+  },
+  {
+    field: 'studentName',
+    label: '姓名',
+    component: 'Input',
+    colProps: { span: 6 },
+    rules: [
+      {
+        trigger: 'blur',
+        validator: queryValidateStudentName(),
+      },
+    ],
   },
 ];
 
@@ -50,24 +68,18 @@ export const accountFormSchema: FormSchema[] = [
   {
     field: 'studentName',
     component: 'Select',
-    label: '姓名',
+    label: '学生姓名',
     componentProps: ({ formModel, formActionType }) => {
+      const studentOptions = ref<any[]>([]);
       return {
         // --todolist-- getSameStudent获取数据
+        options: unref(studentOptions),
         showSearch: true,
         placeholder: '请选择学生',
-        onSearch: (value) => {
-          console.log("search value: ",value)
-          let studentOptions = [];
-          const { updateSchema } = formActionType;
-          updateSchema([
-            {
-              field: 'studentName',
-              componentProps: {
-                options: studentOptions,
-              },
-            },
-          ]);
+        onSearch: async (value) => {
+          console.log('search value: ', value);
+          const { result } = await getSameStudent(value);
+          studentOptions.value = result.items;
         },
       };
     },
@@ -77,7 +89,16 @@ export const accountFormSchema: FormSchema[] = [
     field: 'studentPhone',
     label: '电话',
     component: 'Input',
-    required: true,
+    rules: [
+      {
+        required: true,
+        message: '请输入电话',
+      },
+      {
+        trigger: 'blur',
+        validator: validateStudentPhone(),
+      },
+    ],
   },
   {
     label: '等级',
@@ -89,5 +110,28 @@ export const accountFormSchema: FormSchema[] = [
     field: 'programNotes',
     label: '备注',
     component: 'InputTextArea',
+  },
+];
+
+export const programRateSchema: DescItem[] = [
+  {
+    label: '学号',
+    field: 'studentNumber',
+  },
+  {
+    label: '学生姓名',
+    field: 'studentName',
+  },
+  {
+    label: '电话',
+    field: 'studentPhone',
+  },
+  {
+    label: '等级',
+    field: 'programRate',
+  },
+  {
+    label: '备注',
+    field: 'programNotes',
   },
 ];

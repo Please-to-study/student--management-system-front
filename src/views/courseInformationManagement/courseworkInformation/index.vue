@@ -44,10 +44,16 @@
   import AccountModal from './AccountModal.vue';
 
   import { columns, searchFormSchema } from './account.data';
+  import { useMessage } from '@/hooks/web/useMessage';
   import { useGo } from '@/hooks/web/usePage';
+  import { isUndefined } from '@/utils/is';
+  import {
+    getSpecialCourseInfoList
+  } from "@/api/courseInformationManagement/courseInformationManagement";
 
   defineOptions({ name: 'AccountManagement' });
 
+  const { createMessage } = useMessage();
   const go = useGo();
   const [registerModal, { openModal }] = useModal();
   const searchInfo = reactive<Recordable>({});
@@ -67,8 +73,18 @@
     bordered: true,
     handleSearchInfoFn(info) {
       // todo查询按钮操作
-      console.log('handleSearchInfoFn', info);
-      return info;
+      const courseIdFlag = isUndefined(info.courseId) || info.courseId?.length === 0;
+      const materialsTitleFlag =
+        isUndefined(info.materialsTitle) || info.materialsTitle?.length === 0;
+      const isEmpty = courseIdFlag && materialsTitleFlag;
+      if (isEmpty) {
+        createMessage.error('请至少输入一个查询条件');
+        return;
+      }
+      // // --todolist-- 查询按钮操作
+      getSpecialCourseInfoList(info);
+      console.log('handleSearchInfoFn');
+      // return info;
     },
     actionColumn: {
       width: 120,

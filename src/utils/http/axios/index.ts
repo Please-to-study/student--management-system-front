@@ -52,7 +52,8 @@ const transform: AxiosTransform = {
     }
     //  这里 code，result，message为 后台统一的字段，需要在 types.ts内修改为项目自己的接口返回格式
     const { code, result, message } = data;
-
+    // eslint-disable-next-line no-debugger
+    // debugger;
     // 这里逻辑可以根据项目进行修改
     const hasSuccess = data && Reflect.has(data, 'code') && code === ResultEnum.SUCCESS;
     if (hasSuccess) {
@@ -62,6 +63,9 @@ const transform: AxiosTransform = {
         successMsg = t(`sys.api.operationSuccess`);
       }
 
+      // createSuccessModal({ title: t('sys.api.successTip'), content: successMsg });
+      // createMessage.success(successMsg);
+      //
       if (options.successMessageMode === 'modal') {
         createSuccessModal({ title: t('sys.api.successTip'), content: successMsg });
       } else if (options.successMessageMode === 'message') {

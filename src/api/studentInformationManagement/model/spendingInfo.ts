@@ -4,17 +4,17 @@ export type AddSpendingInfoParams = {
   studentPhone: string;
   payPrice: number;
   courseTime: number;
-  payPreferential: number | null;
+  payPreferential: number;
   otherFee: number;
-  payableFee: number | null;
-  actuallyPay: number | null;
+  payableFee: number;
+  actuallyPay: number;
   payStyle: string;
   payee: string;
   payNotes: string | null;
 };
 
 export type QuerySpendingInfoParams = {
-  studentNumber?: string | null;
-  studentName?: string | null;
-  courseName?: string | null;
+  studentNumber: string;
+  studentName: string;
+  courseId: string;
 };

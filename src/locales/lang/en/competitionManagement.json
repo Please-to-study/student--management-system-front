@@ -1,0 +1,27 @@
+{
+  "competitionManagement": "CompetitionManagement",
+  "competitionInfo" : {
+    "competitionInfo" : "CompetitionInfo"
+  },
+  "competitionDetail" : {
+    "competitionDetail" : "CompetitionDetail"
+  },
+  "competitionSchedule" : {
+    "competitionSchedule" : "CompetitionSchedule"
+  },
+  "competitionAwardsInfo": {
+    "competitionAwardsInfo": "CompetitionAwardsInfo"
+  },
+  "competitionAwardsDetail": {
+    "competitionAwardsDetail": "CompetitionAwardsDetail"
+  },
+  "competitionRegister" : {
+    "competitionRegister" : "CompetitionRegister"
+  },
+  "competitionRegisterDetail" : {
+    "competitionRegisterDetail" : "CompetitionRegisterDetail"
+  },
+  "competitionRecommend" : {
+    "competitionRecommend" : "CompetitionRecommend"
+  }
+}

@@ -1,6 +1,9 @@
 import { getAllRoleList, isAccountExist } from '@/api/demo/system';
 import { BasicColumn, FormSchema } from '@/components/Table';
 import { AccountListItem } from '@/api/demo/model/systemModel';
+import {
+  getAllCourseInfoList
+} from "@/api/courseInformationManagement/courseInformationManagement";
 
 export const columns: BasicColumn[] = [
   {
@@ -45,7 +48,17 @@ export const searchFormSchema: FormSchema[] = [
   {
     field: 'courseName',
     label: '课程名称',
-    component: 'Input',
+    component: 'ApiSelect',
+    // resultField: ''
+    componentProps: {
+      api: getAllCourseInfoList,
+      // api: getAllRoleList,
+      // --todolist--  更改对应字段
+      labelField: 'courseName',
+      valueField: 'courseId',
+      // labelField: 'roleName',
+      // valueField: 'roleValue',
+    },
     colProps: { span: 8 },
   },
 ];
@@ -53,86 +66,37 @@ export const searchFormSchema: FormSchema[] = [
 // 添加学生账户表单
 export const accountFormSchema: FormSchema[] = [
   {
-    field: 'name',
-    label: '姓名',
+    field: 'courseName',
+    label: '课程名称',
     component: 'Input',
-    // helpMessage: ['本字段演示异步验证', '不能输入带有admin的用户名'],
-    rules: [
-      {
-        required: true,
-        message: '请输入用户名',
-      },
-      // {
-      //   trigger: 'blur',
-      //   validator(_, value) {
-      //     return new Promise((resolve, reject) => {
-      //       if (!value) return resolve();
-      //       isAccountExist(value)
-      //         .then(resolve)
-      //         .catch((err) => {
-      //           reject(err.message || '验证失败');
-      //         });
-      //     });
-      //   },
-      // },
-    ],
   },
   {
-    field: 'pwd',
-    label: '密码',
-    component: 'InputPassword',
-    required: true,
-    ifShow: false,
-  },
-  {
-    label: '性别',
-    field: 'gender',
-    component: 'Select',
-    componentProps: {
-      options: [
-        {
-          label: '男',
-          value: '1',
-          key: '1',
-        },
-        {
-          label: '女',
-          value: '2',
-          key: '2',
-        },
-      ],
-    },
-    required: true,
-  },
-  {
-    field: 'school',
-    label: '当前学校',
+    label: '布置教师',
+    field: 'teacherName',
     component: 'Input',
-    // required: true,
   },
   {
-    field: 'grade',
-    label: '当前年级',
+    field: 'materialsStyle',
+    label: '资料类型',
     component: 'Input',
-    // required: true,
+  },
+  {
+    field: 'materialsTitle',
+    label: '作业题目',
+    component: 'Input',
   },
 
   {
-    label: '家庭地址',
-    field: 'address',
-    component: 'Input',
-    // required: true,
-  },
-  {
-    label: '电话',
-    field: 'phone',
-    component: 'Input',
-    required: true,
-  },
-  {
-    label: '备注',
-    field: 'notes',
+    label: '作业介绍',
+    field: 'materialsIntroduce',
     component: 'InputTextArea',
   },
+  {
+    label: '日期',
+    field: 'materialsDate',
+    component: 'TimePicker',
+    componentProps: {
+      style: { width: '100%' },
+    },
+  },
 ];
-

@@ -1,0 +1,27 @@
+{
+  "competitionManagement": "赛事管理",
+  "competitionInfo" : {
+    "competitionInfo" : "赛事基本信息"
+  },
+  "competitionDetail" : {
+    "competitionDetail" : "赛事信息详情"
+  },
+  "competitionSchedule" : {
+    "competitionSchedule" : "赛事日程表"
+  },
+  "competitionAwardsInfo": {
+    "competitionAwardsInfo": "比赛获奖情况"
+  },
+  "competitionAwardsDetail": {
+    "competitionAwardsDetail": "比赛获奖详细信息"
+  },
+  "competitionRegister" : {
+    "competitionRegister" : "比赛预报名"
+  },
+  "competitionRegisterDetail" : {
+    "competitionRegisterDetail" : "比赛预报名详细信息"
+  },
+  "competitionRecommend" : {
+    "competitionRecommend" : "赛事推荐"
+  }
+}

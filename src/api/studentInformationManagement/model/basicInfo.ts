@@ -1,7 +1,11 @@
 export type QueryStudentInfoParams = {
-  studentNumber?: string | null;
-  studentName?: string | null;
-  studentPhone?: string | null;
+  studentNumber: string;
+  studentName: string;
+  studentPhone: string;
+};
+
+export type QuerySameStudentInfoParams = {
+  studentName: string;
 };
 
 export type AddStudentInfoParams = {
@@ -17,6 +21,6 @@ export type AddStudentInfoParams = {
 };
 
 export type UpdateStudentInfoParams = AddStudentInfoParams & {
-  studentId: string;
+  studentId: number;
   studentNumber: string;
 };

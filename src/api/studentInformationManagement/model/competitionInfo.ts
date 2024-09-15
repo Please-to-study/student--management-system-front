@@ -1,12 +1,12 @@
 export type AddCompetitionInfoParams = {
-  studentNumber: string;
-  studentName: string;
-  studentPhone: string;
-  competitionId: string;
+  // studentNumber: string;
+  studentId: number;
+  // studentPhone: string;
+  competitionId: number;
   competitionHonor: string;
   competitionScore: string;
   competitionLanguage: string;
-  competitionDate: number;
+  competitionDate: string;
   competitionGrade: string | null;
   competitionStyle: string | null;
   competitionHost: string | null;
@@ -14,11 +14,11 @@ export type AddCompetitionInfoParams = {
 };
 
 export type UpdateCompetitionInfoParams = AddCompetitionInfoParams & {
-  competitionInfoId: string;
+  competitionInfoId: number;
 };
 
 export type QueryCompetitionInfoParams = {
-  studentNumber?: string | null;
-  studentName?: string | null;
-  competitionName?: string | null;
+  studentNumber: string;
+  studentId: number;
+  competitionId: number;
 };

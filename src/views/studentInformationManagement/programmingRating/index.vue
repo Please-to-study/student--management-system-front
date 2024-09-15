@@ -48,16 +48,25 @@
 
   import { columns, searchFormSchema } from './account.data';
   import { useGo } from '@/hooks/web/usePage';
+  import { useMessage } from '@/hooks/web/useMessage';
+  import { isUndefined } from '@/utils/is';
+  import {
+    deleteProgramRateInfo,
+    getAllProgramRateInfoList,
+    getSpecialProgramRateInfoList,
+  } from '@/api/studentInformationManagement/studentInformationManagement';
 
   defineOptions({ name: 'AccountManagement' });
 
+  const { createMessage } = useMessage();
   const go = useGo();
   const [registerModal, { openModal }] = useModal();
   const searchInfo = reactive<Recordable>({});
   const [registerTable, { reload, updateTableDataRecord, getSearchInfo }] = useTable({
     title: '编程评级列表',
     // --todolist-- 获取学生列表数据请求函数，统一在/src/api中进行封装即可
-    api: getAccountList,
+    // getAllProgramRateInfoList  getAccountList
+    api: getAllProgramRateInfoList,
     rowKey: 'id',
     columns,
     formConfig: {
@@ -69,7 +78,15 @@
     showTableSetting: true,
     bordered: true,
     handleSearchInfoFn(info) {
-      // todo查询按钮操作
+      const studentNumberFlag = isUndefined(info.studentNumber) || info.studentNumber?.length === 0;
+      const studentNameFlag = isUndefined(info.studentName) || info.studentName?.length === 0;
+      const isEmpty = studentNumberFlag && studentNameFlag;
+      if (isEmpty) {
+        createMessage.error('请至少输入一个查询条件');
+        return;
+      }
+      // --todolist--
+      getSpecialProgramRateInfoList(info);
       console.log('handleSearchInfoFn', info);
       return info;
     },
@@ -96,6 +113,8 @@
   }
 
   function handleDelete(record: Recordable) {
+    deleteProgramRateInfo(record.programRateId);
+    reload();
     console.log(record);
   }
 
@@ -120,6 +139,6 @@
   }
 
   function handleView(record: Recordable) {
-    go('/system/account_detail/' + record.id);
+    go('/studentInformationManagement/ProgramRatingDetail/' + record.programRateId);
   }
 </script>

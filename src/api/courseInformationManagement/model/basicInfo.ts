@@ -1,6 +1,6 @@
 export type QueryCourseInfoParams = {
-  courseName?: string | null;
-  courseAddress?: string | null;
+  courseId: string;
+  courseAddressId: string;
 };
 
 export type AddCourseInfoParams = {

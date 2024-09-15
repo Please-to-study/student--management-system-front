@@ -9,6 +9,18 @@
   import { BasicForm, useForm } from '@/components/Form';
   import { accountFormSchema } from './account.data';
   import { getDeptList } from '@/api/demo/system';
+  import {
+    AddStudentInfoParams,
+    UpdateStudentInfoParams,
+  } from '@/api/studentInformationManagement/model/basicInfo';
+  import {
+    addCompetitionInfo,
+    addStudent, updateCompetitionInfo,
+    updateStudent
+  } from "@/api/studentInformationManagement/studentInformationManagement";
+  import {
+    AddCompetitionInfoParams, UpdateCompetitionInfoParams
+  } from "@/api/studentInformationManagement/model/competitionInfo";
 
   defineOptions({ name: 'AccountModal' });
 
@@ -40,13 +52,13 @@
     }
 
     updateSchema([
-      {
-        field: 'studentNumber',
-        ifShow: unref(isUpdate),
-        componentProps: {
-          disabled: unref(isUpdate),
-        },
-      },
+      // {
+      //   field: 'studentNumber',
+      //   ifShow: unref(isUpdate),
+      //   componentProps: {
+      //     disabled: unref(isUpdate),
+      //   },
+      // },
       {
         field: 'studentName',
         componentProps: {
@@ -63,6 +75,16 @@
       const values = await validate();
       setModalProps({ confirmLoading: true });
       // TODO custom api  新增学生信息功能function
+      // isUpdate为false ---> 创建账号  isUpdate为true ---> 修改账号信息
+      if (!unref(isUpdate)) {
+        const addParams: AddCompetitionInfoParams = { ...values };
+        // debugger;
+        await addCompetitionInfo(addParams);
+      } else {
+        const updateParams: UpdateCompetitionInfoParams = { ...values };
+        await updateCompetitionInfo(updateParams);
+        console.log('updateParams is :', updateParams);
+      }
       console.log(values);
       closeModal();
       emit('success', { isUpdate: unref(isUpdate), values: { ...values, id: rowId.value } });

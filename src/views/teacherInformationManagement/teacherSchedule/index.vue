@@ -9,11 +9,16 @@
   import { BasicTable, useTable } from '@/components/Table';
   import { getAccountList } from '@/api/demo/system';
   import { PageWrapper } from '@/components/Page';
-
+  import { useMessage } from '@/hooks/web/useMessage';
+  import { isUndefined } from '@/utils/is';
   import { columns, searchFormSchema } from './account.data';
+  import {
+    getTeacherSchedule
+  } from "@/api/teacherInformationManagement/teacherInformationManagement";
 
   defineOptions({ name: 'AccountManagement' });
 
+  const { createMessage } = useMessage();
   const searchInfo = reactive<Recordable>({});
   const [registerTable] = useTable({
     title: '教师课程列表',
@@ -34,6 +39,15 @@
     bordered: true,
     handleSearchInfoFn(info) {
       // todo查询按钮操作
+      const teacherIdFlag = isUndefined(info.teacherId) || info.teacherId?.length === 0;
+      const teacherPhoneFlag = isUndefined(info.teacherPhone) || info.teacherPhone?.length === 0;
+      const isEmpty = teacherIdFlag && teacherPhoneFlag;
+      if (isEmpty) {
+        createMessage.error('请至少输入一个查询条件');
+        return;
+      }
+      // --todolist--
+      getTeacherSchedule({ teacherId: info.teacherId });
       console.log('handleSearchInfoFn', info);
       return info;
     },

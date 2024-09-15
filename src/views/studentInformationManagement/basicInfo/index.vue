@@ -40,8 +40,11 @@
   import { reactive } from 'vue';
 
   import { BasicTable, useTable, TableAction } from '@/components/Table';
-  import { getAccountList } from '@/api/demo/system';
-  import { getAllStudentBasicInfoList } from '@/api/studentInformationManagement/studentInformationManagement';
+  import {
+    deleteStudent,
+    getAllStudentBasicInfoList,
+    getSpecialStudentBasicInfoList,
+  } from '@/api/studentInformationManagement/studentInformationManagement';
   import { PageWrapper } from '@/components/Page';
 
   import { useModal } from '@/components/Modal';
@@ -49,17 +52,26 @@
 
   import { columns, searchFormSchema } from './account.data';
   import { useGo } from '@/hooks/web/usePage';
+  import { useMessage } from '@/hooks/web/useMessage';
+  import { isUndefined } from "@/utils/is";
+
+
 
   defineOptions({ name: 'AccountManagement' });
 
+  const { createMessage } = useMessage();
   const go = useGo();
   const [registerModal, { openModal }] = useModal();
   const searchInfo = reactive<Recordable>({});
   const [registerTable, { reload, updateTableDataRecord, getSearchInfo }] = useTable({
     title: '学生列表',
-    // --todolist-- 获取学生列表数据请求函数，统一在/src/api中进行封装即可
-    api: getAccountList,
-    rowKey: 'id',
+    api: getSpecialStudentBasicInfoList,
+    searchInfo: {
+      studentNumber: '',
+      studentName: '',
+      studentPhone: '',
+    },
+    rowKey: 'studentId',
     columns,
     formConfig: {
       labelWidth: 120,
@@ -70,15 +82,25 @@
     showTableSetting: true,
     bordered: true,
     handleSearchInfoFn(info) {
-      // --todolist-- 查询按钮操作
-      console.log('handleSearchInfoFn', info);
+      const numberFlag = isUndefined(info.studentNumber) || info.studentNumber?.length === 0;
+      if (numberFlag) {
+        info.studentNumber = '';
+      }
+      const nameFlag = isUndefined(info.studentName) || info.studentName?.length === 0;
+      if (nameFlag) {
+        info.studentName = '';
+      }
+      const phoneFlag = isUndefined(info.studentPhone) || info.studentPhone?.length === 0;
+      if (phoneFlag) {
+        info.studentPhone = '';
+      }
+      console.log('student basic handleSearchInfoFn', info);
       return info;
     },
     actionColumn: {
       width: 120,
       title: '操作',
       dataIndex: 'action',
-      // slots: { customRender: 'action' },
     },
   });
 
@@ -97,7 +119,8 @@
   }
 
   function handleDelete(record: Recordable) {
-    console.log(record);
+    deleteStudent(record.studentId);
+    reload();
   }
 
   function handleExport() {
@@ -108,8 +131,7 @@
     if (isUpdate) {
       // 演示不刷新表格直接更新内部数据。
       // 注意：updateTableDataRecord要求表格的rowKey属性为string并且存在于每一行的record的keys中
-      const result = updateTableDataRecord(values.id, values);
-      console.log(result);
+      updateTableDataRecord(values.studentId, values);
     } else {
       reload();
     }
@@ -121,6 +143,6 @@
   }
 
   function handleView(record: Recordable) {
-    go('/studentInformationManagement/studentInfoDetail/' + record.id);
+    go('/studentInformationManagement/studentInfoDetail/' + record.studentId);
   }
 </script>

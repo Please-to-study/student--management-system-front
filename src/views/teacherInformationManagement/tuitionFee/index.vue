@@ -6,8 +6,8 @@
           title="基本信息"
           :collapseOptions="{ canExpand: true, helpMessage: '' }"
           :column="3"
-          :data="mockData"
-          :schema="schema"
+          :data="teacherInfo"
+          :schema="teacherInfoSchema"
         />
         <Divider />
       </template>
@@ -43,24 +43,34 @@
   </PageWrapper>
 </template>
 <script lang="ts" setup>
-  import { reactive } from 'vue';
+  import { reactive, ref } from 'vue';
 
   import { BasicTable, useTable, TableAction } from '@/components/Table';
-  import { DescItem, Description } from '@/components/Description';
+  import { Description } from '@/components/Description';
   import { getAccountList } from '@/api/demo/system';
   import { PageWrapper } from '@/components/Page';
 
   import { columns, searchFormSchema } from './account.data';
   import { useGo } from '@/hooks/web/usePage';
-  import { Divider } from "ant-design-vue";
+  import { useMessage } from '@/hooks/web/useMessage';
+  import { Divider } from 'ant-design-vue';
+  import { isUndefined } from '@/utils/is';
+  import {
+    getTeacherInfoById,
+    getTeacherTuitionFeeList,
+  } from '@/api/teacherInformationManagement/teacherInformationManagement';
+  import { teacherInfoSchema } from '@/views/teacherInformationManagement/tuitionFee/account.data';
 
   defineOptions({ name: 'AccountManagement' });
 
+  const { createMessage } = useMessage();
   const go = useGo();
   const searchInfo = reactive<Recordable>({});
+  const teacherInfo = ref<any>();
   const [registerTable] = useTable({
     title: '任课明细表',
     // --todolist-- 获取任课明细表数据请求函数，统一在/src/api中进行封装即可
+    // getTeacherTuitionFeeList
     api: getAccountList,
     rowKey: 'id',
     columns,
@@ -72,8 +82,20 @@
     useSearchForm: true,
     showTableSetting: true,
     bordered: true,
-    handleSearchInfoFn(info) {
+    async handleSearchInfoFn(info) {
       // todo查询按钮操作
+      const teacherIdFlag = isUndefined(info.teacherId) || info.teacherId?.length === 0;
+      const teacherPhoneFlag = isUndefined(info.teacherPhone) || info.teacherPhone?.length === 0;
+      const dateFlag = isUndefined(info.date) || info.date?.length === 0;
+      const isEmpty = teacherIdFlag && teacherPhoneFlag && dateFlag;
+      if (isEmpty) {
+        createMessage.error('请至少输入一个查询条件');
+        return;
+      }
+      // --todolist--
+      await getTeacherTuitionFeeList(info);
+      const { result } = await getTeacherInfoById(info.teacherId);
+      teacherInfo.value = result?.items[0];
       console.log('handleSearchInfoFn', info);
       return info;
     },
@@ -96,47 +118,6 @@
     certy: '3504256199xxxxxxxxx',
     tag: 'orange',
   };
-  const schema: DescItem[] = [
-    {
-      field: 'teacherName',
-      label: '姓名',
-    },
-    {
-      field: 'teacherGender',
-      label: '性别',
-      // render: (curVal, data) => {
-      //   return `${data.username}-${curVal}`;
-      // },
-    },
-    {
-      field: 'teacherPhone',
-      label: '联系电话',
-    },
-    {
-      field: 'teacherAddress',
-      label: '住址',
-    },
-    {
-      field: 'teacherCourse',
-      label: '教授课程',
-    },
-    {
-      field: 'teacherSigning',
-      label: '签约形式',
-    },
-    {
-      field: 'teacherSigning',
-      label: '已完成课时',
-    },
-    {
-      field: 'teacherSigning',
-      label: '上课次数',
-    },
-    {
-      field: 'teacherSigning',
-      label: '课时费',
-    },
-  ];
 
   function handleView(record: Recordable) {
     // --todolist--

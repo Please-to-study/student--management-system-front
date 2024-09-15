@@ -1,4 +1,4 @@
 export type QueryTeacherScheduleParams = {
-  teacherPhone: string;
-  teacherName: string;
+  // teacherPhone: string;
+  teacherId: string;
 };

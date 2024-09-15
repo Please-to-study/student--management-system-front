@@ -1,6 +1,9 @@
 import { getAllRoleList, isAccountExist } from '@/api/demo/system';
 import { BasicColumn, FormSchema } from '@/components/Table';
 import { AccountListItem } from '@/api/demo/model/systemModel';
+import { getAllCourseInfoList } from '@/api/courseInformationManagement/courseInformationManagement';
+import { getAllTeacherBasicInfoList } from '@/api/teacherInformationManagement/teacherInformationManagement';
+import { DescItem } from '@/components/Description';
 
 export const weekend = [
   {
@@ -103,13 +106,33 @@ export const searchFormSchema: FormSchema[] = [
   {
     field: 'courseName',
     label: '课程名称',
-    component: 'Input',
+    component: 'ApiSelect',
+    // resultField: ''
+    componentProps: {
+      api: getAllCourseInfoList,
+      // api: getAllRoleList,
+      // --todolist--  更改对应字段
+      labelField: 'courseName',
+      valueField: 'courseId',
+      // labelField: 'roleName',
+      // valueField: 'roleValue',
+    },
     colProps: { span: 8 },
   },
   {
     field: 'courseAddress',
     label: '上课校区',
-    component: 'Input',
+    component: 'ApiSelect',
+    // resultField: ''
+    componentProps: {
+      // --todolist--  获取上课校区的api
+      api: getAllCourseInfoList,
+      // api: getAllRoleList,
+      labelField: 'courseAddress',
+      valueField: 'courseAddressId',
+      // labelField: 'roleName',
+      // valueField: 'roleValue',
+    },
     colProps: { span: 8 },
   },
 ];
@@ -117,53 +140,56 @@ export const searchFormSchema: FormSchema[] = [
 // 添加课程form
 export const accountFormSchema: FormSchema[] = [
   {
+    field: 'courseId',
+    label: '',
+    component: 'Input',
+    ifShow: false,
+  },
+  {
     field: 'courseName',
     label: '课程名称',
     component: 'Input',
-    // helpMessage: ['本字段演示异步验证', '不能输入带有admin的用户名'],
     rules: [
       {
         required: true,
         message: '请输入课程名称',
       },
-      // {
-      //   trigger: 'blur',
-      //   validator(_, value) {
-      //     return new Promise((resolve, reject) => {
-      //       if (!value) return resolve();
-      //       isAccountExist(value)
-      //         .then(resolve)
-      //         .catch((err) => {
-      //           reject(err.message || '验证失败');
-      //         });
-      //     });
-      //   },
-      // },
     ],
   },
   {
     label: '课程类别',
     field: 'courseCategory',
     component: 'Input',
-    required: true,
+    rules: [
+      {
+        required: true,
+        message: '请输入课程名称',
+      },
+    ],
   },
   {
     field: 'teacherId',
     label: '任课老师',
-    component: 'Input',
-    // component: 'ApiSelect',
-    // componentProps: {
-    //   api: getAllRoleList,
-    //   // --todolist--  更改对应字段
-    //   labelField: 'teacherName',
-    //   valueField: 'teacherId',
-    // },
+    component: 'ApiSelect',
+    componentProps: {
+      api: getAllTeacherBasicInfoList,
+      // --todolist--  更改对应字段
+      labelField: 'teacherName',
+      valueField: 'teacherId',
+    },
     required: true,
   },
   {
     field: 'courseAddress',
     label: '上课校区',
-    component: 'Input',
+    component: 'ApiSelect',
+    componentProps: {
+      // 获取上课校区api
+      api: getAllTeacherBasicInfoList,
+      // --todolist--  更改对应字段
+      labelField: 'courseAddress',
+      valueField: 'courseAddressId',
+    },
     required: true,
   },
   {
@@ -178,13 +204,13 @@ export const accountFormSchema: FormSchema[] = [
   {
     label: '课程单价',
     field: 'coursePrice',
-    component: 'Input',
+    component: 'InputNumber',
     required: true,
   },
   {
     label: '总课时',
     field: 'courseNumber',
-    component: 'Input',
+    component: 'InputNumber',
     required: true,
   },
   {
@@ -223,5 +249,54 @@ export const accountFormSchema: FormSchema[] = [
     field: 'courseNotes',
     component: 'InputTextArea',
   },
+];
 
+export const courseInfoSchema: DescItem[] = [
+  {
+    label: '课程名称',
+    field: 'courseName',
+  },
+  {
+    label: '课程类别',
+    field: 'courseCategory',
+  },
+  {
+    label: '主任课老师',
+    field: 'teacherName',
+  },
+  {
+    label: '上课校区',
+    field: 'courseAddress',
+  },
+  // 课程信息详情部分展示
+  // {
+  //   title: '上课时间',
+  //   dataIndex: 'courseDate',
+  //   width: 120,
+  // },
+  // {
+  //   title: '上课时段',
+  //   dataIndex: 'courseTime',
+  //   width: 120,
+  // },
+  {
+    label: '开课时间',
+    field: 'courseStartTime',
+  },
+  {
+    label: '课程单价',
+    field: 'coursePrice',
+  },
+  {
+    label: '课程总课时',
+    field: 'courseNumber',
+  },
+  {
+    label: '课程简介',
+    field: 'courseIntroduce',
+  },
+  {
+    label: '备注',
+    field: 'courseNotes',
+  },
 ];

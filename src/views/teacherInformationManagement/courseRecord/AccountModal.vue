@@ -8,6 +8,10 @@
   import { BasicModal, useModalInner } from '@/components/Modal';
   import { BasicForm, useForm } from '@/components/Form';
   import { accountFormSchema } from './account.data';
+  import { UpdateCourseRecordParams } from "@/api/teacherInformationManagement/model/courseRecord";
+  import {
+    updateCourseRecord
+  } from "@/api/teacherInformationManagement/teacherInformationManagement";
 
   defineOptions({ name: 'AccountModal' });
 
@@ -47,7 +51,12 @@
       setModalProps({ confirmLoading: true });
       // TODO custom api  新增学生信息功能function
       // todolist
-      // isUpdate为false ---> 新增教师  isUpdate为true ---> 编辑教师
+      // isUpdate为false ---> 创建账号  isUpdate为true ---> 修改账号信息
+      const updateParams: UpdateCourseRecordParams = { ...values };
+      await updateCourseRecord(updateParams);
+      // console.log(values);
+      // eslint-disable-next-line no-debugger
+      // debugger;
       console.log(values);
       closeModal();
       emit('success', { isUpdate: unref(isUpdate), values: { ...values, id: rowId.value } });

@@ -8,6 +8,14 @@
   import { BasicModal, useModalInner } from '@/components/Modal';
   import { BasicForm, useForm } from '@/components/Form';
   import { accountFormSchema } from './account.data';
+  import {
+    AddTeacherInfoParams,
+    UpdateTeacherInfoParams,
+  } from '@/api/teacherInformationManagement/model/basicInfo';
+  import {
+    addTeacher,
+    updateTeacher,
+  } from '@/api/teacherInformationManagement/teacherInformationManagement';
 
   defineOptions({ name: 'AccountModal' });
 
@@ -45,18 +53,18 @@
           disabled: unref(isUpdate),
         },
       },
-      {
-        field: 'teacherGender',
-        componentProps: {
-          disabled: unref(isUpdate),
-        },
-      },
-      {
-        field: 'teacherPhone',
-        componentProps: {
-          disabled: unref(isUpdate),
-        },
-      },
+      // {
+      //   field: 'teacherGender',
+      //   componentProps: {
+      //     disabled: unref(isUpdate),
+      //   },
+      // },
+      // {
+      //   field: 'teacherPhone',
+      //   componentProps: {
+      //     disabled: unref(isUpdate),
+      //   },
+      // },
     ]);
   });
 
@@ -68,7 +76,20 @@
       setModalProps({ confirmLoading: true });
       // TODO custom api  新增学生信息功能function
       // todolist
-      // isUpdate为false ---> 新增教师  isUpdate为true ---> 编辑教师
+      // isUpdate为false ---> 创建账号  isUpdate为true ---> 修改账号信息
+
+      if (!unref(isUpdate)) {
+        const addParams: AddTeacherInfoParams = { ...values };
+        // debugger;
+        await addTeacher(addParams);
+      } else {
+        const updateParams: UpdateTeacherInfoParams = { ...values };
+        // console.log('updateParams is :', updateParams);
+        await updateTeacher(updateParams);
+      }
+      // console.log(values);
+      // eslint-disable-next-line no-debugger
+      // debugger;
       console.log(values);
       closeModal();
       emit('success', { isUpdate: unref(isUpdate), values: { ...values, id: rowId.value } });

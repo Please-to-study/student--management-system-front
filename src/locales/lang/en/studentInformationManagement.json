@@ -23,6 +23,8 @@
   },
   "programmingRating" : {
     "programmingRating" : "ProgrammingRating"
+  },
+  "programRatingDetail" : {
+    "programRatingDetail" : "ProgramRatingDetail"
   }
-
 }

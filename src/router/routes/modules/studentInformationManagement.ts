@@ -24,9 +24,10 @@ const studentInformationManagement: AppRouteModule = {
       },
     },
     {
-      path: 'studentInfoDetail/:id',
+      path: 'studentInfoDetail/:studentId',
       name: 'StudentInfoDetail',
-      component: () => import('@/views/studentInformationManagement/basicInfo/StudentDetailInfo.vue'),
+      component: () =>
+        import('@/views/studentInformationManagement/basicInfo/StudentDetailInfo.vue'),
       meta: {
         // affix: true,
         hideMenu: true,
@@ -36,7 +37,8 @@ const studentInformationManagement: AppRouteModule = {
     {
       path: 'spendingInfoDetail/:id',
       name: 'SpendingInfoDetail',
-      component: () => import('@/views/studentInformationManagement/spendingInfo/SpendingDetailInfo.vue'),
+      component: () =>
+        import('@/views/studentInformationManagement/spendingInfo/SpendingDetailInfo.vue'),
       meta: {
         // affix: true,
         hideMenu: true,
@@ -64,7 +66,8 @@ const studentInformationManagement: AppRouteModule = {
     {
       path: 'competitionInformation',
       name: 'CompetitionInformation',
-      component: () => import('@/views/studentInformationManagement/competitionInformation/index.vue'),
+      component: () =>
+        import('@/views/studentInformationManagement/competitionInformation/index.vue'),
       meta: {
         // affix: true,
         title: t('studentInformationManagement.competitionInformation.competitionInformation'),
@@ -73,7 +76,10 @@ const studentInformationManagement: AppRouteModule = {
     {
       path: 'competitionInfoDetail/:id',
       name: 'CompetitionInfoDetail',
-      component: () => import('@/views/studentInformationManagement/competitionInformation/CompetitionInfoDetail.vue'),
+      component: () =>
+        import(
+          '@/views/studentInformationManagement/competitionInformation/CompetitionInfoDetail.vue'
+        ),
       meta: {
         // affix: true,
         hideMenu: true,
@@ -87,6 +93,19 @@ const studentInformationManagement: AppRouteModule = {
       meta: {
         // affix: true,
         title: t('studentInformationManagement.programmingRating.programmingRating'),
+      },
+    },
+    {
+      path: 'ProgramRatingDetail/:id',
+      name: 'ProgramRatingDetail',
+      component: () =>
+        import(
+          '@/views/studentInformationManagement/programmingRating/ProgramRatingDetailInfo.vue'
+        ),
+      meta: {
+        // affix: true,
+        hideMenu: true,
+        title: t('studentInformationManagement.ProgramRatingDetail.ProgramRatingDetail'),
       },
     },
   ],

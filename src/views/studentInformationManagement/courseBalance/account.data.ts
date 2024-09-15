@@ -1,6 +1,9 @@
-import { getAllRoleList, isAccountExist } from '@/api/demo/system';
 import { BasicColumn, FormSchema } from '@/components/Table';
-import { AccountListItem } from '@/api/demo/model/systemModel';
+import {
+  queryValidateStudentName,
+  queryValidateStudentNumber,
+} from '@/views/studentInformationManagement/studentValidate';
+import { getAllCourseInfoList } from '@/api/courseInformationManagement/courseInformationManagement';
 
 export const columns: BasicColumn[] = [
   {
@@ -47,21 +50,43 @@ export const columns: BasicColumn[] = [
 
 export const searchFormSchema: FormSchema[] = [
   {
-    field: 'studentName',
-    label: '学生姓名',
-    component: 'Input',
-    colProps: { span: 6 },
-  },
-  {
     field: 'studentNumber',
     label: '学号',
     component: 'Input',
     colProps: { span: 6 },
+    rules: [
+      {
+        trigger: 'blur',
+        validator: queryValidateStudentNumber(),
+      },
+    ],
+  },
+  {
+    field: 'studentName',
+    label: '姓名',
+    component: 'Input',
+    colProps: { span: 6 },
+    rules: [
+      {
+        trigger: 'blur',
+        validator: queryValidateStudentName(),
+      },
+    ],
   },
   {
     field: 'courseName',
     label: '课程名称',
-    component: 'Input',
+    component: 'ApiSelect',
+    // resultField: ''
+    componentProps: {
+      api: getAllCourseInfoList,
+      // api: getAllRoleList,
+      // --todolist--  更改对应字段
+      labelField: 'courseName',
+      valueField: 'courseId',
+      // labelField: 'roleName',
+      // valueField: 'roleValue',
+    },
     colProps: { span: 6 },
   },
 ];
