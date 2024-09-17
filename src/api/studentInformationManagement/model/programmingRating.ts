@@ -1,15 +1,14 @@
 export type QueryProgramRateParams = {
   studentNumber: string;
-  studentName: string;
+  studentId: number;
 };
 
 export type AddProgramRateParams = {
-  studentId: string;
-  studentPhone: string;
+  studentId: number;
   programRate: string;
-  studentNotes: string | null;
+  programNotes: string | null;
 };
 
 export type UpdateProgramRateParams = AddProgramRateParams & {
-  programRateId: string;
+  programRateId: number;
 };

@@ -99,6 +99,12 @@ export const searchFormSchema: FormSchema[] = [
 // 比赛预报名表单
 export const accountFormSchema: FormSchema[] = [
   {
+    label: '比赛预报名ID',
+    field: 'competitionRegisterId',
+    component: 'Input',
+    ifShow: false,
+  },
+  {
     field: 'competitionId',
     label: '赛事名称',
     component: 'ApiSelect',

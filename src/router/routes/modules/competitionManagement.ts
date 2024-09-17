@@ -2,8 +2,6 @@ import type { AppRouteModule } from '@/router/types';
 
 import { LAYOUT } from '@/router/constant';
 import { t } from '@/hooks/web/useI18n';
-import { defineAsyncComponent } from 'vue';
-import { ExceptionEnum } from '@/enums/exceptionEnum';
 
 const ExceptionPage = () => import('@/views/sys/exception/Exception.vue');
 

@@ -1,26 +1,38 @@
 <template>
   <BasicModal v-bind="$attrs" @register="registerModal" :title="getTitle" @ok="handleSubmit">
-    <BasicForm @register="registerForm" />
+    <BasicForm @register="registerForm">
+      <template #studentSearch="{ model, field }">
+        <ApiSelect
+          :api="getSameStudent"
+          showSearch
+          placeholder="请选择学生"
+          v-model:value="model[field]"
+          :filterOption="false"
+          labelField="studentLabel"
+          valueField="studentId"
+          :params="searchParams"
+          @search="debounceOptionsFn"
+        />
+      </template>
+    </BasicForm>
   </BasicModal>
 </template>
 <script lang="ts" setup>
   import { ref, computed, unref } from 'vue';
   import { BasicModal, useModalInner } from '@/components/Modal';
-  import { BasicForm, useForm } from '@/components/Form';
+  import { ApiSelect, BasicForm, useForm } from '@/components/Form';
   import { accountFormSchema } from './account.data';
-  import { getDeptList } from '@/api/demo/system';
-  import {
-    AddStudentInfoParams,
-    UpdateStudentInfoParams,
-  } from '@/api/studentInformationManagement/model/basicInfo';
   import {
     addCompetitionInfo,
-    addStudent, updateCompetitionInfo,
-    updateStudent
-  } from "@/api/studentInformationManagement/studentInformationManagement";
+    getSameStudent,
+    updateCompetitionInfo,
+  } from '@/api/studentInformationManagement/studentInformationManagement';
   import {
-    AddCompetitionInfoParams, UpdateCompetitionInfoParams
-  } from "@/api/studentInformationManagement/model/competitionInfo";
+    AddCompetitionInfoParams,
+    UpdateCompetitionInfoParams,
+  } from '@/api/studentInformationManagement/model/competitionInfo';
+  import { useDebounceFn } from '@vueuse/core';
+  import type { Recordable } from '@vben/types';
 
   defineOptions({ name: 'AccountModal' });
 
@@ -28,6 +40,12 @@
 
   const isUpdate = ref(true);
   const rowId = ref('');
+
+  const debounceOptionsFn = useDebounceFn(onSearch, 300);
+  const keyword = ref<string>('');
+  const searchParams = computed<Recordable<string>>(() => {
+    return { studentName: unref(keyword) };
+  });
 
   const [registerForm, { setFieldsValue, updateSchema, resetFields, validate }] = useForm({
     labelWidth: 100,
@@ -38,6 +56,10 @@
       span: 23,
     },
   });
+
+  function onSearch(value: string) {
+    keyword.value = value;
+  }
 
   const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
     resetFields();
@@ -51,21 +73,21 @@
       });
     }
 
-    updateSchema([
-      // {
-      //   field: 'studentNumber',
-      //   ifShow: unref(isUpdate),
-      //   componentProps: {
-      //     disabled: unref(isUpdate),
-      //   },
-      // },
-      {
-        field: 'studentName',
-        componentProps: {
-          disabled: unref(isUpdate),
-        },
-      },
-    ]);
+    // updateSchema([
+    //   // {
+    //   //   field: 'studentNumber',
+    //   //   ifShow: unref(isUpdate),
+    //   //   componentProps: {
+    //   //     disabled: unref(isUpdate),
+    //   //   },
+    //   // },
+    //   {
+    //     field: 'studentName',
+    //     componentProps: {
+    //       disabled: unref(isUpdate),
+    //     },
+    //   },
+    // ]);
   });
 
   const getTitle = computed(() => (!unref(isUpdate) ? '新增信息' : '编辑信息'));
@@ -82,8 +104,8 @@
         await addCompetitionInfo(addParams);
       } else {
         const updateParams: UpdateCompetitionInfoParams = { ...values };
+        // console.log('updateParams is :', updateParams);
         await updateCompetitionInfo(updateParams);
-        console.log('updateParams is :', updateParams);
       }
       console.log(values);
       closeModal();

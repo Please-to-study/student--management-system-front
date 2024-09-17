@@ -5,10 +5,11 @@
         <ApiSelect
           :api="getSameStudent"
           showSearch
+          allowClear
           placeholder="请选择学生"
           v-model:value="studentId"
           :filterOption="false"
-          labelField="studentName"
+          labelField="studentLabel"
           valueField="studentId"
           :params="searchParams"
           @search="debounceOptionsFn"
@@ -61,7 +62,7 @@
   import { columns, searchFormSchema } from './account.data';
   import { useGo } from '@/hooks/web/usePage';
   import { useMessage } from '@/hooks/web/useMessage';
-  import { isUndefined } from '@/utils/is';
+  import { isNull, isUndefined } from '@/utils/is';
   import {
     deleteCompetitionRegister,
     getCompetitionRegisterList,
@@ -79,7 +80,7 @@
   const searchInfo = reactive<Recordable>({});
   const studentId = ref<string>('');
 
-  const [registerTable, { reload, updateTableDataRecord }] = useTable({
+  const [registerTable, { reload }] = useTable({
     title: '比赛预报名列表',
     api: getCompetitionRegisterList,
     searchInfo: {
@@ -93,6 +94,7 @@
       labelWidth: 120,
       schemas: searchFormSchema,
       autoSubmitOnEnter: true,
+      resetFunc: customResetFunc,
     },
     useSearchForm: true,
     showTableSetting: true,
@@ -106,10 +108,13 @@
       if (studentNumberFlag) {
         info.studentNumber = '';
       }
-      const studentIdFlag = isUndefined(info.studentId);
+      const studentIdFlag = isNull(studentId.value);
       if (studentIdFlag) {
         info.studentId = -1;
+      } else {
+        info.studentId = studentId.value;
       }
+      // console.log('info is ', info);
       return info;
     },
     actionColumn: {
@@ -119,6 +124,10 @@
       // slots: { customRender: 'action' },
     },
   });
+
+  async function customResetFunc() {
+    studentId.value = '';
+  }
 
   const keyword = ref<string>('');
   const searchParams = computed<Recordable<string>>(() => {
@@ -145,7 +154,7 @@
   }
 
   function handleDelete(record: Recordable) {
-    deleteCompetitionRegister(record.deleteCompetitionRegister);
+    deleteCompetitionRegister(record.competitionRegisterId);
     reload();
     console.log(record);
   }
@@ -154,8 +163,8 @@
     if (isUpdate) {
       // 演示不刷新表格直接更新内部数据。
       // 注意：updateTableDataRecord要求表格的rowKey属性为string并且存在于每一行的record的keys中
-      const result = updateTableDataRecord(values.id, values);
-      console.log(result);
+      // const result = updateTableDataRecord(values.competitionRegisterId, values);
+      reload();
     } else {
       reload();
     }

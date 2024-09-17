@@ -1,33 +1,57 @@
 import { BasicColumn, FormSchema } from '@/components/Table';
-import {
-  queryValidateStudentName,
-  queryValidateStudentNumber,
-  validateStudentPhone,
-} from '@/views/studentInformationManagement/studentValidate';
-import { ref, unref } from 'vue';
-import { getSameStudent } from '@/api/studentInformationManagement/studentInformationManagement';
+import { queryValidateStudentNumber } from '@/views/studentInformationManagement/studentValidate';
 import { DescItem } from '@/components/Description';
 
+const genderMap = new Map([
+  ['1', '男'],
+  ['2', '女'],
+]);
+
 export const columns: BasicColumn[] = [
+  {
+    title: '学生ID',
+    dataIndex: 'studentId',
+    width: 120,
+    ifShow: false,
+  },
+  {
+    title: '学生姓名',
+    dataIndex: 'studentName',
+    width: 120,
+  },
+  {
+    title: '性别',
+    dataIndex: 'studentGender',
+    customRender: ({ value }) => {
+      return genderMap.get(value);
+    },
+    width: 80,
+  },
   {
     title: '学号',
     dataIndex: 'studentNumber',
     width: 120,
   },
   {
-    title: '学生姓名',
-    dataIndex: 'studentName',
-    width: 80,
-  },
-  {
-    title: '电话',
-    dataIndex: 'studentPhone',
+    title: 'OJ账号',
+    dataIndex: 'studentAccount',
     width: 120,
   },
+
   {
     title: '等级',
     dataIndex: 'programRate',
     width: 200,
+  },
+  {
+    title: '当前年级',
+    dataIndex: 'studentCurrentGrade',
+    width: 120,
+  },
+  {
+    title: '当前学校',
+    dataIndex: 'studentSchool',
+    width: 140,
   },
   {
     title: '备注',
@@ -50,55 +74,28 @@ export const searchFormSchema: FormSchema[] = [
     ],
   },
   {
-    field: 'studentName',
-    label: '姓名',
-    component: 'Input',
-    colProps: { span: 6 },
-    rules: [
-      {
-        trigger: 'blur',
-        validator: queryValidateStudentName(),
-      },
-    ],
+    field: 'studentId',
+    label: '学生姓名',
+    slot: 'custom',
+    colProps: {
+      xl: 6,
+    },
   },
 ];
 
 // 添加学生账户表单
 export const accountFormSchema: FormSchema[] = [
   {
-    field: 'studentName',
-    component: 'Select',
-    label: '学生姓名',
-    componentProps: ({ formModel, formActionType }) => {
-      const studentOptions = ref<any[]>([]);
-      return {
-        // --todolist-- getSameStudent获取数据
-        options: unref(studentOptions),
-        showSearch: true,
-        placeholder: '请选择学生',
-        onSearch: async (value) => {
-          console.log('search value: ', value);
-          const { result } = await getSameStudent(value);
-          studentOptions.value = result.items;
-        },
-      };
-    },
-    required: true,
+    label: '编程能力评级ID',
+    field: 'programRateId',
+    component: 'Input',
+    ifShow: false,
   },
   {
-    field: 'studentPhone',
-    label: '电话',
-    component: 'Input',
-    rules: [
-      {
-        required: true,
-        message: '请输入电话',
-      },
-      {
-        trigger: 'blur',
-        validator: validateStudentPhone(),
-      },
-    ],
+    label: '参赛学生',
+    field: 'studentId',
+    required: true,
+    slot: 'studentSearch',
   },
   {
     label: '等级',

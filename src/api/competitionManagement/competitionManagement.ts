@@ -88,7 +88,12 @@ export const getCompetitionRegisterList = (
     studentNumber: '',
     studentId: -1,
   },
-) => defHttp.get<CommonFetchResult>({ url: Api.QueryCompetitionRegisterList, params });
+) => {
+  if (params.studentId?.length == 0) {
+    params.studentId = -1;
+  }
+  return defHttp.get<CommonFetchResult>({ url: Api.QueryCompetitionRegisterList, params });
+};
 
 export const deleteCompetitionRegister = (competitionRegisterId: number) =>
   defHttp.post({ url: Api.DeleteCompetitionRegister, params: { competitionRegisterId } });

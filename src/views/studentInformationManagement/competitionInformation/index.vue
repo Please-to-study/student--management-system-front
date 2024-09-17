@@ -1,10 +1,22 @@
 <template>
   <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
-    <!--    <DeptTree class="w-1/4 xl:w-1/5" @select="handleSelect" />-->
     <BasicTable @register="registerTable" class="" :searchInfo="searchInfo">
+      <template #form-custom>
+        <ApiSelect
+          :api="getSameStudent"
+          showSearch
+          allowClear
+          placeholder="请选择学生"
+          v-model:value="studentId"
+          :filterOption="false"
+          labelField="studentLabel"
+          valueField="studentId"
+          :params="searchParams"
+          @search="debounceOptionsFn"
+        />
+      </template>
       <template #toolbar>
         <a-button type="primary" @click="handleCreate">新增参赛信息</a-button>
-        <!--        <a-button type="primary" @click="handleExport">导出账号</a-button>-->
       </template>
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'action'">
@@ -39,36 +51,37 @@
   </PageWrapper>
 </template>
 <script lang="ts" setup>
-  import { reactive } from 'vue';
+  import { computed, reactive, ref, unref } from 'vue';
 
   import { BasicTable, useTable, TableAction } from '@/components/Table';
-  import { getAccountList } from '@/api/demo/system';
   import { PageWrapper } from '@/components/Page';
 
   import { useModal } from '@/components/Modal';
   import AccountModal from './AccountModal.vue';
 
   import { columns, searchFormSchema } from './account.data';
+  import {
+    getSameStudent,
+    deleteCompetitionInfo,
+    getCompetitionInfoList,
+  } from '@/api/studentInformationManagement/studentInformationManagement';
+  import { useDebounceFn } from '@vueuse/core';
   import { useGo } from '@/hooks/web/usePage';
   import { useMessage } from '@/hooks/web/useMessage';
-  import {
-    deleteCompetitionInfo,
-    getAllCompetitionInfoList,
-    getCompetitionInfoList,
-    getSpecialCompetitionInfoList,
-  } from '@/api/studentInformationManagement/studentInformationManagement';
-  import { isUndefined } from '@/utils/is';
+  import {isNull, isUndefined} from '@/utils/is';
+  import { ApiSelect } from '@/components/Form';
+  import type { Recordable } from '@vben/types';
 
   defineOptions({ name: 'AccountManagement' });
 
   const { createMessage } = useMessage();
   const go = useGo();
+  let debounceOptionsFn = useDebounceFn(onSearch, 300);
   const [registerModal, { openModal }] = useModal();
   const searchInfo = reactive<Recordable>({});
+  const studentId = ref<string>('');
   const [registerTable, { reload, updateTableDataRecord }] = useTable({
     title: '参赛信息列表',
-    // --todolist-- 获取学生列表数据请求函数，统一在/src/api中进行封装即可
-    // getAllCompetitionInfoList  getAccountList
     api: getCompetitionInfoList,
     rowKey: 'competitionInfoId',
     searchInfo: {
@@ -81,6 +94,7 @@
       labelWidth: 120,
       schemas: searchFormSchema,
       autoSubmitOnEnter: true,
+      resetFunc: customResetFunc,
     },
     useSearchForm: true,
     showTableSetting: true,
@@ -90,9 +104,11 @@
       if (studentNumberFlag) {
         info.studentNumber = '';
       }
-      const studentNameFlag = isUndefined(info.studentName) || info.studentName?.length === 0;
-      if (studentNameFlag) {
-        info.studentName = '';
+      const studentIdFlag = isNull(studentId.value);
+      if (studentIdFlag) {
+        info.studentId = -1;
+      } else {
+        info.studentId = studentId.value;
       }
       const competitionIdFlag = isUndefined(info.competitionId);
       if (competitionIdFlag) {
@@ -107,6 +123,19 @@
     },
   });
 
+  async function customResetFunc() {
+    studentId.value = '';
+  }
+
+  const keyword = ref<string>('');
+  const searchParams = computed<Recordable<string>>(() => {
+    return { studentName: unref(keyword) };
+  });
+
+  function onSearch(value: string) {
+    keyword.value = value;
+  }
+
   function handleCreate() {
     openModal(true, {
       isUpdate: false,
@@ -114,7 +143,7 @@
   }
 
   function handleEdit(record: Recordable) {
-    console.log(record);
+    // console.log(record);
     openModal(true, {
       record,
       isUpdate: true,
@@ -131,8 +160,8 @@
     if (isUpdate) {
       // 演示不刷新表格直接更新内部数据。
       // 注意：updateTableDataRecord要求表格的rowKey属性为string并且存在于每一行的record的keys中
-      const result = updateTableDataRecord(values.id, values);
-      console.log(result);
+      // const result = updateTableDataRecord(values.id, values);
+      reload();
     } else {
       reload();
     }

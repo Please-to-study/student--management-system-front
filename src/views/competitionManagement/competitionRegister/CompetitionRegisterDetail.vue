@@ -1,6 +1,12 @@
 <template>
   <PageWrapper
-    :title="`预报名：` + competitionRegisterInfo?.competitionName + `的详细信息`"
+    :title="
+      `预报名：` +
+      competitionRegisterInfo?.studentName +
+      `的` +
+      competitionRegisterInfo?.competitionName +
+      `赛事的详细信息`
+    "
     contentBackground
     @back="goBack"
   >
@@ -38,7 +44,7 @@
   const { setTitle } = useTabs();
   // 此处可以得到用户ID
   // debugger;
-  const competitionRegisterId = ref(route.params?.competitionRegisterId);
+  const competitionRegisterId = ref(route.params?.id);
 
   const getCompetitionRegister = async (id: number) => {
     const result = await getCompetitionRegisterById(id);

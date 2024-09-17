@@ -1,16 +1,9 @@
 export type AddCompetitionInfoParams = {
-  // studentNumber: string;
   studentId: number;
-  // studentPhone: string;
   competitionId: number;
   competitionHonor: string;
-  competitionScore: string;
-  competitionLanguage: string;
-  competitionDate: string;
-  competitionGrade: string | null;
-  competitionStyle: string | null;
-  competitionHost: string | null;
-  competitionRegister: string | null;
+  competitionScore: number;
+  notes: string;
 };
 
 export type UpdateCompetitionInfoParams = AddCompetitionInfoParams & {

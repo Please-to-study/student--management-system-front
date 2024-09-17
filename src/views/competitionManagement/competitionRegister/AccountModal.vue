@@ -67,23 +67,11 @@
     isUpdate.value = !!data?.isUpdate;
 
     if (unref(isUpdate)) {
-      rowId.value = data.record.id;
+      rowId.value = data.record.competitionRegisterId;
       setFieldsValue({
         ...data.record,
       });
     }
-
-    // const treeData = await getDeptList();
-    // updateSchema([
-    //   {
-    //     field: 'pwd',
-    //     show: !unref(isUpdate),
-    //   },
-    //   {
-    //     field: 'dept',
-    //     componentProps: { treeData },
-    //   },
-    // ]);
   });
 
   const getTitle = computed(() => (!unref(isUpdate) ? '新增预报名' : '编辑预报名'));
@@ -100,6 +88,7 @@
         await addCompetitionRegister(addParams);
       } else {
         // todolist 检查values的值是否满足参数要求
+        // debugger;
         const updateParams: UpdateCompetitionRegisterParams = { ...values };
         await updateCompetitionRegister(updateParams);
         // console.log('updateParams is :', updateParams);

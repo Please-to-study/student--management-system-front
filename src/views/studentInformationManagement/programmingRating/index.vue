@@ -1,6 +1,20 @@
 <template>
   <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
     <BasicTable @register="registerTable" class="" :searchInfo="searchInfo">
+      <template #form-custom>
+        <ApiSelect
+          :api="getSameStudent"
+          showSearch
+          allowClear
+          placeholder="请选择学生"
+          v-model:value="studentId"
+          :filterOption="false"
+          labelField="studentLabel"
+          valueField="studentId"
+          :params="searchParams"
+          @search="debounceOptionsFn"
+        />
+      </template>
       <template #toolbar>
         <a-button type="primary" @click="handleCreate">新增信息</a-button>
       </template>
@@ -37,10 +51,9 @@
   </PageWrapper>
 </template>
 <script lang="ts" setup>
-  import { reactive } from 'vue';
+  import { computed, reactive, ref, unref } from 'vue';
 
   import { BasicTable, useTable, TableAction } from '@/components/Table';
-  import { getAccountList } from '@/api/demo/system';
   import { PageWrapper } from '@/components/Page';
 
   import { useModal } from '@/components/Modal';
@@ -49,45 +62,49 @@
   import { columns, searchFormSchema } from './account.data';
   import { useGo } from '@/hooks/web/usePage';
   import { useMessage } from '@/hooks/web/useMessage';
-  import { isUndefined } from '@/utils/is';
+  import {isNull, isUndefined} from '@/utils/is';
   import {
-    deleteProgramRateInfo,
-    getAllProgramRateInfoList,
-    getSpecialProgramRateInfoList,
+    deleteProgramRate,
+    getProgramRateInfoList,
+    getSameStudent,
   } from '@/api/studentInformationManagement/studentInformationManagement';
+  import { ApiSelect } from '@/components/Form';
+  import { useDebounceFn } from '@vueuse/core';
+  import type { Recordable } from '@vben/types';
 
   defineOptions({ name: 'AccountManagement' });
 
   const { createMessage } = useMessage();
   const go = useGo();
+  const debounceOptionsFn = useDebounceFn(onSearch, 300);
   const [registerModal, { openModal }] = useModal();
   const searchInfo = reactive<Recordable>({});
+  const studentId = ref<string>('');
   const [registerTable, { reload, updateTableDataRecord, getSearchInfo }] = useTable({
     title: '编程评级列表',
-    // --todolist-- 获取学生列表数据请求函数，统一在/src/api中进行封装即可
-    // getAllProgramRateInfoList  getAccountList
-    api: getAllProgramRateInfoList,
-    rowKey: 'id',
+    api: getProgramRateInfoList,
+    rowKey: 'programRateId',
     columns,
     formConfig: {
       labelWidth: 120,
       schemas: searchFormSchema,
       autoSubmitOnEnter: true,
+      resetFunc: customResetFunc,
     },
     useSearchForm: true,
     showTableSetting: true,
     bordered: true,
     handleSearchInfoFn(info) {
       const studentNumberFlag = isUndefined(info.studentNumber) || info.studentNumber?.length === 0;
-      const studentNameFlag = isUndefined(info.studentName) || info.studentName?.length === 0;
-      const isEmpty = studentNumberFlag && studentNameFlag;
-      if (isEmpty) {
-        createMessage.error('请至少输入一个查询条件');
-        return;
+      if (studentNumberFlag) {
+        info.studentNumber = '';
       }
-      // --todolist--
-      getSpecialProgramRateInfoList(info);
-      console.log('handleSearchInfoFn', info);
+      const studentIdFlag = isNull(studentId.value);
+      if (studentIdFlag) {
+        info.studentId = -1;
+      } else {
+        info.studentId = studentId.value;
+      }
       return info;
     },
     actionColumn: {
@@ -97,6 +114,19 @@
       // slots: { customRender: 'action' },
     },
   });
+
+  async function customResetFunc() {
+    studentId.value = '';
+  }
+
+  const keyword = ref<string>('');
+  const searchParams = computed<Recordable<string>>(() => {
+    return { studentName: unref(keyword) };
+  });
+
+  function onSearch(value: string) {
+    keyword.value = value;
+  }
 
   function handleCreate() {
     openModal(true, {
@@ -113,7 +143,7 @@
   }
 
   function handleDelete(record: Recordable) {
-    deleteProgramRateInfo(record.programRateId);
+    deleteProgramRate(record.programRateId);
     reload();
     console.log(record);
   }

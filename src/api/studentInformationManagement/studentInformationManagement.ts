@@ -18,6 +18,7 @@ import {
   UpdateProgramRateParams,
 } from '@/api/studentInformationManagement/model/programmingRating';
 import { BasicPageParams, CommonFetchResult } from '@/api/model/baseModel';
+import { QueryCompetitionRegisterParams } from '@/api/competitionManagement/model/competitionRegister';
 
 enum Api {
   // 基本信息
@@ -37,18 +38,17 @@ enum Api {
   AllCourseBalanceList = '/studentInfo/getAllCourseBalance',
   SpecialCourseBalanceList = '/studentInfo/getSpecialCourseBalance',
   // 参赛信息api
-  AddCompetitionInfo = '/studentInfo/addCompetitionInfo',
-  UpdateCompetitionInfo = '/studentInfo/updateCompetitionInfo',
-  DeleteCompetitionInfo = '/studentInfo/deleteCompetitionInfo',
+  AddCompetitionInfo = '/competitionInfo/addCompetitionInfo',
+  UpdateCompetitionInfo = '/competitionInfo/updateCompetitionInfo',
+  DeleteCompetitionInfo = '/competitionInfo/deleteCompetitionInfo',
   CompetitionInfoList = '/competitionInfo/getCompetitionInfo',
-  SpecialCompetitionInfoList = '/studentInfo/getSpecialCompetitionInfo',
-  CompetitionInfoById = '/studentInfo/getCompetitionInfoById',
+  CompetitionInfoById = '/competitionInfo/getCompetitionInfoById',
   // 编程能力评级
-  AddProgramRateInfo = '/studentInfo/addProgramRateInfo',
-  UpdateProgramRateInfo = '/studentInfo/updateProgramRateInfo',
-  DeleteProgramRateInfo = '/studentInfo/deleteProgramRateInfo',
-  AllProgramRateInfoList = '/studentInfo/getAllProgramRateInfo',
-  SpecialProgramRateInfoList = '/studentInfo/getSpecialProgramRateInfo',
+  AddProgramRate = '/studentInfo/addProgramRate',
+  UpdateProgramRate = '/studentInfo/updateProgramRate',
+  DeleteProgramRate = '/studentInfo/deleteProgramRate',
+  ProgramRateInfoList = '/studentInfo/getProgramRateInfo',
+  ProgramRateById = '/studentInfo/getProgramRateById',
 }
 
 // 基本信息功能模块api list
@@ -67,9 +67,6 @@ export const getAllStudentBasicInfoList = (params: BasicPageParams) =>
 export const getSpecialStudentBasicInfoList = (
   params: QueryStudentInfoParams = { studentNumber: '', studentName: '', studentPhone: '' },
 ) => defHttp.get<CommonFetchResult>({ url: Api.SpecialBasicInfoList, params });
-
-// export const getSameStudent = (studentName: string) =>
-//   defHttp.get({ url: Api.SameStudentList, params: { studentName } });
 
 export const getSameStudent = (params: QuerySameStudentInfoParams) =>
   defHttp.get({ url: Api.SameStudentList, params });
@@ -109,32 +106,53 @@ export const addCompetitionInfo = (params: AddCompetitionInfoParams) =>
 export const updateCompetitionInfo = (params: UpdateCompetitionInfoParams) =>
   defHttp.post({ url: Api.UpdateCompetitionInfo, params });
 
-export const deleteCompetitionInfo = (competitionInfoId: string) =>
+export const deleteCompetitionInfo = (competitionInfoId: number) =>
   defHttp.post({ url: Api.DeleteCompetitionInfo, params: { competitionInfoId } });
 
 export const getCompetitionInfoList = (
-  params: QueryCompetitionInfoParams = { studentNumber: '', studentId: -1, competitionId: -1 },
-) => defHttp.get<CommonFetchResult>({ url: Api.CompetitionInfoList, params });
+  params: QueryCompetitionInfoParams = {
+    competitionId: -1,
+    studentNumber: '',
+    studentId: -1,
+  },
+) => {
+  if (params.studentId?.length == 0) {
+    params.studentId = -1;
+  }
+  return defHttp.get<CommonFetchResult>({ url: Api.CompetitionInfoList, params });
+};
 
 // export const getSpecialCompetitionInfoList = (
 //   params: QueryCompetitionInfoParams = { studentNumber: '', studentName: '', competitionId: '' },
 // ) => defHttp.get<CommonFetchResult>({ url: Api.SpecialCompetitionInfoList, params });
 
-export const getCompetitionInfoById = (competitionInfoId: string) =>
+export const getCompetitionInfoById = (competitionInfoId: number) =>
   defHttp.get<CommonFetchResult>({ url: Api.CompetitionInfoById, params: { competitionInfoId } });
 
 // 编程能力评级
-export const addProgramRateInfo = (params: AddProgramRateParams) =>
-  defHttp.post({ url: Api.AddProgramRateInfo, params });
+export const addProgramRate = (params: AddProgramRateParams) =>
+  defHttp.post({ url: Api.AddProgramRate, params });
 
-export const updateProgramRateInfo = (params: UpdateProgramRateParams) =>
-  defHttp.post({ url: Api.UpdateProgramRateInfo, params });
+export const updateProgramRate = (params: UpdateProgramRateParams) =>
+  defHttp.post({ url: Api.UpdateProgramRate, params });
 
-export const deleteProgramRateInfo = (programRateId: string) =>
-  defHttp.post({ url: Api.DeleteProgramRateInfo, params: { programRateId } });
+export const deleteProgramRate = (programRateId: string) =>
+  defHttp.post({ url: Api.DeleteProgramRate, params: { programRateId } });
 
-export const getAllProgramRateInfoList = (params: BasicPageParams) =>
-  defHttp.get<CommonFetchResult>({ url: Api.AllProgramRateInfoList, params });
+export const getProgramRateInfoList = (
+  params: QueryProgramRateParams = {
+    studentNumber: '',
+    studentId: -1,
+  },
+) => {
+  if (params.studentId?.length == 0) {
+    params.studentId = -1;
+  }
+  return defHttp.get<CommonFetchResult>({ url: Api.ProgramRateInfoList, params });
+};
 
-export const getSpecialProgramRateInfoList = (params: QueryProgramRateParams) =>
-  defHttp.get<CommonFetchResult>({ url: Api.SpecialProgramRateInfoList, params });
+export const getProgramRateById = (programRateId: number) =>
+  defHttp.get<CommonFetchResult>({
+    url: Api.ProgramRateById,
+    params: { programRateId },
+  });
