@@ -1,5 +1,6 @@
 import { BasicColumn, FormSchema } from '@/components/Table';
 import { DescItem } from '@/components/Description';
+import { getCompetitionStyleInfoList, getCourseCategoryInfoList } from "@/api/configManagement";
 
 export const weekend = [
   {
@@ -47,13 +48,23 @@ export const columns: BasicColumn[] = [
     ifShow: false,
   },
   {
-    title: '比赛名称',
+    title: '赛事名称',
     dataIndex: 'competitionName',
     width: 120,
   },
   {
     title: '比赛类型',
-    dataIndex: 'competitionStyle',
+    dataIndex: 'competitionStyleName',
+    width: 120,
+  },
+  {
+    title: '比赛组别',
+    dataIndex: 'competitionGroup',
+    width: 120,
+  },
+  {
+    title: '比赛年度',
+    dataIndex: 'competitionYear',
     width: 120,
   },
   {
@@ -95,18 +106,22 @@ export const columns: BasicColumn[] = [
 
 export const searchFormSchema: FormSchema[] = [
   {
-    // 是否应该模糊查询
     field: 'competitionName',
-    label: '比赛名称',
+    label: '赛事名称',
     component: 'Input',
-    colProps: { span: 8 },
+    colProps: { span: 6 },
   },
   {
-    // 是否应该模糊查询
-    field: 'competitionHost',
-    label: '主办方',
+    field: 'competitionLanguage',
+    label: '比赛语言',
     component: 'Input',
-    colProps: { span: 8 },
+    colProps: { span: 6 },
+  },
+  {
+    field: 'competitionYear',
+    label: '年度',
+    component: 'Input',
+    colProps: { span: 6 },
   },
 ];
 
@@ -126,14 +141,32 @@ export const accountFormSchema: FormSchema[] = [
   },
   {
     label: '比赛类型',
-    field: 'competitionStyle',
-    // 是否要维护一个新表 从而使类型转换为Select
+    field: 'competitionStyleId',
+    component: 'ApiSelect',
+    componentProps: {
+      allowClear: true,
+      api: getCompetitionStyleInfoList,
+      params: {},
+      resultField: 'items',
+      labelField: 'competitionStyleName',
+      valueField: 'competitionStyleId',
+    },
+  },
+  {
+    label: '比赛组别',
+    field: 'competitionGroup',
     component: 'Input',
+    required: true,
+  },
+  {
+    label: '比赛年度',
+    field: 'competitionYear',
+    component: 'Input',
+    required: true,
   },
   {
     label: '比赛费用',
     field: 'competitionCost',
-    // 应该用int 不应该用string
     component: 'InputNumber',
     required: true,
   },
@@ -156,19 +189,6 @@ export const accountFormSchema: FormSchema[] = [
       style: { width: '100%' },
       format: 'YYYY-MM-DD',
     },
-    // render: ({ model, field }) => {
-    //   console.log('competitionDate is ', model[field]);
-    //   if (isUndefined(model[field])) {
-    //     return '';
-    //   }
-    //   return h(DatePicker, {
-    //     placeholder: '请选择日期',
-    //     value: model[field],
-    //     onChange: (e) => {
-    //       model[field] = e.target.value;
-    //     },
-    //   });
-    // },
     required: true,
   },
   {
@@ -195,12 +215,20 @@ export const competitionSchema: DescItem[] = [
     field: 'competitionId',
   },
   {
-    label: '比赛名称',
+    label: '赛事名称',
     field: 'competitionName',
   },
   {
     label: '比赛类型',
-    field: 'competitionStyle',
+    field: 'competitionStyleName',
+  },
+  {
+    label: '比赛组别',
+    field: 'competitionGroup',
+  },
+  {
+    label: '比赛年度',
+    field: 'competitionYear',
   },
   {
     label: '比赛费用',

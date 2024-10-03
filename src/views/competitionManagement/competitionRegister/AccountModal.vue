@@ -8,7 +8,7 @@
           placeholder="请选择学生"
           v-model:value="model[field]"
           :filterOption="false"
-          labelField="studentName"
+          labelField="studentLabel"
           valueField="studentId"
           :params="searchParams"
           @search="debounceOptionsFn"
@@ -80,21 +80,16 @@
     try {
       const values = await validate();
       setModalProps({ confirmLoading: true });
-      // TODO custom api  新增学生信息功能function
       // isUpdate为false ---> 创建账号  isUpdate为true ---> 修改账号信息
       if (!unref(isUpdate)) {
         const addParams: AddCompetitionRegisterParams = { ...values };
         // debugger;
         await addCompetitionRegister(addParams);
       } else {
-        // todolist 检查values的值是否满足参数要求
-        // debugger;
         const updateParams: UpdateCompetitionRegisterParams = { ...values };
         await updateCompetitionRegister(updateParams);
         // console.log('updateParams is :', updateParams);
       }
-      // eslint-disable-next-line no-debugger
-      // debugger;
       closeModal();
       emit('success', { isUpdate: unref(isUpdate), values: { ...values, id: rowId.value } });
     } finally {

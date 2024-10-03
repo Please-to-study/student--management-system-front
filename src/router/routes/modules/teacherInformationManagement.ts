@@ -10,7 +10,7 @@ const teacherInformationManagement: AppRouteModule = {
   redirect: '/teacherInformationManagement/basicInfo',
   meta: {
     orderNo: 2,
-    icon: 'ion:grid-outline',
+    icon: 'ion:layers-outline',
     title: t('teacherInformationManagement.teacherManagement'),
   },
   children: [

@@ -1,5 +1,5 @@
 import { defHttp } from '@/utils/http/axios';
-import { AddSpendingInfoParams, QuerySpendingInfoParams } from './model/spendingInfo';
+import { AddPayInfoParams, QueryPayInfoParams } from './model/spendingInfo';
 import {
   AddStudentInfoParams,
   QuerySameStudentInfoParams,
@@ -18,7 +18,6 @@ import {
   UpdateProgramRateParams,
 } from '@/api/studentInformationManagement/model/programmingRating';
 import { BasicPageParams, CommonFetchResult } from '@/api/model/baseModel';
-import { QueryCompetitionRegisterParams } from '@/api/competitionManagement/model/competitionRegister';
 
 enum Api {
   // 基本信息
@@ -30,13 +29,11 @@ enum Api {
   SameStudentList = '/studentInfo/getSameStudent',
   StudentById = '/studentInfo/getStudentById',
   // 缴费信息api
-  AddSpending = '/spendingInfo/addSpending',
-  AllSpendingInfoList = '/spendingInfo/getAllSpendingInfo',
-  SpecialSpendingInfoList = '/spendingInfo/getSpecialSpending',
-  SpendingInfoById = '/spendingInfo/getSpendingById',
+  AddPayInfo = '/payInfo/addPayInfo',
+  PayInfoList = '/payInfo/getPayInfo',
+  PayInfoById = '/payInfo/getPayInfoById',
   // 课程结余信息api
-  AllCourseBalanceList = '/studentInfo/getAllCourseBalance',
-  SpecialCourseBalanceList = '/studentInfo/getSpecialCourseBalance',
+  CourseBalanceList = '/studentInfo/getCourseBalance',
   // 参赛信息api
   AddCompetitionInfo = '/competitionInfo/addCompetitionInfo',
   UpdateCompetitionInfo = '/competitionInfo/updateCompetitionInfo',
@@ -47,7 +44,7 @@ enum Api {
   AddProgramRate = '/studentInfo/addProgramRate',
   UpdateProgramRate = '/studentInfo/updateProgramRate',
   DeleteProgramRate = '/studentInfo/deleteProgramRate',
-  ProgramRateInfoList = '/studentInfo/getProgramRateInfo',
+  ProgramRateInfoList = '/studentInfo/getProgramRate',
   ProgramRateById = '/studentInfo/getProgramRateById',
 }
 
@@ -65,7 +62,7 @@ export const getAllStudentBasicInfoList = (params: BasicPageParams) =>
   defHttp.get<CommonFetchResult>({ url: Api.AllBasicInfoList, params });
 
 export const getSpecialStudentBasicInfoList = (
-  params: QueryStudentInfoParams = { studentNumber: '', studentName: '', studentPhone: '' },
+  params: QueryStudentInfoParams = { studentNumber: '', studentName: '', studentSchool: '' },
 ) => defHttp.get<CommonFetchResult>({ url: Api.SpecialBasicInfoList, params });
 
 export const getSameStudent = (params: QuerySameStudentInfoParams) =>
@@ -78,26 +75,35 @@ export const getStudentById = (studentId: number) =>
   });
 
 // 缴费信息功能模块api list
-export const AddSpending = (params: AddSpendingInfoParams) =>
-  defHttp.post({ url: Api.AddSpending, params });
+export const AddPayInfo = (params: AddPayInfoParams) =>
+  defHttp.post({ url: Api.AddPayInfo, params });
 
-export const getAllSpendingInfoList = (params: BasicPageParams) =>
-  defHttp.get<CommonFetchResult>({ url: Api.AllSpendingInfoList, params });
+export const getPayInfoList = (
+  params: QueryPayInfoParams = { studentNumber: '', studentId: -1, courseCategoryId: -1 },
+) => {
+  if (params.studentId?.length == 0) {
+    params.studentId = -1;
+  }
+  if (params.courseCategoryId?.length == 0) {
+    params.courseCategoryId = -1;
+  }
+  return defHttp.get<CommonFetchResult>({ url: Api.PayInfoList, params });
+};
 
-export const getSpecialSpendingInfoList = (
-  params: QuerySpendingInfoParams = { studentNumber: '', studentName: '', courseId: '' },
-) => defHttp.get<CommonFetchResult>({ url: Api.SpecialSpendingInfoList, params });
+export const getPayInfoById = (payInfoId: number) =>
+  defHttp.get<CommonFetchResult>({ url: Api.PayInfoById, params: { payInfoId } });
 
-export const getSpendingInfoById = (payId: string) =>
-  defHttp.get<CommonFetchResult>({ url: Api.SpendingInfoById, params: { payId } });
-
-// 课程结余信息功能模块api
-export const getAllCourseBalanceList = (params: BasicPageParams) =>
-  defHttp.get<CommonFetchResult>({ url: Api.AllCourseBalanceList, params });
-
-export const getSpecialCourseBalanceList = (
-  params: QueryCourseBalanceParams = { studentNumber: '', studentName: '', courseId: '' },
-) => defHttp.get<CommonFetchResult>({ url: Api.SpecialCourseBalanceList, params });
+export const getCourseBalanceList = (
+  params: QueryCourseBalanceParams = { studentNumber: '', studentId: -1, courseId: -1 },
+) => {
+  if (params.studentId?.length == 0) {
+    params.studentId = -1;
+  }
+  if (params.courseId?.length == 0) {
+    params.courseId = -1;
+  }
+  return defHttp.get<CommonFetchResult>({ url: Api.CourseBalanceList, params });
+};
 
 // 参赛信息功能模块api
 export const addCompetitionInfo = (params: AddCompetitionInfoParams) =>
@@ -114,17 +120,18 @@ export const getCompetitionInfoList = (
     competitionId: -1,
     studentNumber: '',
     studentId: -1,
+    competitionGroup: '',
+    competitionYear: '',
   },
 ) => {
   if (params.studentId?.length == 0) {
     params.studentId = -1;
   }
+  if (params.competitionId?.length == 0) {
+    params.competitionId = -1;
+  }
   return defHttp.get<CommonFetchResult>({ url: Api.CompetitionInfoList, params });
 };
-
-// export const getSpecialCompetitionInfoList = (
-//   params: QueryCompetitionInfoParams = { studentNumber: '', studentName: '', competitionId: '' },
-// ) => defHttp.get<CommonFetchResult>({ url: Api.SpecialCompetitionInfoList, params });
 
 export const getCompetitionInfoById = (competitionInfoId: number) =>
   defHttp.get<CommonFetchResult>({ url: Api.CompetitionInfoById, params: { competitionInfoId } });
@@ -136,7 +143,7 @@ export const addProgramRate = (params: AddProgramRateParams) =>
 export const updateProgramRate = (params: UpdateProgramRateParams) =>
   defHttp.post({ url: Api.UpdateProgramRate, params });
 
-export const deleteProgramRate = (programRateId: string) =>
+export const deleteProgramRate = (programRateId: number) =>
   defHttp.post({ url: Api.DeleteProgramRate, params: { programRateId } });
 
 export const getProgramRateInfoList = (

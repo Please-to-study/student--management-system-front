@@ -37,7 +37,6 @@
   import { reactive } from 'vue';
 
   import { BasicTable, useTable, TableAction } from '@/components/Table';
-  import { getAccountList } from '@/api/demo/system';
   import { PageWrapper } from '@/components/Page';
 
   import { useModal } from '@/components/Modal';
@@ -48,8 +47,9 @@
   import { useGo } from '@/hooks/web/usePage';
   import { isUndefined } from '@/utils/is';
   import {
-    getSpecialCourseInfoList
-  } from "@/api/courseInformationManagement/courseInformationManagement";
+    deleteMaterials,
+    getMaterialsInfoList,
+  } from '@/api/courseInformationManagement/courseInformationManagement';
 
   defineOptions({ name: 'AccountManagement' });
 
@@ -59,9 +59,12 @@
   const searchInfo = reactive<Recordable>({});
   const [registerTable, { reload, updateTableDataRecord, getSearchInfo }] = useTable({
     title: '课程作业信息列表',
-    // --todolist--获取学生列表数据请求函数，统一在/src/api中进行封装即可
-    api: getAccountList,
-    rowKey: 'id',
+    api: getMaterialsInfoList,
+    rowKey: 'materialsId',
+    searchInfo: {
+      courseName: '',
+      materialsTitle: '',
+    },
     columns,
     formConfig: {
       labelWidth: 120,
@@ -72,19 +75,16 @@
     showTableSetting: true,
     bordered: true,
     handleSearchInfoFn(info) {
-      // todo查询按钮操作
-      const courseIdFlag = isUndefined(info.courseId) || info.courseId?.length === 0;
+      const courseNameFlag = isUndefined(info.courseName) || info.courseName?.length === 0;
+      if (courseNameFlag) {
+        info.courseName = '';
+      }
       const materialsTitleFlag =
         isUndefined(info.materialsTitle) || info.materialsTitle?.length === 0;
-      const isEmpty = courseIdFlag && materialsTitleFlag;
-      if (isEmpty) {
-        createMessage.error('请至少输入一个查询条件');
-        return;
+      if (materialsTitleFlag) {
+        info.materialsTitle = '';
       }
-      // // --todolist-- 查询按钮操作
-      getSpecialCourseInfoList(info);
-      console.log('handleSearchInfoFn');
-      // return info;
+      return info;
     },
     actionColumn: {
       width: 120,
@@ -103,6 +103,8 @@
   }
 
   function handleDelete(record: Recordable) {
+    deleteMaterials(record.materialsId);
+    reload();
     console.log(record);
   }
 
@@ -110,7 +112,7 @@
     if (isUpdate) {
       // 演示不刷新表格直接更新内部数据。
       // 注意：updateTableDataRecord要求表格的rowKey属性为string并且存在于每一行的record的keys中
-      const result = updateTableDataRecord(values.id, values);
+      const result = updateTableDataRecord(values.materialsId, values);
       console.log(result);
     } else {
       reload();
@@ -119,6 +121,6 @@
 
   function handleView(record: Recordable) {
     // go('/system/account_detail/' + record.id);
-    go('/courseInformationManagement/courseworkInfoDetail/' + record.id);
+    go('/courseInformationManagement/courseworkInfoDetail/' + record.materialsId);
   }
 </script>

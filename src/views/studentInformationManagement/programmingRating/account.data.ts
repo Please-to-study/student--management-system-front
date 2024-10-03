@@ -37,7 +37,11 @@ export const columns: BasicColumn[] = [
     dataIndex: 'studentAccount',
     width: 120,
   },
-
+  {
+    title: '编程语言',
+    dataIndex: 'programLanguage',
+    width: 120,
+  },
   {
     title: '等级',
     dataIndex: 'programRate',
@@ -98,6 +102,12 @@ export const accountFormSchema: FormSchema[] = [
     slot: 'studentSearch',
   },
   {
+    label: '编程语言',
+    field: 'programLanguage',
+    component: 'Input',
+    required: true,
+  },
+  {
     label: '等级',
     field: 'programRate',
     component: 'Input',
@@ -111,21 +121,44 @@ export const accountFormSchema: FormSchema[] = [
 ];
 
 export const programRateSchema: DescItem[] = [
-  {
-    label: '学号',
-    field: 'studentNumber',
-  },
+  // {
+  //   label: '学生ID',
+  //   field: 'studentId',
+  // },
   {
     label: '学生姓名',
     field: 'studentName',
   },
   {
-    label: '电话',
-    field: 'studentPhone',
+    label: '性别',
+    render: (value) => {
+      return genderMap.get(value);
+    },
+    field: 'studentGender',
+  },
+  {
+    label: '学号',
+    field: 'studentNumber',
+  },
+  {
+    label: 'OJ账号',
+    field: 'studentAccount',
+  },
+  {
+    label: '编程语言',
+    field: 'programLanguage',
   },
   {
     label: '等级',
     field: 'programRate',
+  },
+  {
+    label: '当前年级',
+    field: 'studentCurrentGrade',
+  },
+  {
+    label: '当前学校',
+    field: 'studentSchool',
   },
   {
     label: '备注',

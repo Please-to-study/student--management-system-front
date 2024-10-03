@@ -1,5 +1,5 @@
 <template>
-  <PageWrapper :title="spendingInfo?.studentName + `的缴费信息`" contentBackground @back="goBack">
+  <PageWrapper :title="payInfo?.studentName + '（' + payInfo?.studentNumber + '）' + `的缴费信息`" contentBackground @back="goBack">
     <template #extra>
       <!--      <a-button type="primary" danger> 禁用账号 </a-button>-->
       <!--      <a-button type="primary"> 修改密码 </a-button>-->
@@ -7,10 +7,10 @@
     <div class="pt-4 m-4 desc-wrap">
       <Description
         size="middle"
-        title="用户信息"
+        title="缴费信息"
         :bordered="false"
         :column="3"
-        :data="spendingInfo"
+        :data="payInfo"
         :schema="spendingSchema"
       />
       <Divider />
@@ -26,25 +26,29 @@
   import { useGo } from '@/hooks/web/usePage';
   import { useTabs } from '@/hooks/web/useTabs';
   import { Divider } from 'ant-design-vue';
-  import { getSpendingInfoById } from '@/api/studentInformationManagement/studentInformationManagement';
-  import { spendingSchema } from '@/views/studentInformationManagement/spendingInfo/account.data';
+  import { getPayInfoById } from '@/api/studentInformationManagement/studentInformationManagement';
+  import { spendingSchema } from '@/views/studentInformationManagement/payInfo/account.data';
 
   defineOptions({ name: 'SpendingDetail' });
 
   const route = useRoute();
   const go = useGo();
   // 此处可以得到用户ID
-  const payId = ref(route.params?.payId);
-  const { result } = await getSpendingInfoById(unref(payId) as string);
-  const spendingInfo = result?.items[0];
-
+  const payId = ref(route.params?.id);
+  const payInfo = ref();
   const { setTitle } = useTabs();
-  setTitle('缴费详情：' + spendingInfo?.studentName);
+
+  const getPayInfo = async (id: number) => {
+    const result = await getPayInfoById(id);
+    payInfo.value = result;
+    await setTitle('缴费信息：' + payInfo.value?.studentName);
+  };
+
+  getPayInfo(Number(payId.value));
 
   // 页面左侧点击返回链接时的操作
   function goBack() {
-    go();
-    // go('/studentInformationManagement/studentBasicInfo');
+    go('/studentInformationManagement/payInfo');
   }
 </script>
 

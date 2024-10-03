@@ -22,7 +22,7 @@ enum Api {
   UpdateCompetition = '/competition/updateCompetition',
   DeleteCompetition = '/competition/deleteCompetition',
   AllCompetitionList = '/competition/getAllCompetition',
-  QueryCompetitionList = '/competition/getSpecialCompetition',
+  QueryCompetitionList = '/competition/getCompetition',
   CompetitionById = '/competition/getCompetitionById',
 
   // 赛事日程表
@@ -50,8 +50,12 @@ export const updateCompetition = (params: UpdateCompetitionParams) =>
 export const getAllCompetitionList = (params: BasicPageParams) =>
   defHttp.get<CommonFetchResult>({ url: Api.AllCompetitionList, params });
 
-export const getSpecialCompetitionList = (
-  params: QueryCompetitionParams = { competitionName: '', competitionHost: '' },
+export const getCompetitionList = (
+  params: QueryCompetitionParams = {
+    competitionName: '',
+    competitionLanguage: '',
+    competitionYear: '',
+  },
 ) => defHttp.get<CommonFetchResult>({ url: Api.QueryCompetitionList, params });
 
 export const deleteCompetition = (competitionId: number) =>
@@ -84,7 +88,7 @@ export const updateCompetitionRegister = (params: UpdateCompetitionRegisterParam
 
 export const getCompetitionRegisterList = (
   params: QueryCompetitionRegisterParams = {
-    competitionId: -1,
+    competitionName: '',
     studentNumber: '',
     studentId: -1,
   },

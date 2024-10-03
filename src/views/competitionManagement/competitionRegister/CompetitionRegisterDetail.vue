@@ -5,7 +5,7 @@
       competitionRegisterInfo?.studentName +
       `的` +
       competitionRegisterInfo?.competitionName +
-      `赛事的详细信息`
+      `赛事的预报名信息`
     "
     contentBackground
     @back="goBack"

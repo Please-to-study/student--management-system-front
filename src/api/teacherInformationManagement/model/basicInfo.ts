@@ -3,6 +3,10 @@ export type QueryTeacherInfoParams = {
   teacherPhone: string;
 };
 
+export type QueryTeacherByNameParams = {
+  teacherName: string;
+};
+
 export type AddTeacherInfoParams = {
   teacherName: string;
   teacherGender: number;

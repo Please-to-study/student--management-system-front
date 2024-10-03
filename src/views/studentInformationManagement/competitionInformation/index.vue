@@ -68,7 +68,7 @@
   import { useDebounceFn } from '@vueuse/core';
   import { useGo } from '@/hooks/web/usePage';
   import { useMessage } from '@/hooks/web/useMessage';
-  import {isNull, isUndefined} from '@/utils/is';
+  import { isNull, isUndefined } from '@/utils/is';
   import { ApiSelect } from '@/components/Form';
   import type { Recordable } from '@vben/types';
 
@@ -88,12 +88,17 @@
       studentNumber: '',
       studentId: -1,
       competitionId: -1,
+      competitionGroup: '',
+      competitionYear: '',
     },
     columns,
     formConfig: {
       labelWidth: 120,
       schemas: searchFormSchema,
       autoSubmitOnEnter: true,
+      // baseRowStyle: {
+      //   wrap: true,
+      // },
       resetFunc: customResetFunc,
     },
     useSearchForm: true,
@@ -110,9 +115,15 @@
       } else {
         info.studentId = studentId.value;
       }
-      const competitionIdFlag = isUndefined(info.competitionId);
-      if (competitionIdFlag) {
-        info.competitionId = -1;
+      const competitionGroupFlag =
+        isUndefined(info.competitionGroup) || info.competitionGroup?.length === 0;
+      if (competitionGroupFlag) {
+        info.competitionGroup = '';
+      }
+      const competitionYearFlag =
+        isUndefined(info.competitionYear) || info.competitionYear?.length === 0;
+      if (competitionYearFlag) {
+        info.competitionYear = '';
       }
       return info;
     },

@@ -1,6 +1,19 @@
 <template>
   <BasicModal v-bind="$attrs" @register="registerModal" :title="getTitle" @ok="handleSubmit">
     <BasicForm @register="registerForm">
+      <template #teacherSearch="{ model, field }">
+        <ApiSelect
+          :api="getTeacherInfoByName"
+          showSearch
+          placeholder="请选择教师"
+          v-model:value="model[field]"
+          :filterOption="false"
+          labelField="teacherLabel"
+          valueField="teacherId"
+          :params="searchParams"
+          @search="debounceOptionsFn"
+        />
+      </template>
       <template #add="{ field }">
         <a-button v-if="Number(field) === 0" @click="handleAdd(field)">+</a-button>
         <a-button v-if="Number(field) > 0" @click="() => handleDel(field)">-</a-button>
@@ -11,25 +24,20 @@
 <script lang="ts" setup>
   import { ref, computed, unref } from 'vue';
   import { BasicModal, useModalInner } from '@/components/Modal';
-  import { BasicForm, useForm } from '@/components/Form';
+  import { ApiSelect, BasicForm, useForm } from '@/components/Form';
   import { accountFormSchema, weekend } from './account.data';
   import { getDeptList } from '@/api/demo/system';
   import {
     AddCourseInfoParams,
-    UpdateCourseInfoParams
-  } from "@/api/courseInformationManagement/model/basicInfo";
-  import {
-    AddStudentInfoParams,
-    UpdateStudentInfoParams,
-  } from '@/api/studentInformationManagement/model/basicInfo';
-  import {
-    addStudent,
-    updateStudent,
-  } from '@/api/studentInformationManagement/studentInformationManagement';
+    UpdateCourseInfoParams,
+  } from '@/api/courseInformationManagement/model/basicInfo';
   import {
     addCourse,
-    updateCourse
-  } from "@/api/courseInformationManagement/courseInformationManagement";
+    updateCourse,
+  } from '@/api/courseInformationManagement/courseInformationManagement';
+  import { useDebounceFn } from '@vueuse/core';
+  import type { Recordable } from '@vben/types';
+  import { getTeacherInfoByName } from '@/api/teacherInformationManagement/teacherInformationManagement';
 
   defineOptions({ name: 'AccountModal' });
 
@@ -38,6 +46,12 @@
   const isUpdate = ref(true);
   const rowId = ref('');
   const courseIndex = ref(1);
+
+  const debounceOptionsFn = useDebounceFn(onSearch, 300);
+  const keyword = ref<string>('');
+  const searchParams = computed<Recordable<string>>(() => {
+    return { teacherName: unref(keyword) };
+  });
 
   const [
     registerForm,
@@ -58,6 +72,10 @@
       span: 23,
     },
   });
+
+  function onSearch(value: string) {
+    keyword.value = value;
+  }
 
   const [registerModal, { setModalProps, closeModal }] = useModalInner(async (data) => {
     resetFields();
@@ -90,33 +108,30 @@
     try {
       const values = await validate();
       setModalProps({ confirmLoading: true });
-      // TODO custom api  新增学生信息功能function
-      // todolist
-      // isUpdate为false ---> 创建账号  isUpdate为true ---> 修改账号信息
       // 需要重新构造courseArget字段 再进行上传
       console.log(values);
       const params: AddCourseInfoParams = {
         courseName: values.courseName,
-        courseCategory: values.courseCategory,
+        courseCategoryId: values.courseCategoryId,
         teacherId: values.teacherId,
         courseAddress: values.courseAddress,
-        courseStartTime: values.courseStartTime,
-        coursePrice: values.coursePrice,
+        courseStartDate: values.courseStartDate,
         courseNumber: values.courseNumber,
         courseIntroduce: values.courseIntroduce,
         courseNotes: values.courseNotes,
+        courseArget: [],
       };
-      const dateKey = 'courseDate_';
+      const dateKey = 'weekEnd_';
       const timeKey = 'courseTime_';
       for (let i = 0; i < 10; i++) {
         const tempDateKey = dateKey + i;
         const tempTimeKey = timeKey + i;
-        if (values.hasOwn(dateKey + i)) {
+        if (values.hasOwnProperty(dateKey + i)) {
           params.courseArget.push({
-            id: i,
-            courseWeekend: values.tempDateKey,
-            courseBeginTime: values.tempTimeKey[0],
-            courseEndTime: values.tempTimeKey[1],
+            everyCourseDetailId: i,
+            weekEnd: values[tempDateKey],
+            startTime: values[tempTimeKey][0],
+            endTime: values[tempTimeKey][1],
           });
         }
       }
@@ -148,7 +163,7 @@
     appendSchemaByField(
       [
         {
-          field: `courseDate_${courseIndex.value}`,
+          field: `weekEnd_${courseIndex.value}`,
           label: '上课时间',
           component: 'Select',
           componentProps: {
@@ -171,6 +186,7 @@
           component: 'TimeRangePicker',
           componentProps: {
             style: { width: '100%' },
+            placeholder: ['开始时间', '结束时间'],
           },
           colProps: { span: 18 },
           required: true,
@@ -185,7 +201,7 @@
     console.log('field:  ', field);
     // eslint-disable-next-line no-debugger
     // debugger;
-    removeSchemaByField([`courseDate_${field}`, `courseTime_${field}`, `${field}`]);
+    removeSchemaByField([`weekEnd_${field}`, `courseTime_${field}`, `${field}`]);
     courseIndex.value--;
   }
 </script>

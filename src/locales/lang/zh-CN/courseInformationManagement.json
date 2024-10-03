@@ -12,6 +12,9 @@
   "learningRecord" : {
     "learningRecord" : "学生学习记录"
   },
+  "learningRecordDetail" : {
+    "learningRecordDetail" : "学习记录详情"
+  },
   "courseworkInformation" : {
     "courseworkInformation" : "课程作业信息"
   },

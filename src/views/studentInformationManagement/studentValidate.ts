@@ -31,7 +31,7 @@ export const validateStudentPhone = () => {
 
 export const queryValidateStudentNumber = () => {
   return async (_: RuleObject, value: string) => {
-    const studentNumberRegexr = /^[0-9]{4}-[0-9]{1}-[0-9]{4}$/;
+    const studentNumberRegexr = /^[0-9]{4}[1-2]{1}[0-9]{4}$/;
     if (!isUndefined(value) && value.length && !studentNumberRegexr.test(value)) {
       return Promise.reject('请输入正确的学号');
     }
@@ -66,6 +66,16 @@ export const validatePureNumber = (n: number = 3) => {
     if (!isUndefined(value) && value.length && !pureNumberRegexr.test(value)) {
       return Promise.reject('请输入正确的学号');
     }
+    return Promise.resolve();
+  };
+};
+
+export const validateStudentId = () => {
+  return async (_: RuleObject, value: number) => {
+    // console.log('value is : ', value);
+    // if (!isUndefined(value)) {
+    //   return Promise.resolve();
+    // }
     return Promise.resolve();
   };
 };

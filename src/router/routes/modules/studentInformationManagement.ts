@@ -10,7 +10,8 @@ const studentInformationManagement: AppRouteModule = {
   redirect: '/studentInformationManagement/studentBasicInfo',
   meta: {
     orderNo: 1,
-    icon: 'ion:grid-outline',
+    // icon: 'ph:student',
+    icon: 'teenyicons:id-outline',
     title: t('studentInformationManagement.studentManagement'),
   },
   children: [
@@ -35,10 +36,9 @@ const studentInformationManagement: AppRouteModule = {
       },
     },
     {
-      path: 'spendingInfoDetail/:id',
-      name: 'SpendingInfoDetail',
-      component: () =>
-        import('@/views/studentInformationManagement/spendingInfo/SpendingDetailInfo.vue'),
+      path: 'payInfoDetail/:id',
+      name: 'PayInfoDetail',
+      component: () => import('@/views/studentInformationManagement/payInfo/PayInfoDetail.vue'),
       meta: {
         // affix: true,
         hideMenu: true,
@@ -46,9 +46,9 @@ const studentInformationManagement: AppRouteModule = {
       },
     },
     {
-      path: 'spendingInfo',
-      name: 'SpendingInfo',
-      component: () => import('@/views/studentInformationManagement/spendingInfo/index.vue'),
+      path: 'payInfo',
+      name: 'PayInfo',
+      component: () => import('@/views/studentInformationManagement/payInfo/index.vue'),
       meta: {
         // affix: true,
         title: t('studentInformationManagement.spendingInfo.spendingInfo'),

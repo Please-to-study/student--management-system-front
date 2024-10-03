@@ -1,11 +1,14 @@
 export type QueryCompetitionParams = {
   competitionName: string;
-  competitionHost: string;
+  competitionLanguage: string;
+  competitionYear: string;
 };
 
 export type AddCompetitionParams = {
   competitionName: string;
-  competitionStyle: string;
+  competitionStyle: number;
+  competitionGroup: string;
+  competitionYear: string;
   competitionCost: string;
   competitionHost: string;
   competitionRegister: string;

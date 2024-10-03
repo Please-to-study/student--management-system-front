@@ -1,6 +1,20 @@
 <template>
   <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
     <BasicTable @register="registerTable" class="" :searchInfo="searchInfo">
+      <template #form-custom>
+        <ApiSelect
+          :api="getSameStudent"
+          showSearch
+          allowClear
+          placeholder="请选择学生"
+          v-model:value="studentId"
+          :filterOption="false"
+          labelField="studentLabel"
+          valueField="studentId"
+          :params="searchParams"
+          @search="debounceOptionsFn"
+        />
+      </template>
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'action'">
           <TableAction
@@ -34,10 +48,9 @@
   </PageWrapper>
 </template>
 <script lang="ts" setup>
-  import { reactive } from 'vue';
+  import { computed, reactive, ref, unref } from 'vue';
 
   import { BasicTable, useTable, TableAction } from '@/components/Table';
-  import { getAccountList } from '@/api/demo/system';
   import { PageWrapper } from '@/components/Page';
 
   import { useModal } from '@/components/Modal';
@@ -45,29 +58,53 @@
 
   import { columns, searchFormSchema } from './account.data';
   import { useGo } from '@/hooks/web/usePage';
+  import { getSameStudent } from '@/api/studentInformationManagement/studentInformationManagement';
+  import { ApiSelect } from '@/components/Form';
+  import type { Recordable } from '@vben/types';
+  import { useDebounceFn } from '@vueuse/core';
+  import { isNull, isUndefined } from '@/utils/is';
+  import {
+    deleteLearningRecord,
+    getLearningRecordList,
+  } from '@/api/courseInformationManagement/courseInformationManagement';
 
   defineOptions({ name: 'AccountManagement' });
 
   const go = useGo();
+  const debounceOptionsFn = useDebounceFn(onSearch, 300);
   const [registerModal, { openModal }] = useModal();
   const searchInfo = reactive<Recordable>({});
+  const studentId = ref<string>('');
   const [registerTable, { reload, updateTableDataRecord, getSearchInfo }] = useTable({
     title: '学习记录列表',
-    // --todolist--获取学生列表数据请求函数，统一在/src/api中进行封装即可
-    api: getAccountList,
-    rowKey: 'id',
+    api: getLearningRecordList,
+    rowKey: 'learningRecordId',
+    searchInfo: {
+      studentId: -1,
+      learningRecordDate: '',
+    },
     columns,
     formConfig: {
       labelWidth: 120,
       schemas: searchFormSchema,
       autoSubmitOnEnter: true,
+      resetFunc: customResetFunc,
     },
     useSearchForm: true,
     showTableSetting: true,
     bordered: true,
     handleSearchInfoFn(info) {
-      // todo查询按钮操作
-      console.log('handleSearchInfoFn', info);
+      const studentIdFlag = isNull(studentId.value);
+      if (studentIdFlag) {
+        info.studentId = -1;
+      } else {
+        info.studentId = studentId.value;
+      }
+      const learningRecordDateFlag =
+        isUndefined(info.learningRecordDate) || info.learningRecordDate?.length === 0;
+      if (learningRecordDateFlag) {
+        info.learningRecordDate = '';
+      }
       return info;
     },
     actionColumn: {
@@ -78,6 +115,19 @@
     },
   });
 
+  async function customResetFunc() {
+    studentId.value = '';
+  }
+
+  const keyword = ref<string>('');
+  const searchParams = computed<Recordable<string>>(() => {
+    return { studentName: unref(keyword) };
+  });
+
+  function onSearch(value: string) {
+    keyword.value = value;
+  }
+
   function handleEdit(record: Recordable) {
     console.log(record);
     openModal(true, {
@@ -87,6 +137,8 @@
   }
 
   function handleDelete(record: Recordable) {
+    deleteLearningRecord(record.learningRecordId);
+    reload();
     console.log(record);
   }
 
@@ -94,7 +146,7 @@
     if (isUpdate) {
       // 演示不刷新表格直接更新内部数据。
       // 注意：updateTableDataRecord要求表格的rowKey属性为string并且存在于每一行的record的keys中
-      const result = updateTableDataRecord(values.id, values);
+      const result = updateTableDataRecord(values.learningRecordId, values);
       console.log(result);
     } else {
       reload();
@@ -102,6 +154,6 @@
   }
 
   function handleView(record: Recordable) {
-    // go('/system/account_detail/' + record.id);
+    go('/courseInformationManagement/learningRecordDetail/' + record.learningRecordId);
   }
 </script>

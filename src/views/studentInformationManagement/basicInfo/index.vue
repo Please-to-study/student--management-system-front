@@ -42,7 +42,6 @@
   import { BasicTable, useTable, TableAction } from '@/components/Table';
   import {
     deleteStudent,
-    getAllStudentBasicInfoList,
     getSpecialStudentBasicInfoList,
   } from '@/api/studentInformationManagement/studentInformationManagement';
   import { PageWrapper } from '@/components/Page';
@@ -69,7 +68,7 @@
     searchInfo: {
       studentNumber: '',
       studentName: '',
-      studentPhone: '',
+      studentSchool: '',
     },
     rowKey: 'studentId',
     columns,
@@ -90,11 +89,10 @@
       if (nameFlag) {
         info.studentName = '';
       }
-      const phoneFlag = isUndefined(info.studentPhone) || info.studentPhone?.length === 0;
-      if (phoneFlag) {
-        info.studentPhone = '';
+      const schoolFlag = isUndefined(info.studentSchool) || info.studentSchool?.length === 0;
+      if (schoolFlag) {
+        info.studentSchool = '';
       }
-      console.log('student basic handleSearchInfoFn', info);
       return info;
     },
     actionColumn: {

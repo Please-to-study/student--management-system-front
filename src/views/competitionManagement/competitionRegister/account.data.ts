@@ -1,6 +1,13 @@
 import { BasicColumn, FormSchema } from '@/components/Table';
-import { getSpecialCompetitionList } from '@/api/competitionManagement/competitionManagement';
+import { getCompetitionList } from '@/api/competitionManagement/competitionManagement';
 import { DescItem } from '@/components/Description';
+import { validateStudentId } from '@/views/studentInformationManagement/studentValidate';
+import { isUndefined } from "@/utils/is";
+
+const genderMap = new Map([
+  ['1', '男'],
+  ['2', '女'],
+]);
 
 export const columns: BasicColumn[] = [
   {
@@ -39,6 +46,19 @@ export const columns: BasicColumn[] = [
   {
     title: '性别',
     dataIndex: 'studentGender',
+    customRender: ({ value }) => {
+      return genderMap.get(value);
+    },
+    width: 120,
+  },
+  {
+    title: '赛事组别',
+    dataIndex: 'competitionGroup',
+    width: 120,
+  },
+  {
+    title: '赛事年度',
+    dataIndex: 'competitionYear',
     width: 120,
   },
   {
@@ -65,19 +85,9 @@ export const columns: BasicColumn[] = [
 
 export const searchFormSchema: FormSchema[] = [
   {
-    field: 'competitionId',
+    field: 'competitionName',
     label: '赛事名称',
-    component: 'ApiSelect',
-    componentProps: {
-      api: getSpecialCompetitionList,
-      params: {
-        competitionName: '',
-        competitionHost: '',
-      },
-      resultField: 'items',
-      labelField: 'competitionName',
-      valueField: 'competitionId',
-    },
+    component: 'Input',
     colProps: { span: 6 },
   },
   {
@@ -109,13 +119,14 @@ export const accountFormSchema: FormSchema[] = [
     label: '赛事名称',
     component: 'ApiSelect',
     componentProps: {
-      api: getSpecialCompetitionList,
+      api: getCompetitionList,
       params: {
         competitionName: '',
-        competitionHost: '',
+        competitionLanguage: '',
+        competitionYear: '',
       },
       resultField: 'items',
-      labelField: 'competitionName',
+      labelField: 'competitionLabel',
       valueField: 'competitionId',
     },
     required: true,
@@ -123,8 +134,21 @@ export const accountFormSchema: FormSchema[] = [
   {
     label: '参赛学生',
     field: 'studentId',
-    required: true,
     slot: 'studentSearch',
+    rules: [
+      {
+        required: true,
+        validator: async (_, value) => {
+          console.log('validator value is ', value);
+          if (isUndefined(value)) {
+            // return Promise.resolve();
+            return Promise.reject('学生不能为空');
+          }
+          return Promise.resolve();
+        },
+        trigger: 'change',
+      },
+    ],
   },
   {
     label: '备注',
@@ -161,6 +185,17 @@ export const competitionRegisterSchema: DescItem[] = [
   {
     label: '性别',
     field: 'studentGender',
+    render: (value) => {
+      return genderMap.get(value);
+    },
+  },
+  {
+    label: '赛事组别',
+    field: 'competitionGroup',
+  },
+  {
+    label: '赛事年度',
+    field: 'competitionYear',
   },
   {
     label: '当前年级',

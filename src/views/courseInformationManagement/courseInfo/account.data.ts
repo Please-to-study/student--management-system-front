@@ -1,58 +1,73 @@
-import { getAllRoleList, isAccountExist } from '@/api/demo/system';
 import { BasicColumn, FormSchema } from '@/components/Table';
-import { AccountListItem } from '@/api/demo/model/systemModel';
-import { getAllCourseInfoList } from '@/api/courseInformationManagement/courseInformationManagement';
-import { getAllTeacherBasicInfoList } from '@/api/teacherInformationManagement/teacherInformationManagement';
 import { DescItem } from '@/components/Description';
+import { getCourseCategoryInfoList } from '@/api/configManagement';
 
 export const weekend = [
   {
     label: '星期一',
-    value: '1',
+    value: 1,
     key: '1',
   },
   {
     label: '星期二',
-    value: '2',
+    value: 2,
     key: '2',
   },
   {
     label: '星期三',
-    value: '3',
+    value: 3,
     key: '3',
   },
   {
     label: '星期四',
-    value: '4',
+    value: 4,
     key: '4',
   },
   {
     label: '星期五',
-    value: '5',
+    value: 5,
     key: '5',
   },
   {
     label: '星期六',
-    value: '6',
+    value: 6,
     key: '6',
   },
   {
     label: '星期日',
-    value: '7',
+    value: 7,
     key: '7',
   },
 ];
 
 export const columns: BasicColumn[] = [
   {
+    title: '课程ID',
+    dataIndex: 'courseId',
+    width: 120,
+    ifShow: false,
+  },
+  {
     title: '课程名称',
     dataIndex: 'courseName',
     width: 120,
   },
   {
-    title: '课程类别',
-    dataIndex: 'courseCategory',
+    title: '课程类别ID',
+    dataIndex: 'courseCategoryId',
     width: 120,
+    ifShow: false,
+  },
+  {
+    title: '课程类别',
+    dataIndex: 'courseCategoryName',
+    width: 120,
+  },
+  {
+    title: '主任课老师Id',
+    dataIndex: 'teacherId',
+    width: 120,
+    ifShow: false,
   },
   {
     title: '主任课老师',
@@ -77,12 +92,12 @@ export const columns: BasicColumn[] = [
   // },
   {
     title: '开课时间',
-    dataIndex: 'courseStartTime',
+    dataIndex: 'courseStartDate',
     width: 120,
   },
   {
     title: '课程单价',
-    dataIndex: 'coursePrice',
+    dataIndex: 'courseCategoryPrice',
     width: 120,
   },
   {
@@ -106,34 +121,27 @@ export const searchFormSchema: FormSchema[] = [
   {
     field: 'courseName',
     label: '课程名称',
+    component: 'Input',
+    colProps: { span: 6 },
+  },
+  {
+    field: 'courseCategoryId',
+    label: '课程类别',
     component: 'ApiSelect',
-    // resultField: ''
     componentProps: {
-      api: getAllCourseInfoList,
-      // api: getAllRoleList,
-      // --todolist--  更改对应字段
-      labelField: 'courseName',
-      valueField: 'courseId',
-      // labelField: 'roleName',
-      // valueField: 'roleValue',
+      api: getCourseCategoryInfoList,
+      params: {},
+      resultField: 'items',
+      labelField: 'courseCategoryName',
+      valueField: 'courseCategoryId',
     },
-    colProps: { span: 8 },
+    colProps: { span: 6 },
   },
   {
     field: 'courseAddress',
     label: '上课校区',
-    component: 'ApiSelect',
-    // resultField: ''
-    componentProps: {
-      // --todolist--  获取上课校区的api
-      api: getAllCourseInfoList,
-      // api: getAllRoleList,
-      labelField: 'courseAddress',
-      valueField: 'courseAddressId',
-      // labelField: 'roleName',
-      // valueField: 'roleValue',
-    },
-    colProps: { span: 8 },
+    component: 'Input',
+    colProps: { span: 6 },
   },
 ];
 
@@ -157,54 +165,38 @@ export const accountFormSchema: FormSchema[] = [
     ],
   },
   {
+    field: 'courseCategoryId',
     label: '课程类别',
-    field: 'courseCategory',
-    component: 'Input',
-    rules: [
-      {
-        required: true,
-        message: '请输入课程名称',
-      },
-    ],
-  },
-  {
-    field: 'teacherId',
-    label: '任课老师',
     component: 'ApiSelect',
     componentProps: {
-      api: getAllTeacherBasicInfoList,
-      // --todolist--  更改对应字段
-      labelField: 'teacherName',
-      valueField: 'teacherId',
+      api: getCourseCategoryInfoList,
+      params: {},
+      resultField: 'items',
+      labelField: 'courseCategoryName',
+      valueField: 'courseCategoryId',
     },
     required: true,
+  },
+  {
+    label: '任课老师',
+    field: 'teacherId',
+    required: true,
+    slot: 'teacherSearch',
   },
   {
     field: 'courseAddress',
     label: '上课校区',
-    component: 'ApiSelect',
-    componentProps: {
-      // 获取上课校区api
-      api: getAllTeacherBasicInfoList,
-      // --todolist--  更改对应字段
-      labelField: 'courseAddress',
-      valueField: 'courseAddressId',
-    },
+    component: 'Input',
     required: true,
   },
   {
     label: '开始日期',
-    field: 'courseStartTime',
+    field: 'courseStartDate',
     component: 'DatePicker',
     componentProps: {
       style: { width: '100%' },
+      format: 'YYYY-MM-DD',
     },
-    required: true,
-  },
-  {
-    label: '课程单价',
-    field: 'coursePrice',
-    component: 'InputNumber',
     required: true,
   },
   {
@@ -214,7 +206,7 @@ export const accountFormSchema: FormSchema[] = [
     required: true,
   },
   {
-    field: 'courseDate_0',
+    field: 'weekEnd_0',
     label: '上课时间',
     component: 'Select',
     componentProps: {
@@ -235,6 +227,7 @@ export const accountFormSchema: FormSchema[] = [
     component: 'TimeRangePicker',
     componentProps: {
       style: { width: '100%' },
+      placeholder: ['开始时间', '结束时间'],
     },
     colProps: { span: 18 },
     required: true,

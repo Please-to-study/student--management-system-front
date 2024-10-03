@@ -1,6 +1,6 @@
 import { BasicColumn, FormSchema } from '@/components/Table';
 import { queryValidateStudentNumber } from '@/views/studentInformationManagement/studentValidate';
-import { getSpecialCompetitionList } from '@/api/competitionManagement/competitionManagement';
+import { getCompetitionList } from '@/api/competitionManagement/competitionManagement';
 import { DescItem } from '@/components/Description';
 
 export const columns: BasicColumn[] = [
@@ -32,6 +32,11 @@ export const columns: BasicColumn[] = [
     width: 120,
   },
   {
+    title: '赛事组别',
+    dataIndex: 'competitionGroup',
+    width: 120,
+  },
+  {
     title: '获奖情况',
     dataIndex: 'competitionHonor',
     width: 120,
@@ -43,7 +48,12 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '比赛类型',
-    dataIndex: 'competitionStyle',
+    dataIndex: 'competitionStyleName',
+    width: 120,
+  },
+  {
+    title: '年度',
+    dataIndex: 'competitionYear',
     width: 120,
   },
   {
@@ -104,15 +114,34 @@ export const searchFormSchema: FormSchema[] = [
     label: '赛事名称',
     component: 'ApiSelect',
     componentProps: {
-      api: getSpecialCompetitionList,
+      api: getCompetitionList,
       params: {
         competitionName: '',
-        competitionHost: '',
+        competitionLanguage: '',
+        competitionYear: '',
       },
       resultField: 'items',
-      labelField: 'competitionName',
+      labelField: 'competitionLabel',
       valueField: 'competitionId',
     },
+    colProps: { span: 6 },
+  },
+  // {
+  //   component: 'Divider',
+  // },
+  {
+    field: 'competitionGroup',
+    label: '赛事组别',
+    component: 'Input',
+    // componentProps: {
+    //   style: 'margin-left: 20px',
+    // },
+    colProps: { span: 6 },
+  },
+  {
+    field: 'competitionYear',
+    label: '年度',
+    component: 'Input',
     colProps: { span: 6 },
   },
 ];
@@ -136,13 +165,14 @@ export const accountFormSchema: FormSchema[] = [
     label: '赛事名称',
     component: 'ApiSelect',
     componentProps: {
-      api: getSpecialCompetitionList,
+      api: getCompetitionList,
       params: {
         competitionName: '',
-        competitionHost: '',
+        competitionLanguage: '',
+        competitionYear: '',
       },
       resultField: 'items',
-      labelField: 'competitionName',
+      labelField: 'competitionLabel',
       valueField: 'competitionId',
     },
     required: true,
@@ -181,6 +211,14 @@ export const competitionInfoSchema: DescItem[] = [
     field: 'competitionName',
   },
   {
+    label: '赛事组别',
+    field: 'competitionGroup',
+  },
+  {
+    label: '赛事年度',
+    field: 'competitionYear',
+  },
+  {
     label: '获奖情况',
     field: 'competitionHonor',
   },
@@ -190,7 +228,7 @@ export const competitionInfoSchema: DescItem[] = [
   },
   {
     label: '比赛类型',
-    field: 'competitionStyle',
+    field: 'competitionStyleName',
   },
   {
     label: '主办方',

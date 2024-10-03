@@ -5,12 +5,18 @@ import {
   validateStudentPhone,
   queryValidateStudentNumber,
   queryValidateStudentName,
-  queryValidateStudentPhone,
 } from '@/views/studentInformationManagement/studentValidate';
 
 const genderMap = new Map([
   ['1', '男'],
   ['2', '女'],
+]);
+
+const statusMap = new Map([
+  [0, '正在学习'],
+  [1, '已结业'],
+  [2, '中途退费'],
+  [3, '临时停课'],
 ]);
 
 export const columns: BasicColumn[] = [
@@ -77,6 +83,9 @@ export const columns: BasicColumn[] = [
   {
     title: '学习状态',
     dataIndex: 'studentStatus',
+    customRender: ({ value }) => {
+      return statusMap.get(value);
+    },
     width: 160,
   },
   {
@@ -112,14 +121,14 @@ export const searchFormSchema: FormSchema[] = [
     ],
   },
   {
-    field: 'studentPhone',
-    label: '电话',
+    field: 'studentSchool',
+    label: '当前学校',
     component: 'Input',
     colProps: { span: 6 },
     rules: [
       {
         trigger: 'blur',
-        validator: queryValidateStudentPhone(),
+        // validator: queryValidateStudentName(),
       },
     ],
   },

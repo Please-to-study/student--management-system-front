@@ -1,12 +1,22 @@
 import { BasicColumn, FormSchema } from '@/components/Table';
-import { getAllTeacherBasicInfoList } from '@/api/teacherInformationManagement/teacherInformationManagement';
 import { DescItem } from '@/components/Description';
-import { validateTeacherPhone } from "@/views/teacherInformationManagement/teacherValidate";
+import { validateTeacherPhone } from '@/views/teacherInformationManagement/teacherValidate';
+
+const genderMap = new Map([
+  ['1', '男'],
+  ['2', '女'],
+]);
 
 export const columns: BasicColumn[] = [
   {
-    title: '日期',
-    dataIndex: 'date',
+    title: '上课记录ID',
+    dataIndex: 'courseRecordId',
+    width: 140,
+    ifShow: false,
+  },
+  {
+    title: '上课日期',
+    dataIndex: 'addCourseRecordTime',
     width: 140,
   },
   {
@@ -15,23 +25,29 @@ export const columns: BasicColumn[] = [
     width: 120,
   },
   {
+    title: '课程类别ID',
+    dataIndex: 'courseCategoryId',
+    width: 120,
+    ifShow: false,
+  },
+  {
     title: '课程类别',
-    dataIndex: 'courseCategory',
+    dataIndex: 'courseCategoryName',
     width: 120,
   },
   {
-    title: '开始时间',
+    title: '上课开始时间',
     dataIndex: 'startTime',
     width: 120,
   },
   {
-    title: '结束时间',
+    title: '上课结束时间',
     dataIndex: 'endTime',
     width: 120,
   },
   {
     title: '课时费',
-    dataIndex: 'teacherPay',
+    dataIndex: 'courseCategoryPrice',
     width: 120,
   },
 ];
@@ -40,23 +56,14 @@ export const searchFormSchema: FormSchema[] = [
   {
     field: 'teacherName',
     label: '教师姓名',
-    component: 'ApiSelect',
+    component: 'Input',
     colProps: { span: 6 },
-    componentProps: {
-      api: getAllTeacherBasicInfoList,
-      // api: getAllRoleList,
-      // --todolist--  更改对应字段
-      labelField: 'teacherName',
-      valueField: 'teacherId',
-      // labelField: 'roleName',
-      // valueField: 'roleValue',
-    },
     required: true,
   },
   {
     field: 'teacherPhone',
     label: '电话',
-    component: 'InputNumber',
+    component: 'Input',
     colProps: { span: 6 },
     rules: [
       {
@@ -71,11 +78,12 @@ export const searchFormSchema: FormSchema[] = [
     required: true,
   },
   {
-    field: 'date',
+    field: 'teacherDate',
     label: '月份',
     component: 'MonthPicker',
     componentProps: {
       style: { width: '100%' },
+      format: 'YYYY-MM-DD',
     },
     colProps: { span: 6 },
     required: true,
@@ -90,6 +98,9 @@ export const teacherInfoSchema: DescItem[] = [
   {
     field: 'teacherGender',
     label: '性别',
+    render: (value) => {
+      return genderMap.get(value);
+    },
   },
   {
     field: 'teacherPhone',
@@ -99,24 +110,28 @@ export const teacherInfoSchema: DescItem[] = [
     field: 'teacherAddress',
     label: '住址',
   },
+  // {
+  //   field: 'teacherCourse',
+  //   label: '教授课程',
+  // },
   {
-    field: 'teacherCourse',
-    label: '教授课程',
-  },
-  {
-    field: 'teacherSigning',
-    label: '签约形式',
-  },
-  {
-    field: 'teacherSigning',
-    label: '已完成课时',
-  },
-  {
-    field: 'teacherSigning',
+    field: 'teacherNumber',
     label: '上课次数',
   },
   {
-    field: 'teacherSigning',
+    field: 'signingStyle',
+    label: '签约形式',
+  },
+  {
+    field: 'teacherPayStyleName',
+    label: '课时费计算方式',
+  },
+  {
+    field: 'teacherBasicSalary',
+    label: '底薪',
+  },
+  {
+    field: 'teacherCourseFee',
     label: '课时费',
   },
 ];

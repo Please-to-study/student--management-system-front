@@ -12,6 +12,9 @@
   "learningRecord" : {
     "learningRecord" : "LearningRecord"
   },
+  "learningRecordDetail" : {
+    "learningRecordDetail" : "LearningRecordDetail"
+  },
   "courseworkInformation" : {
     "courseworkInformation" : "CourseworkInformation"
   },

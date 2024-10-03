@@ -1,0 +1,9 @@
+{
+  "systemManagement": "系统设置",
+  "basicSetting" : {
+    "basicSetting" : "基础设置",
+    "payStyleSetting": "课时计费方式",
+    "courseCategorySetting": "课程类别",
+    "competitionStyleSetting": "比赛类型"
+  }
+}

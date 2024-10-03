@@ -1,6 +1,12 @@
 <template>
   <PageWrapper
-    :title="programRateInfo?.studentName + `的编程能力评级`"
+    :title="
+      `编程能力评级信息：` +
+      programRateInfo?.studentName +
+      `（` +
+      programRateInfo?.studentNumber +
+      `）`
+    "
     contentBackground
     @back="goBack"
   >
@@ -23,32 +29,37 @@
 </template>
 
 <script lang="ts" setup>
-  import { ref, unref } from 'vue';
+  import { ref } from 'vue';
   import { useRoute } from 'vue-router';
   import { PageWrapper } from '@/components/Page';
   import { Description } from '@/components/Description';
   import { useGo } from '@/hooks/web/usePage';
   import { useTabs } from '@/hooks/web/useTabs';
   import { Divider } from 'ant-design-vue';
-  import { getSpendingInfoById } from '@/api/studentInformationManagement/studentInformationManagement';
+  import { getProgramRateById } from '@/api/studentInformationManagement/studentInformationManagement';
   import { programRateSchema } from '@/views/studentInformationManagement/programmingRating/account.data';
 
   defineOptions({ name: 'ProgramRatingDetail' });
 
   const route = useRoute();
-  const go = useGo();
-  // 此处可以得到用户ID
-  const programRateId = ref(route.params?.programRateId);
-  const { result } = await getSpendingInfoById(unref(programRateId) as string);
-  const programRateInfo = result?.items[0];
-
+  const programRateInfo = ref();
   const { setTitle } = useTabs();
-  setTitle('编程能力评级：' + programRateInfo?.studentName);
+  const go = useGo();
+
+  // 此处可以得到用户ID
+  const programRateId = ref(route.params?.id);
+
+  const getProgramRateInfo = async (id: number) => {
+    const result = await getProgramRateById(id);
+    programRateInfo.value = result[0];
+    await setTitle(programRateInfo.value?.studentName + '的编程能力评级信息');
+  };
+
+  getProgramRateInfo(Number(programRateId.value));
 
   // 页面左侧点击返回链接时的操作
   function goBack() {
-    go();
-    // go('/studentInformationManagement/studentBasicInfo');
+    go('/studentInformationManagement/programmingRating');
   }
 </script>
 

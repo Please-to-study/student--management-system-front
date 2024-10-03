@@ -7,9 +7,9 @@
   import { ref, computed, unref } from 'vue';
   import { BasicModal, useModalInner } from '@/components/Modal';
   import { BasicForm, useForm } from '@/components/Form';
-  import { accountFormSchema } from './account.data';
-  import { AddSpending } from "@/api/studentInformationManagement/studentInformationManagement";
-  import { AddSpendingInfoParams } from "@/api/studentInformationManagement/model/spendingInfo";
+  import { payStyleFormSchema } from './account.data';
+  import { AddTeacherPayStyleParams, UpdateTeacherPayStyleParams } from '@/api/configParams';
+  import { addTeacherPayStyle, updateTeacherPayStyle } from '@/api/configManagement';
 
   defineOptions({ name: 'AccountModal' });
 
@@ -18,10 +18,10 @@
   const isUpdate = ref(true);
   const rowId = ref('');
 
-  const [registerForm, { setFieldsValue, resetFields, validate }] = useForm({
+  const [registerForm, { setFieldsValue, updateSchema, resetFields, validate }] = useForm({
     labelWidth: 100,
     baseColProps: { span: 24 },
-    schemas: accountFormSchema,
+    schemas: payStyleFormSchema,
     showActionButtonGroup: false,
     actionColOptions: {
       span: 23,
@@ -41,16 +41,21 @@
     }
   });
 
-  const getTitle = computed(() => (!unref(isUpdate) ? '新增缴费' : '编辑缴费'));
+  const getTitle = computed(() => (!unref(isUpdate) ? '新增教师' : '编辑教师'));
 
   async function handleSubmit() {
     try {
       const values = await validate();
       setModalProps({ confirmLoading: true });
-      // isUpdate为false ---> 新增缴费  isUpdate为true ---> 编辑缴费
-      const addParams: AddSpendingInfoParams = { ...values };
-      await AddSpending(addParams);
-      console.log('新增缴费: ', values);
+      // isUpdate为false ---> 创建账号  isUpdate为true ---> 修改账号信息
+      if (!unref(isUpdate)) {
+        const addParams: AddTeacherPayStyleParams = { ...values };
+        // debugger;
+        await addTeacherPayStyle(addParams);
+      } else {
+        const updateParams: UpdateTeacherPayStyleParams = { ...values };
+        await updateTeacherPayStyle(updateParams);
+      }
       closeModal();
       emit('success', { isUpdate: unref(isUpdate), values: { ...values, id: rowId.value } });
     } finally {

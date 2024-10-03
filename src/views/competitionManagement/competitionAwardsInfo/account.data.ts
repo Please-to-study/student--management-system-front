@@ -1,7 +1,7 @@
 import { getAllRoleList, isAccountExist } from '@/api/demo/system';
 import { BasicColumn, FormSchema } from '@/components/Table';
 import { AccountListItem } from '@/api/demo/model/systemModel';
-import { getAllCourseInfoList } from '@/api/courseInformationManagement/courseInformationManagement';
+import { getCourseList } from '@/api/courseInformationManagement/courseInformationManagement';
 import { getAllTeacherBasicInfoList } from '@/api/teacherInformationManagement/teacherInformationManagement';
 import { DescItem } from '@/components/Description';
 
@@ -29,6 +29,16 @@ export const columns: BasicColumn[] = [
     width: 120,
   },
   {
+    title: '赛事组别',
+    dataIndex: 'competitionGroup',
+    width: 120,
+  },
+  {
+    title: '赛事年度',
+    dataIndex: 'competitionYear',
+    width: 120,
+  },
+  {
     title: '学生ID',
     dataIndex: 'studentId',
     width: 120,
@@ -42,11 +52,6 @@ export const columns: BasicColumn[] = [
   {
     title: '分数',
     dataIndex: 'competitionScore',
-    width: 120,
-  },
-  {
-    title: '比赛组别',
-    dataIndex: 'competitionStyle',
     width: 120,
   },
   {

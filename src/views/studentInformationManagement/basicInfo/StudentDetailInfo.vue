@@ -40,13 +40,9 @@
 
   const route = useRoute();
   const go = useGo();
-  // TODO
-  // --todolist-- 本页代码仅作演示，实际应当通过studentNumber从接口获得用户的相关资料
 
   const studentInfo = ref();
   const { setTitle } = useTabs();
-  // 此处可以得到用户ID
-  // debugger;
   const studentId = ref(route.params?.studentId);
 
   const getStudent = async (id: number) => {

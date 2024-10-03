@@ -84,7 +84,7 @@
     title: '比赛预报名列表',
     api: getCompetitionRegisterList,
     searchInfo: {
-      competitionId: -1,
+      competitionName: '',
       studentNumber: '',
       studentId: -1,
     },
@@ -100,9 +100,9 @@
     showTableSetting: true,
     bordered: true,
     handleSearchInfoFn(info) {
-      const competitionIdFlag = isUndefined(info.competitionId);
-      if (competitionIdFlag) {
-        info.competitionId = -1;
+      const competitionNameFlag = isUndefined(info.competitionName);
+      if (competitionNameFlag) {
+        info.competitionId = '';
       }
       const studentNumberFlag = isUndefined(info.studentNumber) || info.studentNumber?.length === 0;
       if (studentNumberFlag) {
@@ -114,7 +114,6 @@
       } else {
         info.studentId = studentId.value;
       }
-      // console.log('info is ', info);
       return info;
     },
     actionColumn: {
@@ -145,8 +144,6 @@
   }
 
   function handleEdit(record: Recordable) {
-    // console.log('record is ', record);
-    // record.competitionDate = dayjs(record.competitionDate);
     openModal(true, {
       record,
       isUpdate: true,

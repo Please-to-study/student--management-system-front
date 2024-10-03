@@ -1,7 +1,7 @@
 export type QueryStudentInfoParams = {
   studentNumber: string;
   studentName: string;
-  studentPhone: string;
+  studentSchool: string;
 };
 
 export type QuerySameStudentInfoParams = {

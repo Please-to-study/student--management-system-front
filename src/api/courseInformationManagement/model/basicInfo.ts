@@ -1,22 +1,19 @@
 export type QueryCourseInfoParams = {
-  courseId: string;
-  courseAddressId: string;
+  courseName: string;
+  courseCategoryId: number;
+  courseAddress: string;
 };
 
 export type AddCourseInfoParams = {
   courseName: string;
-  courseCategory: string;
-  teacherId: string;
+  courseCategoryId: number;
+  teacherId: number;
   courseAddress: string;
-  courseStartTime: string;
-  coursePrice: number;
   courseNumber: number;
+  courseStartDate: string;
   courseIntroduce: string;
   courseNotes: string;
   courseArget: any[];
-  // courseBeginTime: string;
-  // courseEndTime: string;
-  // courseWeekend: string;
 };
 
 export type UpdateCourseInfoParams = AddCourseInfoParams & {

@@ -62,7 +62,7 @@
   import { columns, searchFormSchema } from './account.data';
   import { useGo } from '@/hooks/web/usePage';
   import { useMessage } from '@/hooks/web/useMessage';
-  import {isNull, isUndefined} from '@/utils/is';
+  import { isNull, isUndefined } from '@/utils/is';
   import {
     deleteProgramRate,
     getProgramRateInfoList,
@@ -84,6 +84,10 @@
     title: '编程评级列表',
     api: getProgramRateInfoList,
     rowKey: 'programRateId',
+    searchInfo: {
+      studentNumber: '',
+      studentId: -1,
+    },
     columns,
     formConfig: {
       labelWidth: 120,
@@ -156,8 +160,8 @@
     if (isUpdate) {
       // 演示不刷新表格直接更新内部数据。
       // 注意：updateTableDataRecord要求表格的rowKey属性为string并且存在于每一行的record的keys中
-      const result = updateTableDataRecord(values.id, values);
-      console.log(result);
+      // const result = updateTableDataRecord(values.id, values);
+      reload();
     } else {
       reload();
     }

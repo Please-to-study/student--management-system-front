@@ -1,20 +1,19 @@
-export type AddSpendingInfoParams = {
-  courseId: string;
-  studentName: string;
-  studentPhone: string;
-  payPrice: number;
-  courseTime: number;
-  payPreferential: number;
+export type AddPayInfoParams = {
+  courseCategoryId: number;
+  studentId: number;
+  payeeId: number;
+  courseNumber: number;
+  courseFee: number;
   otherFee: number;
+  payPreferential: number;
   payableFee: number;
-  actuallyPay: number;
+  actuallyFee: number;
   payStyle: string;
-  payee: string;
   payNotes: string | null;
 };
 
-export type QuerySpendingInfoParams = {
+export type QueryPayInfoParams = {
   studentNumber: string;
-  studentName: string;
-  courseId: string;
+  studentId: number;
+  courseCategoryId: number;
 };

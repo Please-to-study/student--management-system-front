@@ -14,4 +14,6 @@ export type QueryCompetitionInfoParams = {
   studentNumber: string;
   studentId: number;
   competitionId: number;
+  competitionGroup: string;
+  competitionYear: string;
 };

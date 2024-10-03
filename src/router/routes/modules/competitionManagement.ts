@@ -12,7 +12,7 @@ const competitionManagement: AppRouteModule = {
   redirect: '/competitionManagement/competitionSchedule',
   meta: {
     orderNo: 4,
-    icon: 'ion:grid-outline',
+    icon: 'ion:bar-chart-outline',
     title: t('competitionManagement.competitionManagement'),
   },
   children: [

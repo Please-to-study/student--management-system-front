@@ -1,6 +1,6 @@
 export type QueryCourseRecordParams = {
-  teacherId: string;
-  courseId: string;
+  teacherName: string;
+  teacherPhone: string;
 };
 
 export type UpdateCourseRecordParams = {

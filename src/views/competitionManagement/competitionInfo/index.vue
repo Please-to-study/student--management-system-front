@@ -50,14 +50,13 @@
   import { useMessage } from '@/hooks/web/useMessage';
   import { isUndefined } from '@/utils/is';
   import {
-    getAllCourseInfoList,
-    getSpecialCourseInfoList
+    getCourseList,
   } from "@/api/courseInformationManagement/courseInformationManagement";
   import {
     deleteCompetition,
-    getAllCompetitionList,
-    getSpecialCompetitionList,
-  } from '@/api/competitionManagement/competitionManagement';
+    getAllCompetitionList, getCompetitionList,
+    getSpecialCompetitionList
+  } from "@/api/competitionManagement/competitionManagement";
   import dayjs from 'dayjs';
 
   defineOptions({ name: 'AccountManagement' });
@@ -68,10 +67,11 @@
   const searchInfo = reactive<Recordable>({});
   const [registerTable, { reload, updateTableDataRecord }] = useTable({
     title: '赛事信息列表',
-    api: getSpecialCompetitionList,
+    api: getCompetitionList,
     searchInfo: {
       competitionName: '',
-      competitionHost: '',
+      competitionLanguage: '',
+      competitionYear: '',
     },
     rowKey: 'competitionId',
     columns,
@@ -89,12 +89,16 @@
       if (competitionNameFlag) {
         info.competitionName = '';
       }
-      const competitionHostFlag =
-        isUndefined(info.competitionHost) || info.competitionHost?.length === 0;
-      if (competitionHostFlag) {
-        info.competitionHost = '';
+      const competitionLanguageFlag =
+        isUndefined(info.competitionLanguage) || info.competitionLanguage?.length === 0;
+      if (competitionLanguageFlag) {
+        info.competitionLanguage = '';
       }
-      console.log('Competition handleSearchInfoFn ', info);
+      const competitionYearFlag =
+        isUndefined(info.competitionYear) || info.competitionYear?.length === 0;
+      if (competitionYearFlag) {
+        info.competitionYear = '';
+      }
       return info;
     },
     actionColumn: {

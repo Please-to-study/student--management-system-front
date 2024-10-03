@@ -1,5 +1,5 @@
 export type QueryCompetitionRegisterParams = {
-  competitionId: number;
+  competitionName: string;
   studentNumber: string;
   studentId: number;
 };

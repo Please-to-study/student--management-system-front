@@ -54,7 +54,6 @@
     try {
       const values = await validate();
       setModalProps({ confirmLoading: true });
-      // TODO custom api  新增学生信息功能function
       // isUpdate为false ---> 创建账号  isUpdate为true ---> 修改账号信息
       if (!unref(isUpdate)) {
         const addParams: AddCompetitionParams = { ...values };

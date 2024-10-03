@@ -53,8 +53,7 @@
   import { getSpecialStudentBasicInfoList } from '@/api/studentInformationManagement/studentInformationManagement';
   import {
     deleteCourse,
-    getAllCourseInfoList,
-    getSpecialCourseInfoList,
+    getCourseList,
   } from '@/api/courseInformationManagement/courseInformationManagement';
 
   defineOptions({ name: 'AccountManagement' });
@@ -66,7 +65,7 @@
   const [registerTable, { reload, updateTableDataRecord, getSearchInfo }] = useTable({
     title: '课程列表',
     // --todolist-- 获取学生列表数据请求函数，统一在/src/api中进行封装即可
-    // getAllCourseInfoList  getAccountList
+    // getCourseList  getAccountList
     api: getAccountList,
     rowKey: 'id',
     columns,
@@ -79,7 +78,6 @@
     showTableSetting: true,
     bordered: true,
     handleSearchInfoFn(info) {
-      // todo查询按钮操作
       const courseIdFlag = isUndefined(info.courseId) || info.courseId?.length === 0;
       const courseAddressIdFlag =
         isUndefined(info.courseAddressId) || info.courseAddressId?.length === 0;
@@ -89,7 +87,7 @@
         return;
       }
       // // --todolist-- 查询按钮操作
-      getSpecialCourseInfoList(info);
+      getCourseList(info);
       console.log('handleSearchInfoFn');
       // return info;
     },

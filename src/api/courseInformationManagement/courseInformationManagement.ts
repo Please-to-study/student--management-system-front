@@ -1,38 +1,44 @@
 import { defHttp } from '@/utils/http/axios';
-import { AddSpendingInfoParams, QuerySpendingInfoParams } from './model/spendingInfo';
-import { QueryCourseBalanceParams } from '@/api/studentInformationManagement/model/courseBalance';
-import {
-  AddCompetitionInfoParams,
-  QueryCompetitionInfoParams,
-  UpdateCompetitionInfoParams,
-} from '@/api/studentInformationManagement/model/competitionInfo';
-import {
-  AddProgramRateParams,
-  QueryProgramRateParams,
-  UpdateProgramRateParams,
-} from '@/api/studentInformationManagement/model/programmingRating';
 import {
   AddCourseInfoParams,
   QueryCourseInfoParams,
   UpdateCourseInfoParams,
 } from '@/api/courseInformationManagement/model/basicInfo';
 import { CommonFetchResult } from '@/api/model/baseModel';
+import {
+  AddMaterialsInfoParams,
+  QueryMaterialsInfoParams,
+  UpdateMaterialsInfoParams,
+} from '@/api/courseInformationManagement/model/courseworkInformation';
+import {
+  AddLearningRecordParams,
+  QueryLearningRecordParams,
+  UpdateLearningRecordParams,
+} from '@/api/courseInformationManagement/model/learningRecord';
 
 enum Api {
   // 基本信息
   AddCourse = '/courseInfo/addCourse',
   UpdateCourse = '/courseInfo/updateCourse',
   DeleteCourse = '/courseInfo/deleteCourse',
-  AllCourseInfoList = '/courseInfo/getAllCourse',
-  SpecialCourseInfoList = '/courseInfo/getSpecialCourse',
+  CourseInfoList = '/courseInfo/getCourse',
   CourseInfoById = '/courseInfo/getCourseById',
 
   // 课表信息api
 
   // 学生学习记录api
+  AddLearningRecord = '/learningRecord/addLearningRecord',
+  UpdateLearningRecord = '/learningRecord/updateLearningRecord',
+  DeleteLearningRecord = '/learningRecord/deleteLearningRecord',
+  LearningRecordList = '/learningRecord/getLearningRecord',
+  LearningRecordById = '/learningRecord/getLearningRecordById',
 
   // 课程作业信息
-  SpecialCourseworkInfoList = '/courseInfo/getSpecialCourseworkInfo',
+  AddMaterials = '/materialsInfo/addMaterialsInfo',
+  UpdateMaterials = '/materialsInfo/updateMaterialsInfo',
+  DeleteMaterials = '/materialsInfo/deleteMaterialsInfo',
+  MaterialsInfoList = '/materialsInfo/getMaterialsInfo',
+  MaterialsInfoById = '/materialsInfo/getMaterialsInfoById',
 }
 
 // 课程信息功能模块api list
@@ -45,12 +51,55 @@ export const updateCourse = (params: UpdateCourseInfoParams) =>
 export const deleteCourse = (courseId: string) =>
   defHttp.post({ url: Api.DeleteCourse, params: { courseId } });
 
-export const getAllCourseInfoList = () =>
-  defHttp.get<CommonFetchResult>({ url: Api.AllCourseInfoList });
-
-export const getSpecialCourseInfoList = (
-  params: QueryCourseInfoParams = { courseId: '', courseAddressId: '' },
-) => defHttp.get<CommonFetchResult>({ url: Api.SpecialCourseInfoList, params });
+export const getCourseList = (
+  params: QueryCourseInfoParams = { courseName: '', courseCategoryId: -1, courseAddress: '' },
+) => {
+  if (params.courseCategoryId?.length == 0) {
+    params.courseCategoryId = -1;
+  }
+  return defHttp.get<CommonFetchResult>({ url: Api.CourseInfoList, params });
+};
 
 export const getCourseInfoById = (courseId: string) =>
   defHttp.get<CommonFetchResult>({ url: Api.CourseInfoById, params: { courseId } });
+
+// 学生学习记录api
+export const addLearningRecord = (params: AddLearningRecordParams) =>
+  defHttp.post({ url: Api.AddLearningRecord, params });
+
+export const updateLearningRecord = (params: UpdateLearningRecordParams) =>
+  defHttp.post({ url: Api.UpdateLearningRecord, params });
+
+export const deleteLearningRecord = (learningRecordId: number) =>
+  defHttp.post({ url: Api.DeleteLearningRecord, params: { learningRecordId } });
+
+export const getLearningRecordList = (
+  params: QueryLearningRecordParams = { studentId: -1, learningRecordDate: '' },
+) => {
+  if (params.studentId?.length == 0) {
+    params.studentId = -1;
+  }
+  return defHttp.get<CommonFetchResult>({ url: Api.LearningRecordList, params });
+};
+
+export const getLearningRecordById = (learningRecordId: number) =>
+  defHttp.get<CommonFetchResult>({ url: Api.LearningRecordById, params: { learningRecordId } });
+
+// 课程作业信息功能模块api
+export const addMaterials = (params: AddMaterialsInfoParams) =>
+  defHttp.post({ url: Api.AddMaterials, params });
+
+export const updateMaterials = (params: UpdateMaterialsInfoParams) =>
+  defHttp.post({ url: Api.UpdateMaterials, params });
+
+export const deleteMaterials = (materialsId: number) =>
+  defHttp.post({ url: Api.DeleteMaterials, params: { materialsId } });
+
+export const getMaterialsInfoList = (
+  params: QueryMaterialsInfoParams = { courseName: '', materialsTitle: '' },
+) => {
+  return defHttp.get<CommonFetchResult>({ url: Api.MaterialsInfoList, params });
+};
+
+export const getMaterialsInfoById = (materialsId: number) =>
+  defHttp.get<CommonFetchResult>({ url: Api.MaterialsInfoById, params: { materialsId } });

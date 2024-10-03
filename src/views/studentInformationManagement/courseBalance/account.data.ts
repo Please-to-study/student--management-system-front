@@ -1,15 +1,14 @@
 import { BasicColumn, FormSchema } from '@/components/Table';
-import {
-  queryValidateStudentName,
-  queryValidateStudentNumber,
-} from '@/views/studentInformationManagement/studentValidate';
-import { getAllCourseInfoList } from '@/api/courseInformationManagement/courseInformationManagement';
+import { queryValidateStudentNumber } from '@/views/studentInformationManagement/studentValidate';
+import { getCourseList } from '@/api/courseInformationManagement/courseInformationManagement';
+import { getCourseCategoryInfoList } from '@/api/configManagement';
 
 export const columns: BasicColumn[] = [
   {
-    title: '学号',
-    dataIndex: 'studentNumber',
-    width: 120,
+    title: '学生ID',
+    dataIndex: 'studentId',
+    width: 80,
+    ifShow: false,
   },
   {
     title: '学生姓名',
@@ -17,13 +16,24 @@ export const columns: BasicColumn[] = [
     width: 80,
   },
   {
+    title: '学号',
+    dataIndex: 'studentNumber',
+    width: 120,
+  },
+  {
     title: '电话',
     dataIndex: 'studentPhone',
     width: 120,
   },
   {
-    title: '课程名称',
-    dataIndex: 'courseName',
+    title: '课程类别ID',
+    dataIndex: 'courseCategoryId',
+    width: 120,
+    ifShow: false,
+  },
+  {
+    title: '课程类别',
+    dataIndex: 'courseCategoryName',
     width: 120,
   },
   {
@@ -62,30 +72,23 @@ export const searchFormSchema: FormSchema[] = [
     ],
   },
   {
-    field: 'studentName',
-    label: '姓名',
-    component: 'Input',
-    colProps: { span: 6 },
-    rules: [
-      {
-        trigger: 'blur',
-        validator: queryValidateStudentName(),
-      },
-    ],
+    field: 'studentId',
+    label: '学生姓名',
+    slot: 'studentCustom',
+    colProps: {
+      xl: 6,
+    },
   },
   {
-    field: 'courseName',
-    label: '课程名称',
+    field: 'courseCategoryId',
+    label: '课程类别',
     component: 'ApiSelect',
-    // resultField: ''
     componentProps: {
-      api: getAllCourseInfoList,
-      // api: getAllRoleList,
-      // --todolist--  更改对应字段
-      labelField: 'courseName',
-      valueField: 'courseId',
-      // labelField: 'roleName',
-      // valueField: 'roleValue',
+      api: getCourseCategoryInfoList,
+      params: {},
+      resultField: 'items',
+      labelField: 'courseCategoryName',
+      valueField: 'courseCategoryId',
     },
     colProps: { span: 6 },
   },

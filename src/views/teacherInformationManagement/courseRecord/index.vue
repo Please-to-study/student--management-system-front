@@ -37,7 +37,6 @@
   import { reactive } from 'vue';
 
   import { BasicTable, useTable, TableAction } from '@/components/Table';
-  import { getAccountList } from '@/api/demo/system';
   import { PageWrapper } from '@/components/Page';
 
   import { useModal } from '@/components/Modal';
@@ -49,8 +48,7 @@
   import { useMessage } from '@/hooks/web/useMessage';
   import {
     deleteCourseRecord,
-    getAllCourseRecordList,
-    getSpecialCourseRecordList,
+    getCourseRecordList,
   } from '@/api/teacherInformationManagement/teacherInformationManagement';
 
   defineOptions({ name: 'AccountManagement' });
@@ -61,10 +59,12 @@
   const searchInfo = reactive<Recordable>({});
   const [registerTable, { reload, updateTableDataRecord, getSearchInfo }] = useTable({
     title: '教师上课记录列表',
-    // 获取学生列表数据请求函数，统一在/src/api中进行封装即可
-    // getAllCourseRecordList  getAccountList
-    api: getAccountList,
-    rowKey: 'id',
+    api: getCourseRecordList,
+    searchInfo: {
+      teacherName: '',
+      teacherPhone: '',
+    },
+    rowKey: 'courseRecordId',
     columns,
     formConfig: {
       labelWidth: 120,
@@ -75,17 +75,14 @@
     showTableSetting: true,
     bordered: true,
     handleSearchInfoFn(info) {
-      // --todolist-- 查询按钮操作
-      const teacherIdFlag = isUndefined(info.teacherId) || info.teacherId?.length === 0;
-      const courseIdFlag = isUndefined(info.courseId) || info.courseId?.length === 0;
-      const isEmpty = teacherIdFlag && courseIdFlag;
-      if (isEmpty) {
-        createMessage.error('请至少输入一个查询条件');
-        return;
+      const nameFlag = isUndefined(info.teacherName) || info.teacherName?.length === 0;
+      if (nameFlag) {
+        info.teacherName = '';
       }
-      // --todolist--
-      getSpecialCourseRecordList(info);
-      console.log('handleSearchInfoFn', info);
+      const phoneFlag = isUndefined(info.teacherPhone) || info.teacherPhone?.length === 0;
+      if (phoneFlag) {
+        info.teacherPhone = '';
+      }
       return info;
     },
     actionColumn: {

@@ -1,0 +1,9 @@
+{
+  "systemManagement": "SystemManagement",
+  "basicSetting" : {
+    "basicSetting" : "BasicSetting",
+    "payStyleSetting": "PayStyleSetting",
+    "courseCategorySetting": "CourseCategorySetting",
+    "competitionStyleSetting": "CompetitionStyleSetting"
+  }
+}

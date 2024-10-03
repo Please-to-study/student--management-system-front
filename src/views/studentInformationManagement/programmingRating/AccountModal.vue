@@ -25,7 +25,7 @@
   import {
     AddProgramRateParams,
     UpdateProgramRateParams,
-  } from '@/api/courseInformationManagement/model/programmingRating';
+  } from '@/api/courseInformationManagement/model/learningRecord';
   import {
     addProgramRate,
     getSameStudent,

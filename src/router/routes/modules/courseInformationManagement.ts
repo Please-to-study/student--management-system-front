@@ -10,7 +10,7 @@ const courseInformationManagement: AppRouteModule = {
   redirect: '/courseInformationManagement/basicInfo',
   meta: {
     orderNo: 3,
-    icon: 'ion:grid-outline',
+    icon: 'ion:tv-outline',
     title: t('courseInformationManagement.courseManagement'),
   },
   children: [
@@ -49,6 +49,16 @@ const courseInformationManagement: AppRouteModule = {
       meta: {
         // affix: true,
         title: t('courseInformationManagement.learningRecord.learningRecord'),
+      },
+    },
+    {
+      path: 'learningRecordDetail/:id',
+      name: 'LearningRecordDetail',
+      component: () => import('@/views/courseInformationManagement/learningRecord/LearningRecordDetail.vue'),
+      meta: {
+        // affix: true,
+        hideMenu: true,
+        title: t('courseInformationManagement.learningRecordDetail.learningRecordDetail'),
       },
     },
     {

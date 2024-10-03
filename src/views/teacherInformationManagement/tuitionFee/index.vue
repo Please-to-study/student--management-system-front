@@ -1,6 +1,11 @@
 <template>
   <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
-    <BasicTable @register="registerTable" class="" :searchInfo="searchInfo">
+    <BasicTable
+      @register="registerTable"
+      class=""
+      :searchInfo="searchInfo"
+      @fetch-success="onFetchSuccess"
+    >
       <template #headerTop>
         <Description
           title="基本信息"
@@ -43,11 +48,10 @@
   </PageWrapper>
 </template>
 <script lang="ts" setup>
-  import { reactive, ref } from 'vue';
+  import { onMounted, reactive, ref } from 'vue';
 
   import { BasicTable, useTable, TableAction } from '@/components/Table';
   import { Description } from '@/components/Description';
-  import { getAccountList } from '@/api/demo/system';
   import { PageWrapper } from '@/components/Page';
 
   import { columns, searchFormSchema } from './account.data';
@@ -55,10 +59,7 @@
   import { useMessage } from '@/hooks/web/useMessage';
   import { Divider } from 'ant-design-vue';
   import { isUndefined } from '@/utils/is';
-  import {
-    getTeacherInfoById,
-    getTeacherTuitionFeeList,
-  } from '@/api/teacherInformationManagement/teacherInformationManagement';
+  import { getTeacherTuitionFeeList } from '@/api/teacherInformationManagement/teacherInformationManagement';
   import { teacherInfoSchema } from '@/views/teacherInformationManagement/tuitionFee/account.data';
 
   defineOptions({ name: 'AccountManagement' });
@@ -66,37 +67,40 @@
   const { createMessage } = useMessage();
   const go = useGo();
   const searchInfo = reactive<Recordable>({});
-  const teacherInfo = ref<any>();
-  const [registerTable] = useTable({
+  const teacherInfo = ref<any>(null);
+  const [registerTable, { reload, getRawDataSource }] = useTable({
     title: '任课明细表',
-    // --todolist-- 获取任课明细表数据请求函数，统一在/src/api中进行封装即可
-    // getTeacherTuitionFeeList
-    api: getAccountList,
-    rowKey: 'id',
+    api: getTeacherTuitionFeeList,
+    searchInfo: {
+      teacherName: '',
+      teacherPhone: '',
+      teacherDate: '',
+    },
+    rowKey: 'courseRecordId',
     columns,
     formConfig: {
       labelWidth: 120,
       schemas: searchFormSchema,
       autoSubmitOnEnter: true,
+      resetFunc: customResetFunc,
     },
     useSearchForm: true,
     showTableSetting: true,
     bordered: true,
-    async handleSearchInfoFn(info) {
-      // todo查询按钮操作
-      const teacherIdFlag = isUndefined(info.teacherId) || info.teacherId?.length === 0;
+    handleSearchInfoFn(info) {
+      const teacherNameFlag = isUndefined(info.teacherName) || info.teacherName?.length === 0;
       const teacherPhoneFlag = isUndefined(info.teacherPhone) || info.teacherPhone?.length === 0;
-      const dateFlag = isUndefined(info.date) || info.date?.length === 0;
-      const isEmpty = teacherIdFlag && teacherPhoneFlag && dateFlag;
-      if (isEmpty) {
-        createMessage.error('请至少输入一个查询条件');
+      const teacherDateFlag = isUndefined(info.teacherDate) || info.teacherDate?.length === 0;
+      if (teacherNameFlag) {
+        createMessage.error('请输入教师姓名');
+        return;
+      } else if (teacherPhoneFlag) {
+        createMessage.error('请输入电话');
+        return;
+      } else if (teacherDateFlag) {
+        createMessage.error('请选择日期');
         return;
       }
-      // --todolist--
-      await getTeacherTuitionFeeList(info);
-      const { result } = await getTeacherInfoById(info.teacherId);
-      teacherInfo.value = result?.items[0];
-      console.log('handleSearchInfoFn', info);
       return info;
     },
     actionColumn: {
@@ -107,17 +111,17 @@
     },
   });
 
-  const mockData: Recordable = {
-    teacherName: 'test厦门市思明区',
-    nickName: 'VB',
-    age: '123',
-    phone: '15695909xxx',
-    email: '190848757@qq.com',
-    addr: '厦门市思明区',
-    sex: '男',
-    certy: '3504256199xxxxxxxxx',
-    tag: 'orange',
-  };
+  async function customResetFunc() {
+    teacherInfo.value = null;
+    reload();
+  }
+
+  function onFetchSuccess({ total }) {
+    if (!isUndefined(total)) {
+      const { info } = getRawDataSource();
+      teacherInfo.value = info;
+    }
+  }
 
   function handleView(record: Recordable) {
     // --todolist--
