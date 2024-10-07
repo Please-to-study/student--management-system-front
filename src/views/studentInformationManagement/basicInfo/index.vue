@@ -3,6 +3,7 @@
     <BasicTable @register="registerTable" class="" :searchInfo="searchInfo">
       <template #toolbar>
         <a-button type="primary" @click="handleCreate">新增学生</a-button>
+        <a-button @click="handleExport"> 导出数据 </a-button>
       </template>
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'action'">
@@ -34,12 +35,13 @@
       </template>
     </BasicTable>
     <AccountModal @register="registerModal" @success="handleSuccess" />
+    <ExpExcelModal @register="registerExportModal" @success="defaultHeader" />
   </PageWrapper>
 </template>
 <script lang="ts" setup>
-  import { reactive } from 'vue';
-
+  import { reactive, ref, unref } from 'vue';
   import { BasicTable, useTable, TableAction } from '@/components/Table';
+  import { jsonToSheetXlsx, ExpExcelModal, ExportModalResult } from '@/components/Excel';
   import {
     deleteStudent,
     getSpecialStudentBasicInfoList,
@@ -52,16 +54,17 @@
   import { columns, searchFormSchema } from './account.data';
   import { useGo } from '@/hooks/web/usePage';
   import { useMessage } from '@/hooks/web/useMessage';
-  import { isUndefined } from "@/utils/is";
-
-
+  import { isUndefined } from '@/utils/is';
+  import { data } from '@/views/demo/excel/data';
 
   defineOptions({ name: 'AccountManagement' });
 
   const { createMessage } = useMessage();
   const go = useGo();
   const [registerModal, { openModal }] = useModal();
+  const [registerExportModal, { openModal: openExportModal }] = useModal();
   const searchInfo = reactive<Recordable>({});
+  const exportData = ref<[]>([]);
   const [registerTable, { reload, updateTableDataRecord, getSearchInfo }] = useTable({
     title: '学生列表',
     api: getSpecialStudentBasicInfoList,
@@ -121,8 +124,22 @@
     reload();
   }
 
-  function handleExport() {
-    console.log(getSearchInfo());
+  async function handleExport() {
+    openExportModal(true);
+    const result = await getSpecialStudentBasicInfoList();
+    exportData.value = result.items;
+    // console.log('student result is ', exportData.value);
+  }
+
+  function defaultHeader({ filename, bookType }: ExportModalResult) {
+    // 默认Object.keys(data[0])作为header
+    jsonToSheetXlsx({
+      data: exportData.value,
+      filename,
+      write2excelOpts: {
+        bookType,
+      },
+    });
   }
 
   function handleSuccess({ isUpdate, values }) {

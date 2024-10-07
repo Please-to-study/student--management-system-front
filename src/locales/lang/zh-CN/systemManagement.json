@@ -5,5 +5,8 @@
     "payStyleSetting": "课时计费方式",
     "courseCategorySetting": "课程类别",
     "competitionStyleSetting": "比赛类型"
+  },
+  "permissionSetting": {
+    "permissionSetting": "权限设置"
   }
 }

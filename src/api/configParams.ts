@@ -34,6 +34,7 @@ export type UpdateCourseCategoryParams = AddCourseCategoryParams & {
 // 比赛类型表 config
 export type AddCompetitionStyleParams = {
   competitionStyleName: string;
+  competitionStyleNotes: string | null;
 };
 
 export type UpdateCompetitionStyleParams = AddCompetitionStyleParams & {

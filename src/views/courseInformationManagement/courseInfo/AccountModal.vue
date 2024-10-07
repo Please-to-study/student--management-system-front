@@ -119,7 +119,7 @@
         courseNumber: values.courseNumber,
         courseIntroduce: values.courseIntroduce,
         courseNotes: values.courseNotes,
-        courseArget: [],
+        courseWeekArget: [],
       };
       const dateKey = 'weekEnd_';
       const timeKey = 'courseTime_';
@@ -127,7 +127,7 @@
         const tempDateKey = dateKey + i;
         const tempTimeKey = timeKey + i;
         if (values.hasOwnProperty(dateKey + i)) {
-          params.courseArget.push({
+          params.courseWeekArget.push({
             everyCourseDetailId: i,
             weekEnd: values[tempDateKey],
             startTime: values[tempTimeKey][0],

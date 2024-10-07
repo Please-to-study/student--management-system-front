@@ -13,7 +13,7 @@ export type AddCourseInfoParams = {
   courseStartDate: string;
   courseIntroduce: string;
   courseNotes: string;
-  courseArget: any[];
+  courseWeekArget: any[];
 };
 
 export type UpdateCourseInfoParams = AddCourseInfoParams & {

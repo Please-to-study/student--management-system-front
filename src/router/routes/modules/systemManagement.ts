@@ -48,6 +48,15 @@ const systemManagement: AppRouteModule = {
         },
       ],
     },
+    {
+      path: 'permissionSetting',
+      name: 'PermissionSetting',
+      component: () => import('@/views/systemManagement/permissionSetting/index.vue'),
+      meta: {
+        // affix: true,
+        title: t('systemManagement.permissionSetting.permissionSetting'),
+      },
+    },
   ],
 };
 

@@ -7,15 +7,15 @@
   import { ref, computed, unref } from 'vue';
   import { BasicModal, useModalInner } from '@/components/Modal';
   import { BasicForm, useForm } from '@/components/Form';
-  import { accountFormSchema } from './account.data';
+  import { courseCategoryFormSchema } from './account.data';
   import {
-    AddTeacherInfoParams,
-    UpdateTeacherInfoParams,
-  } from '@/api/teacherInformationManagement/model/basicInfo';
+    AddCourseCategoryParams,
+    UpdateCourseCategoryParams,
+  } from '@/api/configParams';
   import {
-    addTeacher,
-    updateTeacher,
-  } from '@/api/teacherInformationManagement/teacherInformationManagement';
+    addCourseCategory,
+    updateCourseCategory,
+  } from '@/api/configManagement';
 
   defineOptions({ name: 'AccountModal' });
 
@@ -27,7 +27,7 @@
   const [registerForm, { setFieldsValue, updateSchema, resetFields, validate }] = useForm({
     labelWidth: 100,
     baseColProps: { span: 24 },
-    schemas: accountFormSchema,
+    schemas: courseCategoryFormSchema,
     showActionButtonGroup: false,
     actionColOptions: {
       span: 23,
@@ -45,15 +45,6 @@
         ...data.record,
       });
     }
-
-    // updateSchema([
-    //   {
-    //     field: 'teacherName',
-    //     componentProps: {
-    //       disabled: unref(isUpdate),
-    //     },
-    //   },
-    // ]);
   });
 
   const getTitle = computed(() => (!unref(isUpdate) ? '新增教师' : '编辑教师'));
@@ -62,19 +53,15 @@
     try {
       const values = await validate();
       setModalProps({ confirmLoading: true });
+      // isUpdate为false ---> 创建账号  isUpdate为true ---> 修改账号信息
       if (!unref(isUpdate)) {
-        const addParams: AddTeacherInfoParams = { ...values };
+        const addParams: AddCourseCategoryParams = { ...values };
         // debugger;
-        await addTeacher(addParams);
+        await addCourseCategory(addParams);
       } else {
-        const updateParams: UpdateTeacherInfoParams = { ...values };
-        // console.log('updateParams is :', updateParams);
-        await updateTeacher(updateParams);
+        const updateParams: UpdateCourseCategoryParams = { ...values };
+        await updateCourseCategory(updateParams);
       }
-      // console.log(values);
-      // eslint-disable-next-line no-debugger
-      // debugger;
-      console.log(values);
       closeModal();
       emit('success', { isUpdate: unref(isUpdate), values: { ...values, id: rowId.value } });
     } finally {

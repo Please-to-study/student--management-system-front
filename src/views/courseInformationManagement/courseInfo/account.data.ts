@@ -91,13 +91,18 @@ export const columns: BasicColumn[] = [
   //   width: 120,
   // },
   {
-    title: '开课时间',
-    dataIndex: 'courseStartDate',
+    title: '上课时间',
+    dataIndex: 'courseWeekArget',
     width: 120,
   },
   {
     title: '课程单价',
     dataIndex: 'courseCategoryPrice',
+    width: 120,
+  },
+  {
+    title: '开课时间',
+    dataIndex: 'courseStartDate',
     width: 120,
   },
   {
