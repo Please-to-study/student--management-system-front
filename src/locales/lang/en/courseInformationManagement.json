@@ -15,6 +15,12 @@
   "learningRecordDetail" : {
     "learningRecordDetail" : "LearningRecordDetail"
   },
+  "reviewRecord" : {
+    "reviewRecord" : "ReviewRecord"
+  },
+  "reviewRecordDetail" : {
+    "reviewRecordDetail" : "ReviewRecordDetail"
+  },
   "courseworkInformation" : {
     "courseworkInformation" : "CourseworkInformation"
   },

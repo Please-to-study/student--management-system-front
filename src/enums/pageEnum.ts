@@ -2,8 +2,12 @@ export enum PageEnum {
   // basic login path
   BASE_LOGIN = '/login',
   // basic home path
-  // BASE_HOME = '/dashboard',
-  BASE_HOME = '/studentInformationManagement',
+  BASE_HOME = '/dashboard',
+
+  TEACHER_BASE_HOME = '/teacherInformationManagement/importRecord',
+
+  MASTER_BASE_HOME = '/studentInformationManagement',
+
   // error page path
   ERROR_PAGE = '/exception',
   // error log page path

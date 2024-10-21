@@ -1,17 +1,22 @@
 import { defHttp } from '@/utils/http/axios';
-import { LoginParams, LoginResultModel, GetUserInfoModel } from './model/userModel';
+import { LoginParams, LoginResultModel, GetUserInfoModel, UserInfoParams } from './model/userModel';
 
 import { ErrorMessageMode } from '#/axios';
 
-const BASE_URL = 'http://localhost:8080/codeManageSystem';
+// const BASE_URL = 'http://localhost:8080/codeManageSystem';
 
 enum Api {
-  // Login = '/manager/login',
-  Login = '/login',
+  Login = '/user/login',
   Logout = '/logout',
-  GetUserInfo = '/getUserInfo',
+  GetUserInfo = '/user/getUserInfo',
   GetPermCode = '/getPermCode',
   TestRetry = '/testRetry',
+}
+
+export enum Identity {
+  Student = 2,
+  Administrator = 1,
+  Teacher = 0,
 }
 
 /**
@@ -33,8 +38,11 @@ export function loginApi(params: LoginParams, mode: ErrorMessageMode = 'modal') 
 /**
  * @description: getUserInfo
  */
-export function getUserInfo() {
-  return defHttp.get<GetUserInfoModel>({ url: Api.GetUserInfo }, { errorMessageMode: 'none' });
+export function getUserInfo(params: UserInfoParams) {
+  return defHttp.get<GetUserInfoModel>(
+    { url: Api.GetUserInfo, params },
+    { errorMessageMode: 'none' },
+  );
 }
 
 export function getPermCode() {

@@ -4,6 +4,12 @@
 export interface LoginParams {
   username: string;
   password: string;
+  identity: number;
+}
+
+export interface UserInfoParams {
+  userId: number;
+  identity: number;
 }
 
 export interface RoleInfo {

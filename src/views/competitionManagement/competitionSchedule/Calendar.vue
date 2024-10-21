@@ -3,16 +3,20 @@
     <template #dateCellRender="{ current }">
       <ul class="events">
         <li v-for="item in getListData(current)" :key="item.content">
-          <Badge :status="item.type" :text="item.competitionName" />
-          <Badge :status="item.type" :text="item.competitionDate" />
-          <Badge :status="item.type" :text="item.introduce" />
+          <Popover>
+            <template #content>
+              <!--              <p>{{ item.everyCourseDetailId }}</p>-->
+              <p>{{ item.content }}</p>
+            </template>
+            <Badge :color="item.color" :text="item.content" />
+          </Popover>
         </li>
       </ul>
     </template>
     <template #monthCellRender="{ current }">
       <div v-if="getMonthData(current)" class="notes-month">
         <section>{{ getMonthData(current) }}</section>
-        <span>Backlog number</span>
+        <span>次赛事</span>
       </div>
     </template>
   </Calendar>
@@ -20,85 +24,108 @@
 <script lang="ts" setup>
   import { ref } from 'vue';
   import dayjs, { Dayjs } from 'dayjs';
-  import { Calendar, Badge } from 'ant-design-vue';
+  import { Calendar, Badge, Popover } from 'ant-design-vue';
   import { getCompetitionSchedule } from '@/api/competitionManagement/competitionManagement';
   import { QueryCompetitionScheduleParams } from '@/api/competitionManagement/model/competitionSchedule';
   import { calendarSchema } from '@/views/competitionManagement/competitionSchedule/account.data';
+  import { badgeColors } from '@/views/teacherInformationManagement/teacherSchedule/account.data';
 
   defineOptions({ name: 'CourseCalendar' });
 
   const value = ref<Dayjs>();
 
-  const calendar = ref({});
+  const monthCalendar = ref({});
+  const yearCalendar = ref([]);
 
-  const currentYear = dayjs().year();
-  const currentMonth = dayjs().month() + 1;
+  const currentYear = ref('');
+  const currentMonth = ref('');
+  const calendarMode = ref('month');
+
+  currentYear.value = String(dayjs().year());
+  currentMonth.value = String(dayjs().month() + 1);
 
   const queryParams: QueryCompetitionScheduleParams = {
-    competitionYear: String(currentYear),
-    competitionMonth: String(currentMonth),
+    competitionYear: currentYear.value,
+    competitionMonth: currentMonth.value,
   };
 
   // 切换年月
   // onSelect onPanelChange
   function onPanelChange(value, mode) {
-    console.log('onPanelChange mode is :  ', mode);
-    const changeYear = dayjs(value).year();
-    const changeMonth = dayjs(value).month() + 1;
+    currentYear.value = String(dayjs(value).year());
+    currentMonth.value = String(dayjs(value).month() + 1);
+    calendarMode.value = mode;
 
     if (mode == 'month') {
       const changeParams: QueryCompetitionScheduleParams = {
-        competitionYear: String(changeYear),
-        competitionMonth: String(changeMonth),
+        competitionYear: currentYear.value,
+        competitionMonth: currentMonth.value,
       };
-      console.log('mode is month :  ', changeParams);
       getCalendarData(changeParams);
     }
     // --todolist-- 获取全年的赛事日程表
     if (mode == 'year') {
       const changeParams: QueryCompetitionScheduleParams = {
-        competitionYear: String(changeYear),
+        competitionYear: currentYear.value,
         competitionMonth: '',
       };
-      console.log('mode is year :  ', changeParams);
+      getYearCalendarData(changeParams);
     }
   }
-
-  // function onPanelChange(value) {}
 
   async function getCalendarData(params: QueryCompetitionScheduleParams) {
     const tempCalendarSchema = JSON.parse(JSON.stringify(calendarSchema));
     const { items } = await getCompetitionSchedule(params);
-    // console.log('result is ', items);
+    console.log('items is ', items);
     items.forEach((element) => {
+      element.content =
+        '赛事名称：' +
+        element.competitionName +
+        ' 比赛时间：' +
+        element.competitionDate.substring(0, 16) +
+        ' 赛事介绍：' +
+        element.introduce;
+      const badgeColorIndex = Math.floor(Math.random() * badgeColors.length);
+      element.color = badgeColors[badgeColorIndex];
       const dayIndex = element.competitionDate.substring(8, 10);
       tempCalendarSchema[dayIndex].push(element);
     });
-    calendar.value = tempCalendarSchema;
+    monthCalendar.value = tempCalendarSchema;
     // console.log('calendarSchema is ', tempCalendarSchema);
   }
 
   getCalendarData(queryParams);
+
+  async function getYearCalendarData(params: QueryCompetitionScheduleParams) {
+    // const tempCalendarSchema = JSON.parse(JSON.stringify(calendarSchema));
+    const items = await getCompetitionSchedule(params);
+    yearCalendar.value = items as [];
+    console.log('yearCalendar is ', yearCalendar.value);
+  }
 
   const isCurrentMonth = (value: Dayjs) => {
     return value.month() == dayjs().month();
   };
 
   const getListData = (value: Dayjs) => {
+    const monthIndex = value.month() + 1;
     let index: string | number = value.date();
     if (index < 10) {
       index = '0' + index;
     }
     index = '' + index;
-    // console.log('calendar.value is ', calendar.value);
-    return calendar.value[index] || [];
+    if (monthIndex != Number(currentMonth.value)) {
+      return [];
+    }
+    return monthCalendar.value[index];
   };
 
   const getMonthData = (value: Dayjs) => {
     // console.log('getMonthData is :  ');
-    if (value.month() === 8) {
-      return 1394;
-    }
+    const monthIndex = value.month();
+    const curMonth = yearCalendar.value[monthIndex];
+    console.log('curMonth is ', curMonth);
+    return curMonth?.count;
   };
 </script>
 <style scoped>

@@ -1,5 +1,5 @@
 <template>
-  <h2 class="mb-3 text-2xl font-bold text-center xl:text-3xl enter-x xl:text-left">
+  <h2 class="mb-3 hs text-2xl font-bold text-center xl:text-3xl enter-x xl:text-left">
     {{ getFormTitle }}
   </h2>
 </template>
@@ -23,3 +23,8 @@
     return titleObj[unref(getLoginState)];
   });
 </script>
+<style scoped>
+  .hs {
+    padding-left: 15px;
+  }
+</style>

@@ -2,10 +2,10 @@
   <Calendar v-model:value="value" @panel-change="onPanelChange">
     <template #dateCellRender="{ current }">
       <ul class="events">
-        <li v-for="item in getListData(current)" :key="item.content">
+        <li v-for="item in getListData(current)" :key="item.courseId">
           <Popover>
             <template #content>
-              <!--              <p>{{ item.everyCourseDetailId }}</p>-->
+<!--              <p>{{ item.everyCourseDetailId }}</p>-->
               <p>{{ item.content }}</p>
             </template>
             <Badge :color="item.color" :text="item.content" />
@@ -22,18 +22,32 @@
   </Calendar>
 </template>
 <script lang="ts" setup>
-  import { ref } from 'vue';
+  import { ref, watch } from 'vue';
   import dayjs, { Dayjs } from 'dayjs';
   import { Calendar, Badge, Popover } from 'ant-design-vue';
   import { calendarSchema } from '@/views/competitionManagement/competitionSchedule/account.data';
-  import { badgeColors } from '@/views/teacherInformationManagement/teacherSchedule/account.data';
-  import { getCourseSchedule } from '@/api/courseInformationManagement/courseInformationManagement';
-  import { QueryCourseScheduleParams } from '@/api/courseInformationManagement/model/courseSchedule';
+  import { getTeacherSchedule } from '@/api/teacherInformationManagement/teacherInformationManagement';
+  import { QueryTeacherScheduleParams } from '@/api/teacherInformationManagement/model/teacherSchedule';
+  import {
+    badgeColors,
+    MODE,
+  } from '@/views/teacherInformationManagement/teacherSchedule/account.data';
+  import { mitt } from '@/utils/mitt';
 
   defineOptions({ name: 'CourseCalendar' });
 
-  const value = ref<Dayjs>();
+  const props = defineProps({
+    teacherId: {
+      type: Number,
+      default: -1,
+    },
+    submitFlag: {
+      type: Number,
+      default: 0,
+    },
+  });
 
+  const value = ref<Dayjs>();
   const monthCalendar = ref({});
   const yearCalendar = ref([]);
 
@@ -44,38 +58,42 @@
   currentYear.value = String(dayjs().year());
   currentMonth.value = String(dayjs().month() + 1);
 
-  const queryParams: QueryCourseScheduleParams = {
-    courseYear: currentYear.value,
-    courseMonth: currentMonth.value,
-  };
+  watch(
+    () => props.submitFlag,
+    (newProps) => {
+      console.log('newProps is ', newProps);
 
-  // 切换年月
-  // onSelect onPanelChange
-  function onPanelChange(value, mode) {
-    currentYear.value = String(dayjs(value).year());
-    currentMonth.value = String(dayjs(value).month() + 1);
-    calendarMode.value = mode;
+      if (props.submitFlag < 0) {
+        monthCalendar.value = [];
+        yearCalendar.value = [];
+      } else if (calendarMode.value == MODE.MONTH) {
+        const queryParams: QueryTeacherScheduleParams = {
+          teacherId: props.teacherId,
+          teacherYear: currentYear.value,
+          teacherMonth: currentMonth.value,
+        };
+        getMnthCalendarData(queryParams);
+      } else if (calendarMode.value == MODE.YEAR) {
+        const queryParams: QueryTeacherScheduleParams = {
+          teacherId: props.teacherId,
+          teacherYear: currentYear.value,
+          teacherMonth: '',
+        };
+        getYearCalendarData(queryParams);
+      }
+    },
+  );
 
-    if (mode == 'month') {
-      const changeParams: QueryCourseScheduleParams = {
-        courseYear: currentYear.value,
-        courseMonth: currentMonth.value,
-      };
-      getCalendarData(changeParams);
-    }
-    if (mode == 'year') {
-      const changeParams: QueryCourseScheduleParams = {
-        courseYear: currentYear.value,
-        courseMonth: '',
-      };
-      getYearCalendarData(changeParams);
-    }
-  }
+  const emitter = mitt();
 
-  async function getCalendarData(params: QueryCourseScheduleParams) {
+  emitter.on('teacherSchedule', (e) => {
+    console.log('calendar teacherSchedule', e);
+  });
+
+  async function getMnthCalendarData(params: QueryTeacherScheduleParams) {
     const tempCalendarSchema = JSON.parse(JSON.stringify(calendarSchema));
-    const items = await getCourseSchedule(params);
-    console.log('items is ', items);
+    const items = await getTeacherSchedule(params);
+    console.log('result is ', items);
     items.forEach((element) => {
       element.content =
         '课程名称：' +
@@ -92,17 +110,27 @@
       tempCalendarSchema[dayIndex].push(element);
     });
     monthCalendar.value = tempCalendarSchema;
-    // console.log('calendarSchema is ', tempCalendarSchema);
+    console.log('calendarSchema is ', tempCalendarSchema);
   }
 
-  getCalendarData(queryParams);
-
-  async function getYearCalendarData(params: QueryCourseScheduleParams) {
+  async function getYearCalendarData(params: QueryTeacherScheduleParams) {
     // const tempCalendarSchema = JSON.parse(JSON.stringify(calendarSchema));
-    const items = await getCourseSchedule(params);
+    const items = await getTeacherSchedule(params);
     yearCalendar.value = items as [];
     console.log('yearCalendar is ', yearCalendar.value);
   }
+
+  // 切换年月
+  function onPanelChange(value, mode) {
+    console.log('onPanelChange mode is :  ', mode);
+    currentYear.value = String(dayjs(value).year());
+    currentMonth.value = String(dayjs(value).month() + 1);
+    calendarMode.value = mode;
+  }
+
+  const isCurrentMonth = (value: Dayjs) => {
+    return value.month() == dayjs().month();
+  };
 
   const getListData = (value: Dayjs) => {
     const monthIndex = value.month() + 1;
@@ -119,6 +147,7 @@
 
   const getMonthData = (value: Dayjs) => {
     // console.log('getMonthData is :  ');
+
     const monthIndex = value.month();
     const curMonth = yearCalendar.value[monthIndex];
     console.log('curMonth is ', curMonth);

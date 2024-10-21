@@ -27,20 +27,24 @@
 
     <ARow class="enter-x">
       <ACol :span="12">
-<!--        <FormItem>-->
-<!--          &lt;!&ndash; No logic, you need to deal with it yourself &ndash;&gt;-->
-<!--          <Checkbox v-model:checked="rememberMe" size="small">-->
-<!--            {{ t('sys.login.rememberMe') }}-->
-<!--          </Checkbox>-->
-<!--        </FormItem>-->
+        <FormItem>
+          <!-- No logic, you need to deal with it yourself -->
+          <!--          <Checkbox v-model:checked="rememberMe" size="small">-->
+          <!--            {{ t('sys.login.rememberMe') }}-->
+          <!--          </Checkbox>-->
+          <RadioGroup v-model:value="identity">
+            <Radio :value="1">管理员</Radio>
+            <Radio :value="0">教师</Radio>
+          </RadioGroup>
+        </FormItem>
       </ACol>
       <ACol :span="12">
-<!--        <FormItem :style="{ 'text-align': 'right' }">-->
-<!--          &lt;!&ndash; No logic, you need to deal with it yourself &ndash;&gt;-->
-<!--          <Button type="link" size="small" @click="setLoginState(LoginStateEnum.RESET_PASSWORD)">-->
-<!--            {{ t('sys.login.forgetPassword') }}-->
-<!--          </Button>-->
-<!--        </FormItem>-->
+        <FormItem :style="{ 'text-align': 'right' }">
+          <!-- No logic, you need to deal with it yourself -->
+          <!--          <Button type="link" size="small" @click="setLoginState(LoginStateEnum.RESET_PASSWORD)">-->
+          <!--            {{ t('sys.login.forgetPassword') }}-->
+          <!--          </Button>-->
+        </FormItem>
       </ACol>
     </ARow>
 
@@ -52,46 +56,49 @@
         {{ t('sys.login.registerButton') }}
       </Button> -->
     </FormItem>
-<!--    <ARow class="enter-x" :gutter="[16, 16]">-->
-<!--      <ACol :md="8" :xs="24">-->
-<!--        <Button block @click="setLoginState(LoginStateEnum.MOBILE)">-->
-<!--          {{ t('sys.login.mobileSignInFormTitle') }}-->
-<!--        </Button>-->
-<!--      </ACol>-->
-<!--      <ACol :md="8" :xs="24">-->
-<!--        <Button block @click="setLoginState(LoginStateEnum.QR_CODE)">-->
-<!--          {{ t('sys.login.qrSignInFormTitle') }}-->
-<!--        </Button>-->
-<!--      </ACol>-->
-<!--      <ACol :md="8" :xs="24">-->
-<!--        <Button block @click="setLoginState(LoginStateEnum.REGISTER)">-->
-<!--          {{ t('sys.login.registerButton') }}-->
-<!--        </Button>-->
-<!--      </ACol>-->
-<!--    </ARow>-->
+    <!--    <ARow class="enter-x" :gutter="[16, 16]">-->
+    <!--      <ACol :md="8" :xs="24">-->
+    <!--        <Button block @click="setLoginState(LoginStateEnum.MOBILE)">-->
+    <!--          {{ t('sys.login.mobileSignInFormTitle') }}-->
+    <!--        </Button>-->
+    <!--      </ACol>-->
+    <!--      <ACol :md="8" :xs="24">-->
+    <!--        <Button block @click="setLoginState(LoginStateEnum.QR_CODE)">-->
+    <!--          {{ t('sys.login.qrSignInFormTitle') }}-->
+    <!--        </Button>-->
+    <!--      </ACol>-->
+    <!--      <ACol :md="8" :xs="24">-->
+    <!--        <Button block @click="setLoginState(LoginStateEnum.REGISTER)">-->
+    <!--          {{ t('sys.login.registerButton') }}-->
+    <!--        </Button>-->
+    <!--      </ACol>-->
+    <!--    </ARow>-->
 
-<!--    <Divider class="enter-x">{{ t('sys.login.otherSignIn') }}</Divider>-->
+    <!--    <Divider class="enter-x">{{ t('sys.login.otherSignIn') }}</Divider>-->
 
-<!--    <div class="flex justify-evenly enter-x" :class="`${prefixCls}-sign-in-way`">-->
-<!--      <GithubFilled />-->
-<!--      <WechatFilled />-->
-<!--      <AlipayCircleFilled />-->
-<!--      <GoogleCircleFilled />-->
-<!--      <TwitterCircleFilled />-->
-<!--    </div>-->
+    <!--    <div class="flex justify-evenly enter-x" :class="`${prefixCls}-sign-in-way`">-->
+    <!--      <GithubFilled />-->
+    <!--      <WechatFilled />-->
+    <!--      <AlipayCircleFilled />-->
+    <!--      <GoogleCircleFilled />-->
+    <!--      <TwitterCircleFilled />-->
+    <!--    </div>-->
   </Form>
 </template>
 <script lang="ts" setup>
   import { reactive, ref, unref, computed } from 'vue';
 
-  import { Checkbox, Form, Input, Row, Col, Button, Divider } from 'ant-design-vue';
   import {
-    GithubFilled,
-    WechatFilled,
-    AlipayCircleFilled,
-    GoogleCircleFilled,
-    TwitterCircleFilled,
-  } from '@ant-design/icons-vue';
+    Checkbox,
+    Form,
+    Input,
+    Row,
+    Col,
+    Button,
+    RadioGroup,
+    Radio,
+    Divider,
+  } from 'ant-design-vue';
   import LoginFormTitle from './LoginFormTitle.vue';
 
   import { useI18n } from '@/hooks/web/useI18n';
@@ -118,9 +125,11 @@
   const loading = ref(false);
   const rememberMe = ref(false);
 
+  const identity = ref<number>(1);
+
   const formData = reactive({
-    username: 'vben',
-    password: '123456',
+    username: '',
+    password: '',
   });
 
   const { validForm } = useFormValid(formRef);
@@ -135,11 +144,14 @@
     try {
       loading.value = true;
       //
+      // debugger;
       const userInfo = await userStore.login({
         password: formData.password,
         username: formData.username,
+        identity: identity.value,
         mode: 'none', //不要默认的错误提示
       });
+
       if (userInfo) {
         notification.success({
           message: t('sys.login.loginSuccessTitle'),

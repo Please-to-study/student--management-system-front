@@ -1,6 +1,7 @@
 import { BasicColumn, FormSchema } from '@/components/Table';
 import { DescItem } from '@/components/Description';
 import { getCourseCategoryInfoList } from '@/api/configManagement';
+import { isNull } from "@/utils/is";
 
 export const weekend = [
   {
@@ -93,7 +94,24 @@ export const columns: BasicColumn[] = [
   {
     title: '上课时间',
     dataIndex: 'courseWeekArget',
-    width: 120,
+    width: 110,
+    customRender: ({ value }) => {
+      let courseTime = '';
+      if (isNull(value)) {
+        return courseTime;
+      }
+      value.forEach((courseDetail) => {
+        const day = weekend.find((ele) => ele.value == courseDetail.weekEnd);
+        const onceCourseTime =
+          day?.label +
+          ' ' +
+          courseDetail.startTime.substring(11, 16) +
+          '-' +
+          courseDetail.endTime.substring(11, 16);
+        courseTime += onceCourseTime;
+      });
+      return courseTime;
+    },
   },
   {
     title: '课程单价',

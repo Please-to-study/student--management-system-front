@@ -15,6 +15,12 @@
   "learningRecordDetail" : {
     "learningRecordDetail" : "学习记录详情"
   },
+  "reviewRecord" : {
+    "reviewRecord" : "待审核记录"
+  },
+  "reviewRecordDetail" : {
+    "reviewRecordDetail" : "待审核记录详情"
+  },
   "courseworkInformation" : {
     "courseworkInformation" : "课程作业信息"
   },

@@ -2,6 +2,7 @@ import type { AppRouteModule } from '@/router/types';
 
 import { LAYOUT } from '@/router/constant';
 import { t } from '@/hooks/web/useI18n';
+import { RoleEnum } from "@/enums/roleEnum";
 
 const systemManagement: AppRouteModule = {
   path: '/systemManagement',
@@ -28,6 +29,7 @@ const systemManagement: AppRouteModule = {
           component: () => import('@/views/systemManagement/payStyleSetting/index.vue'),
           meta: {
             title: t('systemManagement.basicSetting.payStyleSetting'),
+            // roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
           },
         },
         {
@@ -36,6 +38,7 @@ const systemManagement: AppRouteModule = {
           component: () => import('@/views/systemManagement/courseCategorySetting/index.vue'),
           meta: {
             title: t('systemManagement.basicSetting.courseCategorySetting'),
+            // roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
           },
         },
         {
@@ -44,6 +47,7 @@ const systemManagement: AppRouteModule = {
           component: () => import('@/views/systemManagement/competitionStyleSetting/index.vue'),
           meta: {
             title: t('systemManagement.basicSetting.competitionStyleSetting'),
+            // roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
           },
         },
       ],
@@ -55,6 +59,7 @@ const systemManagement: AppRouteModule = {
       meta: {
         // affix: true,
         title: t('systemManagement.permissionSetting.permissionSetting'),
+        roles: [RoleEnum.MASTER],
       },
     },
   ],

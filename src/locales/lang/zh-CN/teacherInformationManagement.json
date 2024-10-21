@@ -17,5 +17,8 @@
   },
   "tuitionFee" : {
     "tuitionFee" : "课时费用"
+  },
+  "importRecord" : {
+    "importRecord" : "导入学习记录"
   }
 }

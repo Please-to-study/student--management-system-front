@@ -8,12 +8,8 @@
   import { BasicModal, useModalInner } from '@/components/Modal';
   import { BasicForm, useForm } from '@/components/Form';
   import { getDeptList } from '@/api/demo/system';
-  import { accountFormSchema } from '@/views/courseInformationManagement/learningRecord/account.data';
-  import {
-    updateLearningRecord,
-    updateMaterials,
-  } from '@/api/courseInformationManagement/courseInformationManagement';
-  import { UpdateMaterialsInfoParams } from '@/api/courseInformationManagement/model/courseworkInformation';
+  import { accountFormSchema } from '@/views/courseInformationManagement/reviewRecord/account.data';
+  import { updateLearningRecord } from '@/api/courseInformationManagement/courseInformationManagement';
   import { UpdateLearningRecordParams } from '@/api/courseInformationManagement/model/learningRecord';
 
   defineOptions({ name: 'AccountModal' });
@@ -58,7 +54,7 @@
     ]);
   });
 
-  const getTitle = computed(() => (!unref(isUpdate) ? '新增账号' : '编辑账号'));
+  const getTitle = computed(() => '审核信息');
 
   async function handleSubmit() {
     try {

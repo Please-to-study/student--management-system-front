@@ -15,6 +15,7 @@ import {
   QueryLearningRecordParams,
   UpdateLearningRecordParams,
 } from '@/api/courseInformationManagement/model/learningRecord';
+import { QueryCourseScheduleParams } from '@/api/courseInformationManagement/model/courseSchedule';
 
 enum Api {
   // 基本信息
@@ -25,6 +26,7 @@ enum Api {
   CourseInfoById = '/courseInfo/getCourseById',
 
   // 课表信息api
+  CourseSchedule = '/courseInfo/getCourseSchedule',
 
   // 学生学习记录api
   AddLearningRecord = '/learningRecord/addLearningRecord',
@@ -32,6 +34,10 @@ enum Api {
   DeleteLearningRecord = '/learningRecord/deleteLearningRecord',
   LearningRecordList = '/learningRecord/getLearningRecord',
   LearningRecordById = '/learningRecord/getLearningRecordById',
+
+  // 待审核记录api
+  ReviewRecordList = '/learningRecord/getReviewRecord',
+  IdentityReviewRecord = '/learningRecord/identityReviewRecord',
 
   // 课程作业信息
   AddMaterials = '/materialsInfo/addMaterialsInfo',
@@ -63,9 +69,13 @@ export const getCourseList = (
 export const getCourseInfoById = (courseId: string) =>
   defHttp.get<CommonFetchResult>({ url: Api.CourseInfoById, params: { courseId } });
 
+// 课表信息api
+export const getCourseSchedule = (params: QueryCourseScheduleParams) =>
+  defHttp.get<CommonFetchResult>({ url: Api.CourseSchedule, params });
+
 // 学生学习记录api
 export const addLearningRecord = (params: AddLearningRecordParams) =>
-  defHttp.post({ url: Api.AddLearningRecord, params });
+  defHttp.post({ url: Api.AddLearningRecord, params }, { isTransformResponse: false });
 
 export const updateLearningRecord = (params: UpdateLearningRecordParams) =>
   defHttp.post({ url: Api.UpdateLearningRecord, params });

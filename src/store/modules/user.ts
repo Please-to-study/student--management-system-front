@@ -6,8 +6,8 @@ import { RoleEnum } from '@/enums/roleEnum';
 import { PageEnum } from '@/enums/pageEnum';
 import { ROLES_KEY, TOKEN_KEY, USER_INFO_KEY } from '@/enums/cacheEnum';
 import { getAuthCache, setAuthCache } from '@/utils/auth';
-import { GetUserInfoModel, LoginParams } from '@/api/sys/model/userModel';
-import { doLogout, getUserInfo, loginApi } from '@/api/sys/user';
+import { GetUserInfoModel, LoginParams, UserInfoParams } from '@/api/sys/model/userModel';
+import { doLogout, getUserInfo, loginApi, Identity } from '@/api/sys/user';
 import { useI18n } from '@/hooks/web/useI18n';
 import { useMessage } from '@/hooks/web/useMessage';
 import { router } from '@/router';
@@ -91,19 +91,25 @@ export const useUserStore = defineStore({
       try {
         const { goHome = true, mode, ...loginParams } = params;
         const data = await loginApi(loginParams, mode);
-        const { token } = data;
-
+        const { userId, token } = data;
+        const userInfoParams: UserInfoParams = {
+          userId: userId as number,
+          identity: loginParams.identity,
+        };
         // save token
         this.setToken(token);
-        return this.afterLoginAction(goHome);
+        return this.afterLoginAction(userInfoParams, goHome);
       } catch (error) {
         return Promise.reject(error);
       }
     },
-    async afterLoginAction(goHome?: boolean): Promise<GetUserInfoModel | null> {
+    async afterLoginAction(
+      userInfoParams: UserInfoParams,
+      goHome?: boolean,
+    ): Promise<GetUserInfoModel | null> {
       if (!this.getToken) return null;
       // get user info
-      const userInfo = await this.getUserInfoAction();
+      const userInfo = await this.getUserInfoAction(userInfoParams);
 
       const sessionTimeout = this.sessionTimeout;
       if (sessionTimeout) {
@@ -121,13 +127,18 @@ export const useUserStore = defineStore({
           permissionStore.setDynamicAddedRoute(true);
         }
 
-        goHome && (await router.replace(userInfo?.homePath || PageEnum.BASE_HOME));
+        if (userInfoParams.identity == Identity.Administrator) {
+          goHome && (await router.replace(userInfo?.homePath || PageEnum.BASE_HOME));
+        } else if (userInfoParams.identity == Identity.Teacher) {
+          goHome && (await router.replace(userInfo?.homePath || PageEnum.TEACHER_BASE_HOME));
+        }
       }
       return userInfo;
     },
-    async getUserInfoAction(): Promise<UserInfo | null> {
+    async getUserInfoAction(userInfoParams: UserInfoParams): Promise<UserInfo | null> {
       if (!this.getToken) return null;
-      const userInfo = await getUserInfo();
+      // debugger;
+      const userInfo = await getUserInfo(userInfoParams);
       const { roles = [] } = userInfo;
       if (isArray(roles)) {
         const roleList = roles.map((item) => item.value) as RoleEnum[];
