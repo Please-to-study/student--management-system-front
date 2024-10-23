@@ -43,11 +43,11 @@ export const columns: BasicColumn[] = [
     dataIndex: 'teacherAddress',
     width: 200,
   },
-  {
-    title: '账号密码',
-    dataIndex: 'teacherPassword',
-    width: 120,
-  },
+  // {
+  //   title: '账号密码',
+  //   dataIndex: 'teacherPassword',
+  //   width: 120,
+  // },
   // todo 是否添加教授课程
   // {
   //   title: '教授课程',
@@ -96,16 +96,10 @@ export const searchFormSchema: FormSchema[] = [
     ],
   },
   {
-    field: 'teacherPhone',
-    label: '教师电话',
+    field: 'signingStyle',
+    label: '签约形式',
     component: 'Input',
     colProps: { span: 6 },
-    rules: [
-      {
-        trigger: 'blur',
-        validator: queryValidateTeacherPhone(),
-      },
-    ],
   },
 ];
 

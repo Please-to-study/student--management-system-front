@@ -31,7 +31,6 @@
   import { ApiSelect, BasicForm, useForm } from '@/components/Form';
   import { getTeacherInfoByName } from '@/api/teacherInformationManagement/teacherInformationManagement';
   import { useDebounceFn } from '@vueuse/core';
-  import { mitt } from '@/utils/mitt';
   import type { Recordable } from '@vben/types';
   import { searchFormSchema } from '@/views/teacherInformationManagement/teacherSchedule/account.data';
 
@@ -72,7 +71,6 @@
     teacherId.value = values.teacherId;
     submitFlag.value = submitFlag.value >= 0 ? 1 - submitFlag.value : 0;
     // emitter.emit('teacherSchedule', teacherId.value);
-    console.log('查询按钮', values);
   }
 
   // emitter.on('teacherSchedule', e => {

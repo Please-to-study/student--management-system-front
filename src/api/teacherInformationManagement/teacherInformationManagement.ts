@@ -43,7 +43,7 @@ export const deleteTeacher = (teacherId: number) =>
   defHttp.post({ url: Api.DeleteTeacher, params: { teacherId } });
 
 export const getTeacherInfoList = (
-  params: QueryTeacherInfoParams = { teacherName: '', teacherPhone: '' },
+  params: QueryTeacherInfoParams = { teacherName: '', signingStyle: '' },
 ) => defHttp.get<CommonFetchResult>({ url: Api.TeacherInfoList, params });
 
 export const getTeacherInfoById = (teacherId: number) =>
@@ -70,5 +70,11 @@ export const getCourseRecordById = (courseRecordId: number) =>
   defHttp.get<CommonFetchResult>({ url: Api.CourseRecordById, params: { courseRecordId } });
 
 // 课时费用api
-export const getTeacherTuitionFeeList = (params: QueryTuitionFeeParams) =>
-  defHttp.get<CommonFetchResult>({ url: Api.TeacherTuitionFee, params });
+export const getTeacherTuitionFeeList = (
+  params: QueryTuitionFeeParams = { teacherId: -1, teacherDate: '' },
+) => {
+  if (params.teacherId?.length == 0) {
+    params.teacherId = -1;
+  }
+  return defHttp.get<CommonFetchResult>({ url: Api.TeacherTuitionFee, params });
+};

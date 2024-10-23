@@ -78,14 +78,13 @@
     console.log('items is ', items);
     items.forEach((element) => {
       element.content =
-        '课程名称：' +
-        element.courseName +
-        ' 上课时间：' +
+        element.courseAddress +
+        ' ' +
         element.startTime.substring(11, 16) +
         '-' +
         element.endTime.substring(11, 16) +
-        ' 上课地点：' +
-        element.courseAddress;
+        ' ' +
+        element.courseName;
       const badgeColorIndex = Math.floor(Math.random() * badgeColors.length);
       element.color = badgeColors[badgeColorIndex];
       const dayIndex = element.startTime.substring(8, 10);

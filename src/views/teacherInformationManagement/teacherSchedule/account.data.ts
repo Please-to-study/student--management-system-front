@@ -25,7 +25,6 @@ export const searchFormSchema: FormSchema[] = [
   {
     label: '任课老师',
     field: 'teacherId',
-    required: true,
     slot: 'teacherSearch',
     colProps: { span: 6 },
   },

@@ -67,7 +67,7 @@
     api: getTeacherInfoList,
     searchInfo: {
       teacherName: '',
-      teacherPhone: '',
+      signingStyle: '',
     },
     rowKey: 'teacherId',
     columns,
@@ -84,9 +84,9 @@
       if (nameFlag) {
         info.teacherName = '';
       }
-      const phoneFlag = isUndefined(info.teacherPhone) || info.teacherPhone?.length === 0;
-      if (phoneFlag) {
-        info.teacherPhone = '';
+      const signingFlag = isUndefined(info.signingStyle) || info.signingStyle?.length === 0;
+      if (signingFlag) {
+        info.signingStyle = '';
       }
       return info;
     },

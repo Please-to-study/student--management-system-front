@@ -6,6 +6,19 @@
       :searchInfo="searchInfo"
       @fetch-success="onFetchSuccess"
     >
+      <template #form-teacherCustom>
+        <ApiSelect
+          :api="getTeacherInfoByName"
+          showSearch
+          placeholder="请选择教师"
+          v-model:value="teacherId"
+          :filterOption="false"
+          labelField="teacherLabel"
+          valueField="teacherId"
+          :params="searchParams"
+          @search="debounceOptionsFn"
+        />
+      </template>
       <template #headerTop>
         <Description
           title="基本信息"
@@ -48,7 +61,7 @@
   </PageWrapper>
 </template>
 <script lang="ts" setup>
-  import { onMounted, reactive, ref } from 'vue';
+  import { computed, onMounted, reactive, ref, unref } from 'vue';
 
   import { BasicTable, useTable, TableAction } from '@/components/Table';
   import { Description } from '@/components/Description';
@@ -58,9 +71,16 @@
   import { useGo } from '@/hooks/web/usePage';
   import { useMessage } from '@/hooks/web/useMessage';
   import { Divider } from 'ant-design-vue';
-  import { isUndefined } from '@/utils/is';
-  import { getTeacherTuitionFeeList } from '@/api/teacherInformationManagement/teacherInformationManagement';
+  import { isNull, isUndefined } from '@/utils/is';
+  import {
+    getTeacherInfoByName,
+    getTeacherTuitionFeeList,
+  } from '@/api/teacherInformationManagement/teacherInformationManagement';
   import { teacherInfoSchema } from '@/views/teacherInformationManagement/tuitionFee/account.data';
+  import { ApiSelect } from '@/components/Form';
+  import type { Recordable } from '@vben/types';
+  import { useDebounceFn } from '@vueuse/core';
+  import { useModal } from '@/components/Modal';
 
   defineOptions({ name: 'AccountManagement' });
 
@@ -68,12 +88,17 @@
   const go = useGo();
   const searchInfo = reactive<Recordable>({});
   const teacherInfo = ref<any>(null);
+  const debounceOptionsFn = useDebounceFn(onSearch, 300);
+  const teacherId = ref<string>('');
+  const keyword = ref<string>('');
+  const searchParams = computed<Recordable<string>>(() => {
+    return { teacherName: unref(keyword) };
+  });
   const [registerTable, { reload, getRawDataSource }] = useTable({
     title: '任课明细表',
     api: getTeacherTuitionFeeList,
     searchInfo: {
-      teacherName: '',
-      teacherPhone: '',
+      teacherId: -1,
       teacherDate: '',
     },
     rowKey: 'courseRecordId',
@@ -88,18 +113,19 @@
     showTableSetting: true,
     bordered: true,
     handleSearchInfoFn(info) {
-      const teacherNameFlag = isUndefined(info.teacherName) || info.teacherName?.length === 0;
-      const teacherPhoneFlag = isUndefined(info.teacherPhone) || info.teacherPhone?.length === 0;
+      const teacherIdFlag = teacherId.value.length == 0;
+      if (teacherIdFlag) {
+        info.teacherId = -1;
+      } else {
+        info.teacherId = teacherId.value;
+      }
       const teacherDateFlag = isUndefined(info.teacherDate) || info.teacherDate?.length === 0;
-      if (teacherNameFlag) {
-        createMessage.error('请输入教师姓名');
-        return;
-      } else if (teacherPhoneFlag) {
-        createMessage.error('请输入电话');
-        return;
+      if (teacherIdFlag && teacherDateFlag) {
+        createMessage.error('请选择查询条件');
       } else if (teacherDateFlag) {
         createMessage.error('请选择日期');
-        return;
+      } else if (teacherIdFlag) {
+        createMessage.error('请选择教师');
       }
       return info;
     },
@@ -113,7 +139,12 @@
 
   async function customResetFunc() {
     teacherInfo.value = null;
+    teacherId.value = '';
     reload();
+  }
+
+  function onSearch(value: string) {
+    keyword.value = value;
   }
 
   function onFetchSuccess({ total }) {
@@ -124,7 +155,6 @@
   }
 
   function handleView(record: Recordable) {
-    // --todolist--
     go('/system/account_detail/' + record.id);
   }
 </script>

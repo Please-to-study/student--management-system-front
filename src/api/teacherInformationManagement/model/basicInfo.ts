@@ -1,6 +1,6 @@
 export type QueryTeacherInfoParams = {
   teacherName: string;
-  teacherPhone: string;
+  signingStyle: string;
 };
 
 export type QueryTeacherByNameParams = {

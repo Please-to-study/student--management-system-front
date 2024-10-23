@@ -1,5 +1,4 @@
 export type QueryTuitionFeeParams = {
-  teacherName: string;
-  teacherPhone: string;
+  teacherId: number;
   teacherDate: string;
 };

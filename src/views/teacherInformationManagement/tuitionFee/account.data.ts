@@ -1,6 +1,5 @@
 import { BasicColumn, FormSchema } from '@/components/Table';
 import { DescItem } from '@/components/Description';
-import { validateTeacherPhone } from '@/views/teacherInformationManagement/teacherValidate';
 
 const genderMap = new Map([
   ['1', '男'],
@@ -54,28 +53,12 @@ export const columns: BasicColumn[] = [
 
 export const searchFormSchema: FormSchema[] = [
   {
-    field: 'teacherName',
     label: '教师姓名',
-    component: 'Input',
-    colProps: { span: 6 },
-    required: true,
-  },
-  {
-    field: 'teacherPhone',
-    label: '电话',
-    component: 'Input',
-    colProps: { span: 6 },
-    rules: [
-      {
-        required: true,
-        message: '请输入电话',
-      },
-      {
-        trigger: 'blur',
-        validator: validateTeacherPhone(),
-      },
-    ],
-    required: true,
+    field: 'teacherId',
+    slot: 'teacherCustom',
+    colProps: {
+      xl: 6,
+    },
   },
   {
     field: 'teacherDate',
@@ -86,7 +69,6 @@ export const searchFormSchema: FormSchema[] = [
       format: 'YYYY-MM-DD',
     },
     colProps: { span: 6 },
-    required: true,
   },
 ];
 

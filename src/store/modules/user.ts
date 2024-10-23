@@ -14,7 +14,7 @@ import { router } from '@/router';
 import { usePermissionStore } from '@/store/modules/permission';
 import { RouteRecordRaw } from 'vue-router';
 import { PAGE_NOT_FOUND_ROUTE } from '@/router/routes/basic';
-import { isArray } from '@/utils/is';
+import { isArray, isNull } from "@/utils/is";
 import { h } from 'vue';
 
 interface UserState {
@@ -109,6 +109,8 @@ export const useUserStore = defineStore({
     ): Promise<GetUserInfoModel | null> {
       if (!this.getToken) return null;
       // get user info
+      debugger;
+
       const userInfo = await this.getUserInfoAction(userInfoParams);
 
       const sessionTimeout = this.sessionTimeout;
@@ -137,8 +139,11 @@ export const useUserStore = defineStore({
     },
     async getUserInfoAction(userInfoParams: UserInfoParams): Promise<UserInfo | null> {
       if (!this.getToken) return null;
-      // debugger;
+
       const userInfo = await getUserInfo(userInfoParams);
+      // debugger;
+      // userInfo.identity = userInfoParams.identity;
+      userInfo.identity = 1;
       const { roles = [] } = userInfo;
       if (isArray(roles)) {
         const roleList = roles.map((item) => item.value) as RoleEnum[];

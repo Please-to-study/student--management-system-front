@@ -2,6 +2,8 @@ import { defHttp } from '@/utils/http/axios';
 import { LoginParams, LoginResultModel, GetUserInfoModel, UserInfoParams } from './model/userModel';
 
 import { ErrorMessageMode } from '#/axios';
+import { isNull, isUndefined } from '@/utils/is';
+import { useUserStore } from '@/store/modules/user';
 
 // const BASE_URL = 'http://localhost:8080/codeManageSystem';
 
@@ -39,8 +41,21 @@ export function loginApi(params: LoginParams, mode: ErrorMessageMode = 'modal') 
  * @description: getUserInfo
  */
 export function getUserInfo(params: UserInfoParams) {
+  // debugger;
+  let searchParams: UserInfoParams = {
+    userId: -1,
+    identity: -1,
+  };
+  if (isUndefined(params)) {
+    const userStore = useUserStore();
+    const userInfo = userStore.getUserInfo;
+    searchParams.userId = userInfo.userId as number;
+    searchParams.identity = userInfo.identity;
+  } else {
+    searchParams = params;
+  }
   return defHttp.get<GetUserInfoModel>(
-    { url: Api.GetUserInfo, params },
+    { url: Api.GetUserInfo, params: searchParams },
     { errorMessageMode: 'none' },
   );
 }
