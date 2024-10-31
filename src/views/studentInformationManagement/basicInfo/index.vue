@@ -3,7 +3,7 @@
     <BasicTable @register="registerTable" class="" :searchInfo="searchInfo">
       <template #toolbar>
         <a-button type="primary" @click="handleCreate">新增学生</a-button>
-        <a-button @click="handleExport"> 导出数据 </a-button>
+        <a-button @click="handleExport"> 导出信息 </a-button>
       </template>
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'action'">
@@ -64,8 +64,8 @@
   const [registerModal, { openModal }] = useModal();
   const [registerExportModal, { openModal: openExportModal }] = useModal();
   const searchInfo = reactive<Recordable>({});
-  const exportData = ref<[]>([]);
-  const [registerTable, { reload, updateTableDataRecord, getSearchInfo }] = useTable({
+  const exportData = ref<any[]>([]);
+  const [registerTable, { reload, updateTableDataRecord, getDataSource }] = useTable({
     title: '学生列表',
     api: getSpecialStudentBasicInfoList,
     searchInfo: {
@@ -126,9 +126,8 @@
 
   async function handleExport() {
     openExportModal(true);
-    const result = await getSpecialStudentBasicInfoList();
-    exportData.value = result.items;
-    // console.log('student result is ', exportData.value);
+    // const result = await getSpecialStudentBasicInfoList();
+    exportData.value = getDataSource();
   }
 
   function defaultHeader({ filename, bookType }: ExportModalResult) {

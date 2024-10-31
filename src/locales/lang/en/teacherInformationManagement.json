@@ -20,5 +20,8 @@
   },
   "importRecord" : {
     "importRecord" : "ImportRecord"
+  },
+  "uncheckedRecord" : {
+    "uncheckedRecord" : "UncheckedRecord"
   }
 }

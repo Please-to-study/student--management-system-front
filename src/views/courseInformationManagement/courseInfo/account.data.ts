@@ -2,6 +2,7 @@ import { BasicColumn, FormSchema } from '@/components/Table';
 import { DescItem } from '@/components/Description';
 import { getCourseCategoryInfoList } from '@/api/configManagement';
 import { isNull } from "@/utils/is";
+import { formatToDate, formatToDateTime } from "@/utils/dateUtil";
 
 export const weekend = [
   {
@@ -121,6 +122,9 @@ export const columns: BasicColumn[] = [
   {
     title: '开课时间',
     dataIndex: 'courseStartDate',
+    customRender: ({ value }) => {
+      return formatToDate(value);
+    },
     width: 120,
   },
   {
@@ -164,6 +168,16 @@ export const searchFormSchema: FormSchema[] = [
     field: 'courseAddress',
     label: '上课校区',
     component: 'Input',
+    colProps: { span: 6 },
+  },
+  {
+    field: 'courseStartDate',
+    label: '日期',
+    component: 'MonthPicker',
+    componentProps: {
+      style: { width: '100%' },
+      format: 'YYYY-MM-DD',
+    },
     colProps: { span: 6 },
   },
 ];
@@ -298,6 +312,9 @@ export const courseInfoSchema: DescItem[] = [
   {
     label: '开课时间',
     field: 'courseStartTime',
+    render: ({ value }) => {
+      return formatToDate(value);
+    },
   },
   {
     label: '课程单价',

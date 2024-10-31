@@ -70,6 +70,7 @@
       courseName: '',
       courseCategoryId: -1,
       courseAddress: '',
+      courseStartDate: '',
     },
     columns,
     formConfig: {
@@ -95,6 +96,12 @@
       if (courseAddressFlag) {
         info.courseAddress = '';
       }
+      const courseStartDateFlag =
+        isUndefined(info.courseStartDate) || info.courseStartDate?.length === 0;
+      if (courseStartDateFlag) {
+        info.courseStartDate = '';
+      }
+      console.log('courseStartDate is ', info);
       return info;
     },
     actionColumn: {

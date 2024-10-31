@@ -109,7 +109,7 @@ export const useUserStore = defineStore({
     ): Promise<GetUserInfoModel | null> {
       if (!this.getToken) return null;
       // get user info
-      debugger;
+      // debugger;
 
       const userInfo = await this.getUserInfoAction(userInfoParams);
 
@@ -143,7 +143,7 @@ export const useUserStore = defineStore({
       const userInfo = await getUserInfo(userInfoParams);
       // debugger;
       // userInfo.identity = userInfoParams.identity;
-      userInfo.identity = 1;
+      // userInfo.identity = 1;
       const { roles = [] } = userInfo;
       if (isArray(roles)) {
         const roleList = roles.map((item) => item.value) as RoleEnum[];

@@ -1,7 +1,6 @@
 import { BasicColumn, FormSchema } from '@/components/Table';
 import {
   queryValidateTeacherName,
-  queryValidateTeacherPhone,
   validateTeacherName,
   validateTeacherPhone,
 } from '@/views/teacherInformationManagement/teacherValidate';

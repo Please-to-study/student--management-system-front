@@ -1,19 +1,27 @@
 export type QueryLearningRecordParams = {
   studentId: number;
   learningRecordDate: string;
+  courseName: string;
+  teacherName: string;
 };
 
 export type AddLearningRecordParams = {
-  studentId: number;
-  courseId: number;
-  teacherId: number;
-  courseRecordId: number;
+  learningRecordDate: string;
+  studentNumber: string;
   studentCourseEvaluate: string;
-  materialsId: number;
+  courseContent: string;
+  materialsTitle: string;
+  courseId: number;
+  courseTime: number;
   courseCategoryId: number;
-  learningRecordNotes: string;
+  teacherId: number;
+  learningRecordCourseClear: number;
+  learningRecordStartTime: string;
+  learningRecordEndTime: string;
 };
 
 export type UpdateLearningRecordParams = AddLearningRecordParams & {
   learningRecordId: number;
 };
+
+export type AddLearningRecordList = AddLearningRecordParams[];

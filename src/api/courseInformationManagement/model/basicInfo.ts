@@ -2,6 +2,7 @@ export type QueryCourseInfoParams = {
   courseName: string;
   courseCategoryId: number;
   courseAddress: string;
+  courseStartDate: string;
 };
 
 export type AddCourseInfoParams = {

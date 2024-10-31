@@ -15,6 +15,9 @@
           @search="debounceOptionsFn"
         />
       </template>
+      <template #toolbar>
+        <a-button @click="handleExport"> 导出记录 </a-button>
+      </template>
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'action'">
           <TableAction
@@ -45,6 +48,7 @@
       </template>
     </BasicTable>
     <AccountModal @register="registerModal" @success="handleSuccess" />
+    <ExpExcelModal @register="registerExportModal" @success="defaultHeader" />
   </PageWrapper>
 </template>
 <script lang="ts" setup>
@@ -67,21 +71,26 @@
     deleteLearningRecord,
     getLearningRecordList,
   } from '@/api/courseInformationManagement/courseInformationManagement';
+  import { ExpExcelModal, ExportModalResult, jsonToSheetXlsx } from "@/components/Excel";
 
   defineOptions({ name: 'AccountManagement' });
 
   const go = useGo();
   const debounceOptionsFn = useDebounceFn(onSearch, 300);
   const [registerModal, { openModal }] = useModal();
+  const [registerExportModal, { openModal: openExportModal }] = useModal();
   const searchInfo = reactive<Recordable>({});
   const studentId = ref<string>('');
-  const [registerTable, { reload, updateTableDataRecord, getSearchInfo }] = useTable({
-    title: '学习记录列表',
+  const exportData = ref<any[]>([]);
+  const [registerTable, { reload, updateTableDataRecord, getDataSource }] = useTable({
+    title: '已审核学习记录列表',
     api: getLearningRecordList,
     rowKey: 'learningRecordId',
     searchInfo: {
       studentId: -1,
       learningRecordDate: '',
+      courseName: '',
+      teacherName: '',
     },
     columns,
     formConfig: {
@@ -105,6 +114,14 @@
       if (learningRecordDateFlag) {
         info.learningRecordDate = '';
       }
+      const courseNameFlag = isUndefined(info.courseName) || info.courseName?.length === 0;
+      if (courseNameFlag) {
+        info.courseName = '';
+      }
+      const teacherNameFlag = isUndefined(info.teacherName) || info.teacherName?.length === 0;
+      if (teacherNameFlag) {
+        info.teacherName = '';
+      }
       return info;
     },
     actionColumn: {
@@ -126,6 +143,23 @@
 
   function onSearch(value: string) {
     keyword.value = value;
+  }
+
+  async function handleExport() {
+    openExportModal(true);
+    // const result = await getSpecialStudentBasicInfoList();
+    exportData.value = getDataSource();
+  }
+
+  function defaultHeader({ filename, bookType }: ExportModalResult) {
+    // 默认Object.keys(data[0])作为header
+    jsonToSheetXlsx({
+      data: exportData.value,
+      filename,
+      write2excelOpts: {
+        bookType,
+      },
+    });
   }
 
   function handleEdit(record: Recordable) {

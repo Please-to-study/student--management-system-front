@@ -20,5 +20,8 @@
   },
   "importRecord" : {
     "importRecord" : "导入学习记录"
+  },
+  "uncheckedRecord" : {
+    "uncheckedRecord" : "未审核记录"
   }
 }

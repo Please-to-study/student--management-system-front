@@ -1,5 +1,6 @@
 import { BasicColumn, FormSchema } from '@/components/Table';
 import { DescItem } from '@/components/Description';
+import { formatToDateTime } from '@/utils/dateUtil';
 
 const genderMap = new Map([
   ['1', '男'],
@@ -12,11 +13,6 @@ export const columns: BasicColumn[] = [
     dataIndex: 'courseRecordId',
     width: 140,
     ifShow: false,
-  },
-  {
-    title: '上课日期',
-    dataIndex: 'addCourseRecordTime',
-    width: 140,
   },
   {
     title: '课程名称',
@@ -37,17 +33,47 @@ export const columns: BasicColumn[] = [
   {
     title: '上课开始时间',
     dataIndex: 'startTime',
+    customRender: ({ value }) => {
+      return formatToDateTime(value);
+    },
     width: 120,
   },
   {
     title: '上课结束时间',
     dataIndex: 'endTime',
+    customRender: ({ value }) => {
+      return formatToDateTime(value);
+    },
     width: 120,
   },
   {
-    title: '课时费',
+    title: '课程单价',
     dataIndex: 'courseCategoryPrice',
     width: 120,
+  },
+  {
+    title: '人次',
+    dataIndex: 'courseStudentNum',
+    width: 120,
+  },
+  {
+    title: '当期课次',
+    dataIndex: 'courseTime',
+    width: 120,
+  },
+  {
+    title: '课时',
+    dataIndex: 'courseConsume',
+    width: 120,
+  },
+  {
+    title: '课时费校正',
+    dataIndex: 'courseRecordFeeChange',
+    edit: true,
+    editComponentProps: {
+      prefix: '￥',
+    },
+    width: 100,
   },
 ];
 

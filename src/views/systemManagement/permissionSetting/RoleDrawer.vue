@@ -15,11 +15,21 @@
   import { BasicForm, useForm } from '@/components/Form';
   import { formSchema } from './role.data';
   import { BasicDrawer, useDrawerInner } from '@/components/Drawer';
+  import {
+    AddTeacherInfoParams,
+    UpdateTeacherInfoParams,
+  } from '@/api/teacherInformationManagement/model/basicInfo';
+  import {
+    addTeacher,
+    updateTeacher,
+  } from '@/api/teacherInformationManagement/teacherInformationManagement';
+  import { AddAdministratorParams, UpdateAdministratorParams } from '@/api/configParams';
+  import { addAdministrator, updateAdministrator } from '@/api/configManagement';
 
   const emit = defineEmits(['success', 'register']);
   const isUpdate = ref(true);
 
-  const [registerForm, { resetFields, setFieldsValue, validate }] = useForm({
+  const [registerForm, { resetFields, setFieldsValue, validate, updateSchema }] = useForm({
     labelWidth: 90,
     baseColProps: { span: 24 },
     schemas: formSchema,
@@ -35,6 +45,25 @@
       setFieldsValue({
         ...data.record,
       });
+      if (data.record.administratorId == 1) {
+        updateSchema([
+          {
+            field: 'status',
+            componentProps: {
+              disabled: unref(isUpdate),
+            },
+          },
+        ]);
+      } else {
+        updateSchema([
+          {
+            field: 'status',
+            componentProps: {
+              disabled: !unref(isUpdate),
+            },
+          },
+        ]);
+      }
     }
   });
 
@@ -45,7 +74,15 @@
       const values = await validate();
       setDrawerProps({ confirmLoading: true });
       // TODO custom api
-      console.log(values);
+      if (!unref(isUpdate)) {
+        const addParams: AddAdministratorParams = { ...values };
+        // debugger;
+        await addAdministrator(addParams);
+      } else {
+        const updateParams: UpdateAdministratorParams = { ...values };
+        // console.log('updateParams is :', updateParams);
+        await updateAdministrator(updateParams);
+      }
       closeDrawer();
       emit('success');
     } finally {

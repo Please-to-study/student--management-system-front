@@ -7,11 +7,15 @@ import {
 } from '@/api/teacherInformationManagement/model/basicInfo';
 import {
   QueryCourseRecordParams,
+  UpdateCourseRecordFeeChange,
   UpdateCourseRecordParams,
 } from '@/api/teacherInformationManagement/model/courseRecord';
 import { QueryTuitionFeeParams } from '@/api/teacherInformationManagement/model/tuitionFee';
 import { QueryTeacherScheduleParams } from '@/api/teacherInformationManagement/model/teacherSchedule';
 import { CommonFetchResult } from '@/api/model/baseModel';
+import {
+  QueryUncheckedRecordParams
+} from "@/api/teacherInformationManagement/model/uncheckedRecord";
 
 enum Api {
   // 基本信息
@@ -30,6 +34,9 @@ enum Api {
   CourseRecordById = '/courseRecord/getCourseRecordById',
   // 课时费用api
   TeacherTuitionFee = '/teacherInfo/getTeacherCourseFee',
+  UpdateCourseRecordFeeChange = '/courseRecord/updateCourseRecordFeeChange',
+  // 未审核记录api
+  UncheckedRecord = '/learningRecord/getUncheckedRecord',
 }
 
 // 基本信息功能模块api list
@@ -63,11 +70,25 @@ export const updateCourseRecord = (params: UpdateCourseRecordParams) =>
 export const deleteCourseRecord = (courseRecordId: number) =>
   defHttp.post({ url: Api.DeleteCourseRecord, params: { courseRecordId } });
 
-export const getCourseRecordList = (params: QueryCourseRecordParams) =>
-  defHttp.get<CommonFetchResult>({ url: Api.CourseRecordInfoList, params });
+export const getCourseRecordList = (
+  params: QueryCourseRecordParams = {
+    teacherName: '',
+    courseCategoryId: -1,
+    signingStyle: '',
+  },
+) => {
+  if (params.courseCategoryId?.length == 0) {
+    params.courseCategoryId = -1;
+  }
+  return defHttp.get<CommonFetchResult>({ url: Api.CourseRecordInfoList, params });
+};
 
 export const getCourseRecordById = (courseRecordId: number) =>
   defHttp.get<CommonFetchResult>({ url: Api.CourseRecordById, params: { courseRecordId } });
+
+// 未审核记录api
+export const getUncheckedRecordList = (params: QueryUncheckedRecordParams) =>
+  defHttp.get<CommonFetchResult>({ url: Api.UncheckedRecord, params });
 
 // 课时费用api
 export const getTeacherTuitionFeeList = (
@@ -78,3 +99,6 @@ export const getTeacherTuitionFeeList = (
   }
   return defHttp.get<CommonFetchResult>({ url: Api.TeacherTuitionFee, params });
 };
+
+export const updateCourseRecordFeeChange = (params: UpdateCourseRecordFeeChange) =>
+  defHttp.post({ url: Api.UpdateCourseRecordFeeChange, params }, { isTransformResponse: false });

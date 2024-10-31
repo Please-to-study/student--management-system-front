@@ -3,6 +3,7 @@
     <BasicTable
       @register="registerTable"
       class=""
+      @edit-end="handleEditEnd"
       :searchInfo="searchInfo"
       @fetch-success="onFetchSuccess"
     >
@@ -29,34 +30,34 @@
         />
         <Divider />
       </template>
-      <template #bodyCell="{ column, record }">
-        <template v-if="column.key === 'action'">
-          <TableAction
-            :actions="[
-              {
-                icon: 'clarity:info-standard-line',
-                tooltip: '查看详情',
-                onClick: handleView.bind(null, record),
-              },
-              // {
-              //   icon: 'clarity:note-edit-line',
-              //   tooltip: '编辑用户资料',
-              //   onClick: handleEdit.bind(null, record),
-              // },
-              // {
-              //   icon: 'ant-design:delete-outlined',
-              //   color: 'error',
-              //   tooltip: '删除此账号',
-              //   popConfirm: {
-              //     title: '是否确认删除',
-              //     placement: 'left',
-              //     confirm: handleDelete.bind(null, record),
-              //   },
-              // },
-            ]"
-          />
-        </template>
-      </template>
+<!--      <template #bodyCell="{ column, record }">-->
+<!--        <template v-if="column.key === 'action'">-->
+<!--          <TableAction-->
+<!--            :actions="[-->
+<!--              {-->
+<!--                icon: 'clarity:info-standard-line',-->
+<!--                tooltip: '查看详情',-->
+<!--                onClick: handleView.bind(null, record),-->
+<!--              },-->
+<!--              {-->
+<!--                icon: 'clarity:note-edit-line',-->
+<!--                tooltip: '编辑用户资料',-->
+<!--                onClick: handleEdit.bind(null, record),-->
+<!--              },-->
+<!--              {-->
+<!--                icon: 'ant-design:delete-outlined',-->
+<!--                color: 'error',-->
+<!--                tooltip: '删除此账号',-->
+<!--                popConfirm: {-->
+<!--                  title: '是否确认删除',-->
+<!--                  placement: 'left',-->
+<!--                  confirm: handleDelete.bind(null, record),-->
+<!--                },-->
+<!--              },-->
+<!--            ]"-->
+<!--          />-->
+<!--        </template>-->
+<!--      </template>-->
     </BasicTable>
   </PageWrapper>
 </template>
@@ -71,16 +72,16 @@
   import { useGo } from '@/hooks/web/usePage';
   import { useMessage } from '@/hooks/web/useMessage';
   import { Divider } from 'ant-design-vue';
-  import { isNull, isUndefined } from '@/utils/is';
+  import { isUndefined } from '@/utils/is';
   import {
     getTeacherInfoByName,
     getTeacherTuitionFeeList,
+    updateCourseRecordFeeChange,
   } from '@/api/teacherInformationManagement/teacherInformationManagement';
   import { teacherInfoSchema } from '@/views/teacherInformationManagement/tuitionFee/account.data';
   import { ApiSelect } from '@/components/Form';
   import type { Recordable } from '@vben/types';
   import { useDebounceFn } from '@vueuse/core';
-  import { useModal } from '@/components/Modal';
 
   defineOptions({ name: 'AccountManagement' });
 
@@ -129,12 +130,12 @@
       }
       return info;
     },
-    actionColumn: {
-      width: 120,
-      title: '操作',
-      dataIndex: 'action',
-      // slots: { customRender: 'action' },
-    },
+    // actionColumn: {
+    //   width: 120,
+    //   title: '操作',
+    //   dataIndex: 'action',
+    //   // slots: { customRender: 'action' },
+    // },
   });
 
   async function customResetFunc() {
@@ -152,6 +153,38 @@
       const { info } = getRawDataSource();
       teacherInfo.value = info;
     }
+  }
+
+  async function handleEditEnd({ record, index, key, value }: Recordable) {
+    // console.log(record, index, key, value);
+    const { courseRecordId } = record;
+    const courseRecordFeeChange = Number(value);
+    const { code, message } = await updateCourseRecordFeeChange({
+      courseRecordId,
+      courseRecordFeeChange,
+    });
+    // todo 修改教师总的课时费用
+    teacherInfo.value.teacherCourseFee += courseRecordFeeChange;
+    return new Promise((resolve) => {
+      setTimeout(() => {
+        if (code !== 0) {
+          createMessage.error({
+            content: message,
+            key: '_save_data',
+            duration: 2,
+          });
+          resolve(false);
+        } else {
+          createMessage.success({
+            content: `第${index + 1}条记录的课时费校正值已保存`,
+            key: '_save_data',
+            duration: 2,
+          });
+          resolve(true);
+        }
+      }, 0);
+    });
+    // return false;
   }
 
   function handleView(record: Recordable) {

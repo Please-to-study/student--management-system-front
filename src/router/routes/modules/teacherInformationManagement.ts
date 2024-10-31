@@ -2,7 +2,7 @@ import type { AppRouteModule } from '@/router/types';
 
 import { LAYOUT } from '@/router/constant';
 import { t } from '@/hooks/web/useI18n';
-import { RoleEnum } from "@/enums/roleEnum";
+import { RoleEnum } from '@/enums/roleEnum';
 
 const teacherInformationManagement: AppRouteModule = {
   path: '/teacherInformationManagement',
@@ -22,7 +22,7 @@ const teacherInformationManagement: AppRouteModule = {
       meta: {
         // affix: true,
         title: t('teacherInformationManagement.basicInfo.basicInfo'),
-        // roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
+        roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
       },
     },
     {
@@ -43,7 +43,7 @@ const teacherInformationManagement: AppRouteModule = {
       meta: {
         // affix: true,
         title: t('teacherInformationManagement.teacherSchedule.teacherSchedule'),
-        // roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
+        roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
       },
     },
     {
@@ -53,7 +53,7 @@ const teacherInformationManagement: AppRouteModule = {
       meta: {
         // affix: true,
         title: t('teacherInformationManagement.courseRecord.courseRecord'),
-        // roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
+        roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
       },
     },
     {
@@ -74,17 +74,27 @@ const teacherInformationManagement: AppRouteModule = {
       meta: {
         // affix: true,
         title: t('teacherInformationManagement.tuitionFee.tuitionFee'),
-        // roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
+        roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
       },
     },
     {
       path: 'importRecord',
       name: 'ImportRecord',
-      component: () => import('@/views/teacherInformationManagement/importRecord/ImportExcel.vue'),
+      component: () => import('@/views/teacherInformationManagement/importRecord/index.vue'),
       meta: {
         // affix: true,
         title: t('teacherInformationManagement.importRecord.importRecord'),
-        // roles: [RoleEnum.TEACHER],
+        roles: [RoleEnum.MASTER, RoleEnum.TEACHER],
+      },
+    },
+    {
+      path: 'uncheckedRecord',
+      name: 'UncheckedRecord',
+      component: () => import('@/views/teacherInformationManagement/uncheckedRecord/index.vue'),
+      meta: {
+        // affix: true,
+        title: t('teacherInformationManagement.uncheckedRecord.uncheckedRecord'),
+        roles: [RoleEnum.MASTER, RoleEnum.TEACHER],
       },
     },
   ],

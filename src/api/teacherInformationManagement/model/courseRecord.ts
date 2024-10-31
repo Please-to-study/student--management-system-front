@@ -1,12 +1,18 @@
 export type QueryCourseRecordParams = {
   teacherName: string;
-  teacherPhone: string;
+  courseCategoryId: number;
+  signingStyle: string;
+};
+
+export type UpdateCourseRecordFeeChange = {
+  courseRecordId: number;
+  courseRecordFeeChange: number;
 };
 
 export type UpdateCourseRecordParams = {
-  courseRecordId: string;
-  teacherId: string;
-  courseId: string;
+  courseRecordId: number;
+  teacherId: number;
+  courseId: number;
   courseCategory: string;
   teacherCourseContent: string;
   courseHomework: string | null;

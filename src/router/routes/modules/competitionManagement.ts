@@ -2,7 +2,7 @@ import type { AppRouteModule } from '@/router/types';
 
 import { LAYOUT } from '@/router/constant';
 import { t } from '@/hooks/web/useI18n';
-import { RoleEnum } from "@/enums/roleEnum";
+import { RoleEnum } from '@/enums/roleEnum';
 
 const ExceptionPage = () => import('@/views/sys/exception/Exception.vue');
 
@@ -24,7 +24,7 @@ const competitionManagement: AppRouteModule = {
       meta: {
         // affix: true,
         title: t('competitionManagement.competitionInfo.competitionInfo'),
-        // roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
+        roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
       },
     },
     {
@@ -48,7 +48,7 @@ const competitionManagement: AppRouteModule = {
       meta: {
         // affix: true,
         title: t('competitionManagement.competitionSchedule.competitionSchedule'),
-        // roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
+        roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
       },
     },
 
@@ -59,7 +59,7 @@ const competitionManagement: AppRouteModule = {
       meta: {
         // affix: true,
         title: t('competitionManagement.competitionAwardsInfo.competitionAwardsInfo'),
-        // roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
+        roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
       },
     },
     {
@@ -80,7 +80,7 @@ const competitionManagement: AppRouteModule = {
       meta: {
         // affix: true,
         title: t('competitionManagement.competitionRegister.competitionRegister'),
-        // roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
+        roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
       },
     },
     {

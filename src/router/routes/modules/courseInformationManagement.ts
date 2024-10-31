@@ -22,7 +22,7 @@ const courseInformationManagement: AppRouteModule = {
       meta: {
         // affix: true,
         title: t('courseInformationManagement.courseInfo.courseInfo'),
-        // roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
+        roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
       },
     },
     {
@@ -42,7 +42,7 @@ const courseInformationManagement: AppRouteModule = {
       meta: {
         // affix: true,
         title: t('courseInformationManagement.scheduleInfo.scheduleInfo'),
-        // roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
+        roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
       },
     },
     {
@@ -52,7 +52,7 @@ const courseInformationManagement: AppRouteModule = {
       meta: {
         // affix: true,
         title: t('courseInformationManagement.learningRecord.learningRecord'),
-        // roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
+        roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
       },
     },
     {
@@ -72,7 +72,7 @@ const courseInformationManagement: AppRouteModule = {
       meta: {
         // affix: true,
         title: t('courseInformationManagement.reviewRecord.reviewRecord'),
-        // roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
+        roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
       },
     },
     {
@@ -92,7 +92,7 @@ const courseInformationManagement: AppRouteModule = {
       meta: {
         // affix: true,
         title: t('courseInformationManagement.courseworkInformation.courseworkInformation'),
-        // roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
+        roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
       },
     },
     {

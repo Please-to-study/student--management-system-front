@@ -57,11 +57,11 @@
           courseCategoryId: res.courseCategoryId,
           learningRecordNotes: res.learningRecordNotes,
         };
-        const data = await addLearningRecord(queryParams);
-        console.log('addLearningRecord', data);
-        if (data.code != 0) {
-          importFlag = false;
-        }
+        // const data = await addLearningRecord(queryParams);
+        // console.log('addLearningRecord', data);
+        // if (data.code != 0) {
+        //   importFlag = false;
+        // }
       }
       if (importFlag) {
         tableListRef.value.push({ title: sheetName, dataSource: results, columns });

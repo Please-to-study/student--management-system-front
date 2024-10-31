@@ -93,7 +93,7 @@
   async function getMnthCalendarData(params: QueryTeacherScheduleParams) {
     const tempCalendarSchema = JSON.parse(JSON.stringify(calendarSchema));
     const items = await getTeacherSchedule(params);
-    console.log('result is ', items);
+    // console.log('result is ', items);
     items.forEach((element) => {
       element.content =
         element.courseAddress +
@@ -117,7 +117,7 @@
     // const tempCalendarSchema = JSON.parse(JSON.stringify(calendarSchema));
     const items = await getTeacherSchedule(params);
     yearCalendar.value = items as [];
-    console.log('yearCalendar is ', yearCalendar.value);
+    // console.log('yearCalendar is ', yearCalendar.value);
   }
 
   // 切换年月
@@ -150,7 +150,7 @@
 
     const monthIndex = value.month();
     const curMonth = yearCalendar.value[monthIndex];
-    console.log('curMonth is ', curMonth);
+    // console.log('curMonth is ', curMonth);
     return curMonth?.count;
   };
 </script>

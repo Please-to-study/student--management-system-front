@@ -1,17 +1,19 @@
 <template>
   <PageWrapper
-    :title="`教师：` + courseRecordInfo.teacherName + `的上课记录`"
+    :title="
+      `教师：` + courseRecordInfo?.teacherName + `的` + courseRecordInfo?.courseName + `的上课记录`
+    "
     contentBackground
     @back="goBack"
   >
     <template #extra>
-      <a-button type="primary" danger> 禁用账号 </a-button>
+      <!--      <a-button type="primary" danger> 禁用账号 </a-button>-->
       <!--      <a-button type="primary"> 修改密码 </a-button>-->
     </template>
     <div class="pt-4 m-4 desc-wrap">
       <Description
         size="middle"
-        title="用户信息"
+        title="上课记录详细信息"
         :bordered="false"
         :column="3"
         :data="courseRecordInfo"
@@ -37,17 +39,24 @@
 
   const route = useRoute();
   const go = useGo();
-  // 此处可以得到用户ID
-  const courseRecordId = ref(route.params?.courseRecordId);
-  const { result } = await getCourseRecordById(courseRecordId.value as string);
-  const courseRecordInfo = result?.items[0];
-
   const { setTitle } = useTabs();
-  // TODO
-  // 本页代码仅作演示，实际应当通过userId从接口获得用户的相关资料
+  // 此处可以得到用户ID
+  const courseRecordId = ref(route.params?.id);
+  const courseRecordInfo = ref();
 
-  // --todolist-- 设置Tab的标题（不会影响页面标题）
-  setTitle('上课记录详情：教师' + courseRecordInfo.teacherName);
+  const getCourseRecord = async (id: number) => {
+    const result = await getCourseRecordById(id);
+    // console.log("getCourseRecord is ", result)
+    courseRecordInfo.value = result?.items[0];
+    await setTitle(
+      '详细资料：' +
+        courseRecordInfo.value?.teacherName +
+        '的' +
+        courseRecordInfo.value?.courseName,
+    );
+  };
+
+  getCourseRecord(Number(courseRecordId.value));
 
   // 页面左侧点击返回链接时的操作
   function goBack() {

@@ -1,8 +1,5 @@
 import { BasicColumn, FormSchema } from '@/components/Table';
-import {
-  queryValidateTeacherName,
-  queryValidateTeacherPhone,
-} from '@/views/teacherInformationManagement/teacherValidate';
+import { queryValidateTeacherName } from '@/views/teacherInformationManagement/teacherValidate';
 import { DescItem } from '@/components/Description';
 import { getCourseCategoryInfoList } from '@/api/configManagement';
 
@@ -51,6 +48,11 @@ export const columns: BasicColumn[] = [
     width: 200,
   },
   {
+    title: '上课人次',
+    dataIndex: 'courseStudentNum',
+    width: 100,
+  },
+  {
     title: '开始时间',
     dataIndex: 'startTime',
     width: 140,
@@ -86,16 +88,23 @@ export const searchFormSchema: FormSchema[] = [
     ],
   },
   {
-    field: 'teacherPhone',
-    label: '教师电话',
+    field: 'courseCategoryId',
+    label: '课程类别',
+    component: 'ApiSelect',
+    componentProps: {
+      api: getCourseCategoryInfoList,
+      params: {},
+      resultField: 'items',
+      labelField: 'courseCategoryName',
+      valueField: 'courseCategoryId',
+    },
+    colProps: { span: 6 },
+  },
+  {
+    field: 'signingStyle',
+    label: '签约形式',
     component: 'Input',
     colProps: { span: 6 },
-    rules: [
-      {
-        trigger: 'blur',
-        validator: queryValidateTeacherPhone(),
-      },
-    ],
   },
 ];
 
@@ -215,6 +224,18 @@ export const courseRecordSchema: DescItem[] = [
   {
     label: '课程作业',
     field: 'courseHomework',
+  },
+  {
+    label: '上课人次',
+    field: 'courseStudentNum',
+  },
+  {
+    label: '当期课次',
+    field: 'courseTime',
+  },
+  {
+    label: '课时',
+    field: 'courseConsume',
   },
   {
     label: '开始时间',

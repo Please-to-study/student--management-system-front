@@ -40,3 +40,28 @@ export type AddCompetitionStyleParams = {
 export type UpdateCompetitionStyleParams = AddCompetitionStyleParams & {
   competitionStyleId: number;
 };
+
+// 权限设置 config
+export type AddAdministratorParams = {
+  administratorName: string;
+  administratorGender: number;
+  administratorAddress: string;
+  administratorPassword: string;
+  administratorPhone: string;
+  status: number;
+  administratorNotes: string | null;
+};
+
+export type UpdateAdministratorParams = AddAdministratorParams & {
+  administratorId: number;
+};
+
+export type QueryAdministratorParams = {
+  administratorName: string;
+  status: number;
+};
+
+export type SetAdministratorStatusParams = {
+  administratorId: number;
+  status: number;
+};

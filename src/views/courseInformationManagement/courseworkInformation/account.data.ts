@@ -1,5 +1,6 @@
 import { BasicColumn, FormSchema } from '@/components/Table';
 import { DescItem } from '@/components/Description';
+import { formatToDate, formatToDateTime } from "@/utils/dateUtil";
 
 export const columns: BasicColumn[] = [
   {
@@ -54,7 +55,10 @@ export const columns: BasicColumn[] = [
   {
     title: '日期',
     dataIndex: 'materialsDate',
-    width: 140,
+    customRender: ({ value }) => {
+      return formatToDateTime(value);
+    },
+    width: 120,
   },
   {
     title: '备注',
@@ -155,6 +159,9 @@ export const materialsSchema: DescItem[] = [
   {
     label: '日期',
     field: 'materialsDate',
+    render: ({ value }) => {
+      return formatToDateTime(value);
+    },
   },
   {
     label: '备注',

@@ -20,6 +20,9 @@
                   placement: 'left',
                   confirm: handleDelete.bind(null, record),
                 },
+                ifShow: () => {
+                  return record.administratorId !== 1;
+                },
               },
             ]"
           />
@@ -31,19 +34,25 @@
 </template>
 <script lang="ts" setup>
   import { BasicTable, useTable, TableAction } from '@/components/Table';
-  import { getRoleListByPage } from '@/api/demo/system';
 
   import { useDrawer } from '@/components/Drawer';
   import RoleDrawer from './RoleDrawer.vue';
 
   import { columns, searchFormSchema } from './role.data';
+  import { deleteAdministrator, getAdministratorInfoList } from "@/api/configManagement";
+  import { isUndefined } from '@/utils/is';
 
   defineOptions({ name: 'RoleManagement' });
 
   const [registerDrawer, { openDrawer }] = useDrawer();
   const [registerTable, { reload }] = useTable({
     title: '角色列表',
-    api: getRoleListByPage,
+    api: getAdministratorInfoList,
+    searchInfo: {
+      administratorName: '',
+      status: -1,
+    },
+    rowKey: 'administratorId',
     columns,
     formConfig: {
       labelWidth: 120,
@@ -52,6 +61,17 @@
     useSearchForm: true,
     showTableSetting: true,
     bordered: true,
+    handleSearchInfoFn(info) {
+      const nameFlag = isUndefined(info.administratorName) || info.administratorName?.length === 0;
+      if (nameFlag) {
+        info.administratorName = '';
+      }
+      const statusFlag = isUndefined(info.status) || info.status?.length === 0;
+      if (statusFlag) {
+        info.status = -1;
+      }
+      return info;
+    },
     showIndexColumn: false,
     actionColumn: {
       width: 80,
@@ -75,8 +95,9 @@
     });
   }
 
-  function handleDelete(record: Recordable) {
-    console.log(record);
+  async function handleDelete(record: Recordable) {
+    await deleteAdministrator(record.administratorId);
+    reload();
   }
 
   function handleSuccess() {

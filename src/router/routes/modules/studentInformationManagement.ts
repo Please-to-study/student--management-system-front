@@ -23,7 +23,7 @@ const studentInformationManagement: AppRouteModule = {
       meta: {
         // affix: true,
         title: t('studentInformationManagement.basicInfo.basicInfo'),
-        // roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
+        roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
       },
     },
     {
@@ -54,7 +54,7 @@ const studentInformationManagement: AppRouteModule = {
       meta: {
         // affix: true,
         title: t('studentInformationManagement.spendingInfo.spendingInfo'),
-        // roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
+        roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
       },
     },
     {
@@ -64,7 +64,7 @@ const studentInformationManagement: AppRouteModule = {
       meta: {
         // affix: true,
         title: t('studentInformationManagement.courseBalance.courseBalance'),
-        // roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
+        roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
       },
     },
     {
@@ -75,7 +75,7 @@ const studentInformationManagement: AppRouteModule = {
       meta: {
         // affix: true,
         title: t('studentInformationManagement.competitionInformation.competitionInformation'),
-        // roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
+        roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
       },
     },
     {
@@ -98,7 +98,7 @@ const studentInformationManagement: AppRouteModule = {
       meta: {
         // affix: true,
         title: t('studentInformationManagement.programmingRating.programmingRating'),
-        // roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
+        roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
       },
     },
     {

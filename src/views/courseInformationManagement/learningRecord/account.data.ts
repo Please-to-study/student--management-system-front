@@ -1,8 +1,7 @@
-import { getAllRoleList, isAccountExist } from '@/api/demo/system';
 import { BasicColumn, FormSchema } from '@/components/Table';
-import { AccountListItem } from '@/api/demo/model/systemModel';
 import { DescItem } from '@/components/Description';
-import { getCourseCategoryInfoList } from '@/api/configManagement';
+import { formatToDateTime } from '@/utils/dateUtil';
+import { queryValidateTeacherName } from "@/views/teacherInformationManagement/teacherValidate";
 
 export const columns: BasicColumn[] = [
   {
@@ -60,6 +59,11 @@ export const columns: BasicColumn[] = [
     width: 120,
   },
   {
+    title: '课消',
+    dataIndex: 'learningRecordCourseClear',
+    width: 80,
+  },
+  {
     title: '任课老师ID',
     dataIndex: 'teacherId',
     width: 120,
@@ -73,16 +77,30 @@ export const columns: BasicColumn[] = [
   {
     title: '开始时间',
     dataIndex: 'startTime',
+    customRender: ({ value }) => {
+      return formatToDateTime(value);
+    },
     width: 120,
   },
   {
     title: '结束时间',
     dataIndex: 'endTime',
+    customRender: ({ value }) => {
+      return formatToDateTime(value);
+    },
     width: 120,
   },
   {
-    title: '日期',
-    dataIndex: 'addLearningRecordTime',
+    title: '审核意见',
+    dataIndex: 'reviewRecordContent',
+    width: 120,
+  },
+  {
+    title: '审核日期',
+    dataIndex: 'addReviewRecordTime',
+    customRender: ({ value }) => {
+      return formatToDateTime(value);
+    },
     width: 120,
   },
   {
@@ -98,7 +116,7 @@ export const searchFormSchema: FormSchema[] = [
     label: '学生姓名',
     slot: 'custom',
     colProps: {
-      xl: 8,
+      xl: 6,
     },
   },
   {
@@ -109,7 +127,25 @@ export const searchFormSchema: FormSchema[] = [
       style: { width: '100%' },
       format: 'YYYY-MM-DD',
     },
-    colProps: { span: 8 },
+    colProps: { span: 6 },
+  },
+  {
+    field: 'courseName',
+    label: '课程名称',
+    component: 'Input',
+    colProps: { span: 6 },
+  },
+  {
+    field: 'teacherName',
+    label: '教师姓名',
+    component: 'Input',
+    colProps: { span: 6 },
+    rules: [
+      {
+        trigger: 'blur',
+        validator: queryValidateTeacherName(),
+      },
+    ],
   },
 ];
 
@@ -230,12 +266,10 @@ export const learningRecordSchema: DescItem[] = [
     label: '课程作业',
     field: 'materialsTitle',
   },
-
   {
     label: '课程名称',
     field: 'courseName',
   },
-
   {
     label: '课程类别',
     field: 'courseCategoryName',
@@ -247,14 +281,23 @@ export const learningRecordSchema: DescItem[] = [
   {
     label: '开始时间',
     field: 'startTime',
+    render: ({ value }) => {
+      return formatToDateTime(value);
+    },
   },
   {
     label: '结束时间',
     field: 'endTime',
+    render: ({ value }) => {
+      return formatToDateTime(value);
+    },
   },
   {
     label: '日期',
     field: 'addLearningRecordTime',
+    render: ({ value }) => {
+      return formatToDateTime(value);
+    },
   },
   {
     label: '备注',

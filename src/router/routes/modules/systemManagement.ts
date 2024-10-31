@@ -29,7 +29,7 @@ const systemManagement: AppRouteModule = {
           component: () => import('@/views/systemManagement/payStyleSetting/index.vue'),
           meta: {
             title: t('systemManagement.basicSetting.payStyleSetting'),
-            // roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
+            roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
           },
         },
         {
@@ -38,7 +38,7 @@ const systemManagement: AppRouteModule = {
           component: () => import('@/views/systemManagement/courseCategorySetting/index.vue'),
           meta: {
             title: t('systemManagement.basicSetting.courseCategorySetting'),
-            // roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
+            roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
           },
         },
         {
@@ -47,7 +47,7 @@ const systemManagement: AppRouteModule = {
           component: () => import('@/views/systemManagement/competitionStyleSetting/index.vue'),
           meta: {
             title: t('systemManagement.basicSetting.competitionStyleSetting'),
-            // roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
+            roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
           },
         },
       ],

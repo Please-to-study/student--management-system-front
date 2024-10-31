@@ -10,21 +10,21 @@
                 tooltip: '查看上课详情',
                 onClick: handleView.bind(null, record),
               },
-              {
-                icon: 'clarity:note-edit-line',
-                tooltip: '编辑上课信息',
-                onClick: handleEdit.bind(null, record),
-              },
-              {
-                icon: 'ant-design:delete-outlined',
-                color: 'error',
-                tooltip: '删除此信息',
-                popConfirm: {
-                  title: '是否确认删除',
-                  placement: 'left',
-                  confirm: handleDelete.bind(null, record),
-                },
-              },
+              // {
+              //   icon: 'clarity:note-edit-line',
+              //   tooltip: '编辑上课信息',
+              //   onClick: handleEdit.bind(null, record),
+              // },
+              // {
+              //   icon: 'ant-design:delete-outlined',
+              //   color: 'error',
+              //   tooltip: '删除此信息',
+              //   popConfirm: {
+              //     title: '是否确认删除',
+              //     placement: 'left',
+              //     confirm: handleDelete.bind(null, record),
+              //   },
+              // },
             ]"
           />
         </template>
@@ -62,7 +62,8 @@
     api: getCourseRecordList,
     searchInfo: {
       teacherName: '',
-      teacherPhone: '',
+      courseCategoryId: -1,
+      signingStyle: '',
     },
     rowKey: 'courseRecordId',
     columns,
@@ -79,9 +80,13 @@
       if (nameFlag) {
         info.teacherName = '';
       }
-      const phoneFlag = isUndefined(info.teacherPhone) || info.teacherPhone?.length === 0;
-      if (phoneFlag) {
-        info.teacherPhone = '';
+      const courseCategoryIdFlag = isUndefined(info.courseCategoryId);
+      if (courseCategoryIdFlag) {
+        info.courseCategoryId = -1;
+      }
+      const signingStyleFlag = isUndefined(info.signingStyle) || info.signingStyle?.length === 0;
+      if (signingStyleFlag) {
+        info.signingStyle = '';
       }
       return info;
     },

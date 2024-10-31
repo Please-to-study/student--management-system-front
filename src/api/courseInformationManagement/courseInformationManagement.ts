@@ -11,11 +11,16 @@ import {
   UpdateMaterialsInfoParams,
 } from '@/api/courseInformationManagement/model/courseworkInformation';
 import {
+  AddLearningRecordList,
   AddLearningRecordParams,
   QueryLearningRecordParams,
   UpdateLearningRecordParams,
 } from '@/api/courseInformationManagement/model/learningRecord';
 import { QueryCourseScheduleParams } from '@/api/courseInformationManagement/model/courseSchedule';
+import {
+  IdentityReviewRecordList,
+  QueryReviewRecordParams,
+} from '@/api/courseInformationManagement/model/reviewRecord';
 
 enum Api {
   // 基本信息
@@ -58,7 +63,12 @@ export const deleteCourse = (courseId: string) =>
   defHttp.post({ url: Api.DeleteCourse, params: { courseId } });
 
 export const getCourseList = (
-  params: QueryCourseInfoParams = { courseName: '', courseCategoryId: -1, courseAddress: '' },
+  params: QueryCourseInfoParams = {
+    courseName: '',
+    courseCategoryId: -1,
+    courseAddress: '',
+    courseStartDate: '',
+  },
 ) => {
   if (params.courseCategoryId?.length == 0) {
     params.courseCategoryId = -1;
@@ -74,7 +84,7 @@ export const getCourseSchedule = (params: QueryCourseScheduleParams) =>
   defHttp.get<CommonFetchResult>({ url: Api.CourseSchedule, params });
 
 // 学生学习记录api
-export const addLearningRecord = (params: AddLearningRecordParams) =>
+export const addLearningRecord = (params: AddLearningRecordList) =>
   defHttp.post({ url: Api.AddLearningRecord, params }, { isTransformResponse: false });
 
 export const updateLearningRecord = (params: UpdateLearningRecordParams) =>
@@ -84,7 +94,12 @@ export const deleteLearningRecord = (learningRecordId: number) =>
   defHttp.post({ url: Api.DeleteLearningRecord, params: { learningRecordId } });
 
 export const getLearningRecordList = (
-  params: QueryLearningRecordParams = { studentId: -1, learningRecordDate: '' },
+  params: QueryLearningRecordParams = {
+    studentId: -1,
+    learningRecordDate: '',
+    courseName: '',
+    teacherName: '',
+  },
 ) => {
   if (params.studentId?.length == 0) {
     params.studentId = -1;
@@ -94,6 +109,24 @@ export const getLearningRecordList = (
 
 export const getLearningRecordById = (learningRecordId: number) =>
   defHttp.get<CommonFetchResult>({ url: Api.LearningRecordById, params: { learningRecordId } });
+
+// 待审核记录api
+export const getReviewRecordList = (
+  params: QueryReviewRecordParams = {
+    studentId: -1,
+    learningRecordDate: '',
+    courseName: '',
+    teacherName: '',
+  },
+) => {
+  if (params.studentId?.length == 0) {
+    params.studentId = -1;
+  }
+  return defHttp.get<CommonFetchResult>({ url: Api.ReviewRecordList, params });
+};
+
+export const identityReviewRecord = (params: IdentityReviewRecordList) =>
+  defHttp.post({ url: Api.IdentityReviewRecord, params }, { isTransformResponse: false });
 
 // 课程作业信息功能模块api
 export const addMaterials = (params: AddMaterialsInfoParams) =>

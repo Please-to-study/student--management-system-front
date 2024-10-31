@@ -2,15 +2,20 @@ import { defHttp } from '@/utils/http/axios';
 
 import { CommonFetchResult } from '@/api/model/baseModel';
 import {
+  AddAdministratorParams,
   AddCompetitionStyleParams,
   AddCourseCategoryParams,
   AddSigningStyleParams,
   AddTeacherPayStyleParams,
+  QueryAdministratorParams,
+  SetAdministratorStatusParams,
+  UpdateAdministratorParams,
   UpdateCompetitionStyleParams,
   UpdateCourseCategoryParams,
   UpdateSigningStyleParams,
   UpdateTeacherPayStyleParams,
 } from '@/api/configParams';
+import { QueryCourseRecordParams } from '@/api/teacherInformationManagement/model/courseRecord';
 
 enum Api {
   // 教师签约形式表
@@ -36,6 +41,13 @@ enum Api {
   UpdateCompetitionStyle = '/competitionStyle/updateCompetitionStyle',
   DeleteCompetitionStyle = '/competitionStyle/deleteCompetitionStyle',
   CompetitionStyleInfoList = '/competitionStyle/getCompetitionStyle',
+
+  // 权限设置表
+  AddAdministrator = '/administrator/addAdministrator',
+  UpdateAdministrator = '/administrator/updateAdministrator',
+  DeleteAdministrator = '/administrator/deleteAdministrator',
+  AdministratorInfoList = '/administrator/getAdministrator',
+  SetAdministratorStatus = '/administrator/setAdministratorStatus',
 }
 
 // 教师签约形式api
@@ -89,3 +101,40 @@ export const deleteCompetitionStyle = (competitionStyleId: number) =>
 
 export const getCompetitionStyleInfoList = () =>
   defHttp.get<CommonFetchResult>({ url: Api.CompetitionStyleInfoList });
+
+// 权限设置表api
+export const addAdministrator = (params: AddAdministratorParams) =>
+  defHttp.post({ url: Api.AddAdministrator, params });
+
+export const updateAdministrator = (params: UpdateAdministratorParams) =>
+  defHttp.post({ url: Api.UpdateAdministrator, params });
+
+export const deleteAdministrator = (administratorId: number) =>
+  defHttp.post({ url: Api.DeleteAdministrator, params: { administratorId } });
+
+export const getAdministratorInfoList = (
+  params: QueryAdministratorParams = {
+    administratorName: '',
+    status: -1,
+  },
+) => {
+  if (params.status?.length == 0) {
+    params.status = -1;
+  }
+  return defHttp.get<CommonFetchResult>({ url: Api.AdministratorInfoList, params });
+};
+
+export const setAdministratorStatus = (
+  params: SetAdministratorStatusParams = {
+    administratorId: -1,
+    status: -1,
+  },
+) => {
+  if (params.status?.length == 0) {
+    params.status = -1;
+  }
+  if (params.administratorId?.length == 0) {
+    params.administratorId = -1;
+  }
+  return defHttp.get<CommonFetchResult>({ url: Api.SetAdministratorStatus, params });
+};
