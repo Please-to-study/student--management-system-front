@@ -23,5 +23,8 @@
   },
   "uncheckedRecord" : {
     "uncheckedRecord" : "未审核记录"
+  },
+  "studyRecord" : {
+    "studyRecord" : "学生学习记录"
   }
 }

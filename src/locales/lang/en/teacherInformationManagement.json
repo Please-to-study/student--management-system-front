@@ -23,5 +23,8 @@
   },
   "uncheckedRecord" : {
     "uncheckedRecord" : "UncheckedRecord"
+  },
+  "studyRecord" : {
+    "studyRecord" : "StudyRecord"
   }
 }

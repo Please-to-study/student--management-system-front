@@ -13,7 +13,7 @@ import {
 import {
   AddLearningRecordList,
   AddLearningRecordParams,
-  QueryLearningRecordParams,
+  QueryLearningRecordParams, QueryLearningRecordWithTeacherParams,
   UpdateLearningRecordParams,
 } from '@/api/courseInformationManagement/model/learningRecord';
 import { QueryCourseScheduleParams } from '@/api/courseInformationManagement/model/courseSchedule';
@@ -39,6 +39,8 @@ enum Api {
   DeleteLearningRecord = '/learningRecord/deleteLearningRecord',
   LearningRecordList = '/learningRecord/getLearningRecord',
   LearningRecordById = '/learningRecord/getLearningRecordById',
+  //教师端获取学生记录
+  LearningRecordListWithTeacher = '/learningRecord/getLearningRecordWithTeacher',
 
   // 待审核记录api
   ReviewRecordList = '/learningRecord/getReviewRecord',
@@ -146,3 +148,17 @@ export const getMaterialsInfoList = (
 
 export const getMaterialsInfoById = (materialsId: number) =>
   defHttp.get<CommonFetchResult>({ url: Api.MaterialsInfoById, params: { materialsId } });
+
+export const getLearningRecordListWithTeacher = (
+  params: QueryLearningRecordWithTeacherParams = {
+    studentId: -1,
+    learningRecordDate: '',
+    courseName: '',
+    teacherId: -1,
+  },
+) => {
+  if (params.studentId?.length == 0) {
+    params.studentId = -1;
+  }
+  return defHttp.get<CommonFetchResult>({ url: Api.LearningRecordListWithTeacher, params });
+};

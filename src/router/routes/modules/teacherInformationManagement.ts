@@ -97,6 +97,16 @@ const teacherInformationManagement: AppRouteModule = {
         roles: [RoleEnum.MASTER, RoleEnum.TEACHER],
       },
     },
+    {
+      path: 'studyRecord',
+      name: 'StudyRecord',
+      component: () => import('@/views/teacherInformationManagement/studyRecord/index.vue'),
+      meta: {
+        // affix: true,
+        title: t('teacherInformationManagement.studyRecord.studyRecord'),
+        roles: [RoleEnum.MASTER, RoleEnum.TEACHER],
+      },
+    },
   ],
 };
 

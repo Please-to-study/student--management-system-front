@@ -24,4 +24,11 @@ export type UpdateLearningRecordParams = AddLearningRecordParams & {
   learningRecordId: number;
 };
 
+export type QueryLearningRecordWithTeacherParams = {
+  studentId: number;
+  learningRecordDate: string;
+  courseName: string;
+  teacherId: number;
+};
+
 export type AddLearningRecordList = AddLearningRecordParams[];
