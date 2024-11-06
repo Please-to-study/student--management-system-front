@@ -2,6 +2,7 @@ import { BasicColumn, FormSchema } from '@/components/Table';
 import { queryValidateTeacherName } from '@/views/teacherInformationManagement/teacherValidate';
 import { DescItem } from '@/components/Description';
 import { getCourseCategoryInfoList } from '@/api/configManagement';
+import { formatToDate, formatToDateTime } from "@/utils/dateUtil";
 
 export const columns: BasicColumn[] = [
   {
@@ -55,16 +56,25 @@ export const columns: BasicColumn[] = [
   {
     title: '开始时间',
     dataIndex: 'startTime',
+    customRender: ({ value }) => {
+      return formatToDateTime(value);
+    },
     width: 140,
   },
   {
     title: '结束时间',
     dataIndex: 'endTime',
+    customRender: ({ value }) => {
+      return formatToDateTime(value);
+    },
     width: 140,
   },
   {
     title: '上课日期',
     dataIndex: 'addCourseRecordTime',
+    customRender: ({ value }) => {
+      return formatToDate(value);
+    },
     width: 140,
   },
   {

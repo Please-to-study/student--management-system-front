@@ -1,9 +1,6 @@
-import { getAllRoleList, isAccountExist } from '@/api/demo/system';
 import { BasicColumn, FormSchema } from '@/components/Table';
-import { AccountListItem } from '@/api/demo/model/systemModel';
-import { getCourseList } from '@/api/courseInformationManagement/courseInformationManagement';
-import { getAllTeacherBasicInfoList } from '@/api/teacherInformationManagement/teacherInformationManagement';
 import { DescItem } from '@/components/Description';
+import { formatToDateTime } from "@/utils/dateUtil";
 
 export const columns: BasicColumn[] = [
   {
@@ -67,6 +64,9 @@ export const columns: BasicColumn[] = [
   {
     title: '比赛日期',
     dataIndex: 'competitionDate',
+    customRender: ({ value }) => {
+      return formatToDateTime(value);
+    },
     width: 120,
   },
   {

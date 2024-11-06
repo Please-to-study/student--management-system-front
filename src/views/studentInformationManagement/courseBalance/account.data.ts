@@ -2,6 +2,7 @@ import { BasicColumn, FormSchema } from '@/components/Table';
 import { queryValidateStudentNumber } from '@/views/studentInformationManagement/studentValidate';
 import { getCourseList } from '@/api/courseInformationManagement/courseInformationManagement';
 import { getCourseCategoryInfoList } from '@/api/configManagement';
+import { formatToDateTime } from "@/utils/dateUtil";
 
 export const columns: BasicColumn[] = [
   {
@@ -54,6 +55,9 @@ export const columns: BasicColumn[] = [
   {
     title: '报名日期',
     dataIndex: 'courseBalanceRegistrationDate',
+    customRender: ({ value }) => {
+      return formatToDateTime(value);
+    },
     width: 120,
   },
 ];

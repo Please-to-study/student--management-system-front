@@ -1,6 +1,7 @@
 import { BasicColumn, FormSchema } from '@/components/Table';
 import { DescItem } from '@/components/Description';
 import { getCompetitionStyleInfoList, getCourseCategoryInfoList } from "@/api/configManagement";
+import { formatToDate, formatToDateTime } from "@/utils/dateUtil";
 
 export const weekend = [
   {
@@ -85,6 +86,9 @@ export const columns: BasicColumn[] = [
   {
     title: '比赛日期',
     dataIndex: 'competitionDate',
+    customRender: ({ value }) => {
+      return formatToDateTime(value);
+    },
     width: 120,
   },
   {

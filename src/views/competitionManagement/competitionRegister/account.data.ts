@@ -3,6 +3,7 @@ import { getCompetitionList } from '@/api/competitionManagement/competitionManag
 import { DescItem } from '@/components/Description';
 import { validateStudentId } from '@/views/studentInformationManagement/studentValidate';
 import { isUndefined } from "@/utils/is";
+import { formatToDateTime } from "@/utils/dateUtil";
 
 const genderMap = new Map([
   ['1', '男'],
@@ -69,6 +70,9 @@ export const columns: BasicColumn[] = [
   {
     title: '比赛日期',
     dataIndex: 'competitionDate',
+    customRender: ({ value }) => {
+      return formatToDateTime(value);
+    },
     width: 120,
   },
   {

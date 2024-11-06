@@ -9,7 +9,7 @@ export interface LoginParams {
 
 // 修改密码
 export interface UpdatePasswordParams {
-  username: string;
+  userName: string;
   passwordOld: string;
   passwordNew: string;
   identity: number;

@@ -2,6 +2,7 @@ import { BasicColumn, FormSchema } from '@/components/Table';
 import { queryValidateStudentNumber } from '@/views/studentInformationManagement/studentValidate';
 import { DescItem } from '@/components/Description';
 import { getCourseCategoryInfoList } from '@/api/configManagement';
+import { formatToDate, formatToDateTime } from "@/utils/dateUtil";
 
 export const columns: BasicColumn[] = [
   {
@@ -34,6 +35,9 @@ export const columns: BasicColumn[] = [
   {
     title: '缴费时间',
     dataIndex: 'addPayInfoTime',
+    customRender: ({ value }) => {
+      return formatToDateTime(value);
+    },
     width: 120,
   },
   {

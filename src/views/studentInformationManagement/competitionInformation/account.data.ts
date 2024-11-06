@@ -2,6 +2,7 @@ import { BasicColumn, FormSchema } from '@/components/Table';
 import { queryValidateStudentNumber } from '@/views/studentInformationManagement/studentValidate';
 import { getCompetitionList } from '@/api/competitionManagement/competitionManagement';
 import { DescItem } from '@/components/Description';
+import { formatToDateTime } from "@/utils/dateUtil";
 
 export const columns: BasicColumn[] = [
   {
@@ -74,6 +75,9 @@ export const columns: BasicColumn[] = [
   {
     title: '比赛日期',
     dataIndex: 'competitionDate',
+    customRender: ({ value }) => {
+      return formatToDateTime(value);
+    },
     width: 120,
   },
   {

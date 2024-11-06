@@ -128,9 +128,8 @@ export const useUserStore = defineStore({
           // 记录动态路由加载完成
           permissionStore.setDynamicAddedRoute(true);
         }
-
         if (userInfoParams.identity == Identity.Administrator) {
-          goHome && (await router.replace(userInfo?.homePath || PageEnum.BASE_HOME));
+          goHome && (await router.replace(userInfo?.homePath || PageEnum.MASTER_BASE_HOME));
         } else if (userInfoParams.identity == Identity.Teacher) {
           goHome && (await router.replace(userInfo?.homePath || PageEnum.TEACHER_BASE_HOME));
         }

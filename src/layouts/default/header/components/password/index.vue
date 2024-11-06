@@ -17,10 +17,11 @@
   import { resetPassword } from '@/api/sys/user';
   import { useUserStore } from '@/store/modules/user';
   import { UpdatePasswordParams } from '@/api/sys/model/userModel';
-  import { useRouter } from 'vue-router';
   import { PageEnum } from '@/enums/pageEnum';
+  import { useRouter } from 'vue-router';
 
   const userStore = useUserStore();
+  const { push } = useRouter();
   defineOptions({ name: 'ChangePwd' });
   const [registerModal, { closeModal }] = useModalInner();
 
@@ -39,9 +40,10 @@
 
       // TODO custom api
       console.log(passwordOld, passwordNew);
-      const { identity, username } = userStore.getUserInfo;
+      console.log('userStore is ', userStore.getUserInfo);
+      const { identity, userName } = userStore.getUserInfo;
       const params: UpdatePasswordParams = {
-        username,
+        userName,
         identity,
         passwordOld,
         passwordNew,
@@ -49,11 +51,9 @@
       const { code } = await resetPassword(params);
       if (code == 0) {
         closeModal();
-        const router = useRouter();
-        router.push(PageEnum.BASE_LOGIN);
+        // router.replace(PageEnum.BASE_LOGIN);
+        push(PageEnum.BASE_LOGIN);
       }
-      // const { router } = useRouter();
-      // router.push(pageEnum.BASE_LOGIN);
     } catch (error) {
       console.error(error);
     }
