@@ -15,7 +15,6 @@ import {
   UpdateSigningStyleParams,
   UpdateTeacherPayStyleParams,
 } from '@/api/configParams';
-import { QueryCourseRecordParams } from '@/api/teacherInformationManagement/model/courseRecord';
 
 enum Api {
   // 教师签约形式表

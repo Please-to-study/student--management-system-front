@@ -1,15 +1,23 @@
 import { defHttp } from '@/utils/http/axios';
-import { LoginParams, LoginResultModel, GetUserInfoModel, UserInfoParams } from './model/userModel';
+import {
+  LoginParams,
+  LoginResultModel,
+  GetUserInfoModel,
+  UserInfoParams,
+  UpdatePasswordParams,
+} from './model/userModel';
 
 import { ErrorMessageMode } from '#/axios';
-import { isNull, isUndefined } from '@/utils/is';
+import { isUndefined } from '@/utils/is';
 import { useUserStore } from '@/store/modules/user';
+import { CommonFetchResult } from '@/api/model/baseModel';
 
 // const BASE_URL = 'http://localhost:8080/codeManageSystem';
 
 enum Api {
   Login = '/user/login',
   Logout = '/logout',
+  RESETPASSWORD = '/user/changePwd',
   GetUserInfo = '/user/getUserInfo',
   GetPermCode = '/getPermCode',
   TestRetry = '/testRetry',
@@ -34,6 +42,13 @@ export function loginApi(params: LoginParams, mode: ErrorMessageMode = 'modal') 
     {
       errorMessageMode: mode,
     },
+  );
+}
+
+export function resetPassword(params: UpdatePasswordParams) {
+  return defHttp.post<CommonFetchResult>(
+    { url: Api.RESETPASSWORD, params },
+    { isTransformResponse: false },
   );
 }
 

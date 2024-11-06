@@ -45,7 +45,7 @@
   </Dropdown>
   <LockAction @register="register" />
   <ChangeApi @register="registerApi" />
-<!--  <ChangePwd @register="registerPwd" />-->
+  <ChangePwd @register="registerPwd" />
 </template>
 <script lang="ts" setup>
   import { Dropdown, Menu } from 'ant-design-vue';
@@ -58,6 +58,7 @@
   import { useDesign } from '@/hooks/web/useDesign';
   import { useModal } from '@/components/Modal';
   import headerImg from '@/assets/images/header.jpg';
+  import ChangePwd from '../password/index.vue';
   import { propTypes } from '@/utils/propTypes';
   import { openWindow } from '@/utils';
   import { createAsyncComponent } from '@/utils/factory/createAsyncComponent';
@@ -67,7 +68,7 @@
   const MenuItem = createAsyncComponent(() => import('./DropMenuItem.vue'));
   const LockAction = createAsyncComponent(() => import('../lock/LockModal.vue'));
   const ChangeApi = createAsyncComponent(() => import('../ChangeApi/index.vue'));
-  const ChangePwd = createAsyncComponent(() => import('../password/index.vue'));
+  // const ChangePwd = createAsyncComponent(() => import('../password/index.vue'));
 
   defineOptions({ name: 'UserDropdown' });
 
@@ -94,6 +95,7 @@
   }
 
   function handlePassword() {
+    console.log("this this")
     openModalPwd(true);
   }
 

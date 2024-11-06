@@ -7,6 +7,14 @@ export interface LoginParams {
   identity: number;
 }
 
+// 修改密码
+export interface UpdatePasswordParams {
+  username: string;
+  passwordOld: string;
+  passwordNew: string;
+  identity: number;
+}
+
 export interface UserInfoParams {
   userId: number;
   identity: number;
