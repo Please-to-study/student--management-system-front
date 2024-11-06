@@ -29,6 +29,7 @@
                   placement: 'left',
                   confirm: handleDelete.bind(null, record),
                 },
+                auth: RoleEnum.MASTER,
               },
             ]"
           />
@@ -55,6 +56,7 @@
     deleteTeacher,
     getTeacherInfoList,
   } from '@/api/teacherInformationManagement/teacherInformationManagement';
+  import {RoleEnum} from "@/enums/roleEnum";
 
   defineOptions({ name: 'AccountManagement' });
 

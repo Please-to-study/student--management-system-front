@@ -41,6 +41,7 @@
                   placement: 'left',
                   confirm: handleDelete.bind(null, record),
                 },
+                auth: RoleEnum.MASTER,
               },
             ]"
           />
@@ -72,6 +73,7 @@
     getLearningRecordList,
   } from '@/api/courseInformationManagement/courseInformationManagement';
   import { ExpExcelModal, ExportModalResult, jsonToSheetXlsx } from "@/components/Excel";
+  import {RoleEnum} from "@/enums/roleEnum";
 
   defineOptions({ name: 'AccountManagement' });
 

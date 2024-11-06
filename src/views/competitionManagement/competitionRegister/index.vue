@@ -41,6 +41,7 @@
                   placement: 'left',
                   confirm: handleDelete.bind(null, record),
                 },
+                auth: RoleEnum.MASTER,
               },
             ]"
           />
@@ -71,6 +72,7 @@
   import { getSameStudent } from '@/api/studentInformationManagement/studentInformationManagement';
   import { useDebounceFn } from '@vueuse/core';
   import type { Recordable } from '@vben/types';
+  import {RoleEnum} from "@/enums/roleEnum";
 
   defineOptions({ name: 'AccountManagement' });
 

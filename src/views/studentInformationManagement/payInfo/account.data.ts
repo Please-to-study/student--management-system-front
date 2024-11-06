@@ -1,10 +1,7 @@
 import { BasicColumn, FormSchema } from '@/components/Table';
-import {
-  queryValidateStudentNumber,
-} from '@/views/studentInformationManagement/studentValidate';
-import { getCourseList } from '@/api/courseInformationManagement/courseInformationManagement';
+import { queryValidateStudentNumber } from '@/views/studentInformationManagement/studentValidate';
 import { DescItem } from '@/components/Description';
-import { getCourseCategoryInfoList } from "@/api/configManagement";
+import { getCourseCategoryInfoList } from '@/api/configManagement';
 
 export const columns: BasicColumn[] = [
   {
@@ -113,8 +110,7 @@ export const searchFormSchema: FormSchema[] = [
     component: 'ApiSelect',
     componentProps: {
       api: getCourseCategoryInfoList,
-      params: {
-      },
+      params: {},
       resultField: 'items',
       labelField: 'courseCategoryName',
       valueField: 'courseCategoryId',
@@ -145,8 +141,7 @@ export const accountFormSchema: FormSchema[] = [
     componentProps: ({ formModel, formActionType }) => {
       return {
         api: getCourseCategoryInfoList,
-        params: {
-        },
+        params: {},
         placeholder: '请选择课程类别',
         resultField: 'items',
         labelField: 'courseCategoryName',

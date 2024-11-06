@@ -27,6 +27,7 @@
                   placement: 'left',
                   confirm: handleDelete.bind(null, record),
                 },
+                auth: RoleEnum.MASTER,
               },
             ]"
           />
@@ -58,6 +59,7 @@
     getSpecialCompetitionList
   } from "@/api/competitionManagement/competitionManagement";
   import dayjs from 'dayjs';
+  import {RoleEnum} from "@/enums/roleEnum";
 
   defineOptions({ name: 'AccountManagement' });
 

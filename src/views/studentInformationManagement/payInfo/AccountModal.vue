@@ -24,9 +24,12 @@
   import { accountFormSchema } from './account.data';
   import {
     AddPayInfo,
-    getSameStudent,
+    getSameStudent, updatePayInfo,
   } from '@/api/studentInformationManagement/studentInformationManagement';
-  import { AddPayInfoParams } from '@/api/studentInformationManagement/model/spendingInfo';
+  import {
+    AddPayInfoParams,
+    UpdatePayInfoParams
+  } from '@/api/studentInformationManagement/model/spendingInfo';
   import { useDebounceFn } from '@vueuse/core';
   import type { Recordable } from '@vben/types';
 
@@ -77,9 +80,13 @@
       const values = await validate();
       setModalProps({ confirmLoading: true });
       // isUpdate为false ---> 新增缴费  isUpdate为true ---> 编辑缴费
-      const addParams: AddPayInfoParams = { ...values };
-      await AddPayInfo(addParams);
-      console.log('新增缴费: ', values);
+      if (!unref(isUpdate)) {
+        const addParams: AddPayInfoParams = { ...values };
+        await AddPayInfo(addParams);
+      } else {
+        const updateParams: UpdatePayInfoParams = { ...values };
+        await updatePayInfo(updateParams);
+      }
       closeModal();
       emit('success', { isUpdate: unref(isUpdate), values: { ...values, id: rowId.value } });
     } finally {

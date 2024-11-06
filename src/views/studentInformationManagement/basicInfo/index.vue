@@ -28,6 +28,7 @@
                   placement: 'left',
                   confirm: handleDelete.bind(null, record),
                 },
+                auth: RoleEnum.MASTER,
               },
             ]"
           />
@@ -39,25 +40,25 @@
   </PageWrapper>
 </template>
 <script lang="ts" setup>
-  import { reactive, ref, unref } from 'vue';
-  import { BasicTable, useTable, TableAction } from '@/components/Table';
-  import { jsonToSheetXlsx, ExpExcelModal, ExportModalResult } from '@/components/Excel';
-  import {
-    deleteStudent,
-    getSpecialStudentBasicInfoList,
-  } from '@/api/studentInformationManagement/studentInformationManagement';
-  import { PageWrapper } from '@/components/Page';
+import {reactive, ref} from 'vue';
+import {BasicTable, TableAction, useTable} from '@/components/Table';
+import {ExpExcelModal, ExportModalResult, jsonToSheetXlsx} from '@/components/Excel';
+import {
+  deleteStudent,
+  getSpecialStudentBasicInfoList,
+} from '@/api/studentInformationManagement/studentInformationManagement';
+import {PageWrapper} from '@/components/Page';
 
-  import { useModal } from '@/components/Modal';
-  import AccountModal from './AccountModal.vue';
+import {useModal} from '@/components/Modal';
+import AccountModal from './AccountModal.vue';
 
-  import { columns, searchFormSchema } from './account.data';
-  import { useGo } from '@/hooks/web/usePage';
-  import { useMessage } from '@/hooks/web/useMessage';
-  import { isUndefined } from '@/utils/is';
-  import { data } from '@/views/demo/excel/data';
+import {columns, searchFormSchema} from './account.data';
+import {useGo} from '@/hooks/web/usePage';
+import {useMessage} from '@/hooks/web/useMessage';
+import {isUndefined} from '@/utils/is';
+import {RoleEnum} from "@/enums/roleEnum";
 
-  defineOptions({ name: 'AccountManagement' });
+defineOptions({ name: 'AccountManagement' });
 
   const { createMessage } = useMessage();
   const go = useGo();

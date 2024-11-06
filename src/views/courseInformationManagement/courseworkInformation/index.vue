@@ -24,6 +24,7 @@
                   placement: 'left',
                   confirm: handleDelete.bind(null, record),
                 },
+                auth: RoleEnum.MASTER,
               },
             ]"
           />
@@ -50,6 +51,7 @@
     deleteMaterials,
     getMaterialsInfoList,
   } from '@/api/courseInformationManagement/courseInformationManagement';
+  import {RoleEnum} from "@/enums/roleEnum";
 
   defineOptions({ name: 'AccountManagement' });
 

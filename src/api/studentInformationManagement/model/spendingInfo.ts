@@ -17,3 +17,7 @@ export type QueryPayInfoParams = {
   studentId: number;
   courseCategoryId: number;
 };
+
+export type UpdatePayInfoParams = AddPayInfoParams & {
+  payId: number;
+};

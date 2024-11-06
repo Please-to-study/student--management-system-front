@@ -29,7 +29,7 @@
               },
               {
                 icon: 'clarity:note-edit-line',
-                tooltip: '编辑参赛资料',
+                tooltip: '编辑参赛信息',
                 onClick: handleEdit.bind(null, record),
               },
               {
@@ -41,6 +41,7 @@
                   placement: 'left',
                   confirm: handleDelete.bind(null, record),
                 },
+                auth: RoleEnum.MASTER,
               },
             ]"
           />
@@ -71,6 +72,7 @@
   import { isNull, isUndefined } from '@/utils/is';
   import { ApiSelect } from '@/components/Form';
   import type { Recordable } from '@vben/types';
+  import {RoleEnum} from "@/enums/roleEnum";
 
   defineOptions({ name: 'AccountManagement' });
 

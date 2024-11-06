@@ -24,8 +24,24 @@
             :actions="[
               {
                 icon: 'clarity:info-standard-line',
-                tooltip: '查看用户详情',
+                tooltip: '查看缴费详情',
                 onClick: handleView.bind(null, record),
+              },
+              {
+                icon: 'clarity:note-edit-line',
+                tooltip: '编辑缴费信息',
+                onClick: handleEdit.bind(null, record),
+              },
+              {
+                icon: 'ant-design:delete-outlined',
+                color: 'error',
+                tooltip: '删除缴费信息',
+                popConfirm: {
+                  title: '是否确认删除',
+                  placement: 'left',
+                  confirm: handleDelete.bind(null, record),
+                },
+                auth: RoleEnum.MASTER,
               },
             ]"
           />
@@ -49,12 +65,14 @@
   import { useMessage } from '@/hooks/web/useMessage';
   import { isNull, isUndefined } from '@/utils/is';
   import {
+    deletePayInfo,
     getPayInfoList,
     getSameStudent,
   } from '@/api/studentInformationManagement/studentInformationManagement';
   import { ApiSelect } from '@/components/Form';
   import type { Recordable } from '@vben/types';
   import { useDebounceFn } from '@vueuse/core';
+  import {RoleEnum} from "@/enums/roleEnum";
 
   defineOptions({ name: 'AccountManagement' });
 
@@ -137,8 +155,9 @@
     });
   }
 
-  function handleDelete(record: Recordable) {
-    console.log(record);
+  async function handleDelete(record: Recordable) {
+    await deletePayInfo(record.payId);
+    await reload();
   }
 
   function handleExport() {

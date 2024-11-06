@@ -1,5 +1,5 @@
 import { defHttp } from '@/utils/http/axios';
-import { AddPayInfoParams, QueryPayInfoParams } from './model/spendingInfo';
+import {AddPayInfoParams, QueryPayInfoParams, UpdatePayInfoParams} from './model/spendingInfo';
 import {
   AddStudentInfoParams,
   QuerySameStudentInfoParams,
@@ -30,6 +30,8 @@ enum Api {
   StudentById = '/studentInfo/getStudentById',
   // 缴费信息api
   AddPayInfo = '/payInfo/addPayInfo',
+  UpdatePayInfo = '/payInfo/updatePayInfo',
+  DeletePayInfo = '/payInfo/deletePayInfo',
   PayInfoList = '/payInfo/getPayInfo',
   PayInfoById = '/payInfo/getPayInfoById',
   // 课程结余信息api
@@ -55,7 +57,7 @@ export const addStudent = (params: AddStudentInfoParams) =>
 export const updateStudent = (params: UpdateStudentInfoParams) =>
   defHttp.post({ url: Api.UpdateStudent, params });
 
-export const deleteStudent = (studentId: string) =>
+export const deleteStudent = (studentId: number) =>
   defHttp.post({ url: Api.DeleteStudent, params: { studentId } });
 
 export const getAllStudentBasicInfoList = (params: BasicPageParams) =>
@@ -77,6 +79,12 @@ export const getStudentById = (studentId: number) =>
 // 缴费信息功能模块api list
 export const AddPayInfo = (params: AddPayInfoParams) =>
   defHttp.post({ url: Api.AddPayInfo, params });
+
+export const updatePayInfo = (params: UpdatePayInfoParams) =>
+  defHttp.post({ url: Api.UpdatePayInfo, params });
+
+export const deletePayInfo = (payId: number) =>
+  defHttp.post({ url: Api.DeletePayInfo, params: { payId } });
 
 export const getPayInfoList = (
   params: QueryPayInfoParams = { studentNumber: '', studentId: -1, courseCategoryId: -1 },
