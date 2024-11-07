@@ -16,7 +16,7 @@ import { CommonFetchResult } from '@/api/model/baseModel';
 
 enum Api {
   Login = '/user/login',
-  Logout = '/logout',
+  Logout = '/user/logout',
   RESETPASSWORD = '/user/changePwd',
   GetUserInfo = '/user/getUserInfo',
   GetPermCode = '/getPermCode',

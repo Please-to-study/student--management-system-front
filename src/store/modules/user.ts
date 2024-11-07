@@ -140,9 +140,6 @@ export const useUserStore = defineStore({
       if (!this.getToken) return null;
 
       const userInfo = await getUserInfo(userInfoParams);
-      // debugger;
-      // userInfo.identity = userInfoParams.identity;
-      // userInfo.identity = 1;
       const { roles = [] } = userInfo;
       if (isArray(roles)) {
         const roleList = roles.map((item) => item.value) as RoleEnum[];

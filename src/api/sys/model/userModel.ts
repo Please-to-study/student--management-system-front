@@ -44,7 +44,7 @@ export interface GetUserInfoModel {
   // 用户身份ID
   identity: number;
   // 用户名
-  username: string;
+  userName: string;
   // 真实名字
   realName: string;
   // 头像

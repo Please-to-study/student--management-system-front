@@ -1,7 +1,7 @@
 import { BasicColumn, FormSchema } from '@/components/Table';
 import { queryValidateStudentNumber } from '@/views/studentInformationManagement/studentValidate';
 import { DescItem } from '@/components/Description';
-import { getCourseCategoryInfoList } from '@/api/configManagement';
+import {getAdministratorInfoList, getCourseCategoryInfoList} from '@/api/configManagement';
 import { formatToDate, formatToDateTime } from "@/utils/dateUtil";
 
 export const columns: BasicColumn[] = [
@@ -240,14 +240,19 @@ export const accountFormSchema: FormSchema[] = [
     required: true,
   },
   {
-    // todo 待修改
     field: 'payeeId',
     label: '收款人',
-    component: 'Input',
-    // defaultValue: 1,
-    // componentProps: {
-    //   disabled: true,
-    // },
+    component: 'ApiSelect',
+    componentProps: {
+      api: getAdministratorInfoList,
+      params: {
+        administratorName: '',
+        status: -1,
+      },
+      resultField: 'items',
+      labelField: 'administratorName',
+      valueField: 'administratorId',
+    },
     required: true,
   },
   {
