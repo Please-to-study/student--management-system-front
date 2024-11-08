@@ -248,6 +248,9 @@ export const studentSchema: DescItem[] = [
   {
     label: '性别',
     field: 'studentGender',
+    render(value) {
+      return genderMap.get(value);
+    },
   },
   {
     label: '电话',

@@ -5,7 +5,7 @@
     @back="goBack"
   >
     <template #extra>
-      <a-button type="primary" danger> 禁用账号 </a-button>
+<!--      <a-button type="primary" danger> 禁用账号 </a-button>-->
     </template>
     <div class="pt-4 m-4 desc-wrap">
       <Description
