@@ -2,7 +2,7 @@ import { BasicColumn, FormSchema } from '@/components/Table';
 import { queryValidateStudentNumber } from '@/views/studentInformationManagement/studentValidate';
 import { getCompetitionList } from '@/api/competitionManagement/competitionManagement';
 import { DescItem } from '@/components/Description';
-import { formatToDateTime } from "@/utils/dateUtil";
+import { formatToDate, formatToDateTime } from "@/utils/dateUtil";
 
 export const columns: BasicColumn[] = [
   {
@@ -76,7 +76,7 @@ export const columns: BasicColumn[] = [
     title: '比赛日期',
     dataIndex: 'competitionDate',
     customRender: ({ value }) => {
-      return formatToDateTime(value);
+      return formatToDate(value);
     },
     width: 120,
   },
@@ -161,7 +161,7 @@ export const accountFormSchema: FormSchema[] = [
   {
     label: '参赛学生',
     field: 'studentId',
-    required: true,
+    // required: true,
     slot: 'studentSearch',
   },
   {
@@ -176,7 +176,7 @@ export const accountFormSchema: FormSchema[] = [
         competitionYear: '',
       },
       resultField: 'items',
-      labelField: 'competitionLabel',
+      labelField: 'competitionName',
       valueField: 'competitionId',
     },
     required: true,
@@ -249,6 +249,9 @@ export const competitionInfoSchema: DescItem[] = [
   {
     label: '比赛日期',
     field: 'competitionDate',
+    render: (value) => {
+      return formatToDate(value);
+    },
   },
   {
     label: '当前年级',

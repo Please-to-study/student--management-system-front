@@ -152,6 +152,8 @@
         courseName: values.courseName,
         courseCategoryId: values.courseCategoryId,
         teacherId: values.teacherId,
+        courseSalary: values.courseSalary,
+        courseBasicPrice: values.courseBasicPrice,
         courseAddress: values.courseAddress,
         courseStartDate: values.courseStartDate,
         courseNumber: values.courseNumber,

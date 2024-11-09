@@ -1,6 +1,6 @@
 <template>
   <PageWrapper
-    :title="`赛事：` + competitionAwardsInfo?.competitionName + `的详细信息`"
+    :title="`赛事获奖：` + competitionAwardsInfo?.competitionName"
     contentBackground
     @back="goBack"
   >
@@ -8,7 +8,7 @@
     <div class="pt-4 m-4 desc-wrap">
       <Description
         size="middle"
-        title="用户信息"
+        title="获奖信息"
         :bordered="false"
         :column="3"
         :data="competitionAwardsInfo"

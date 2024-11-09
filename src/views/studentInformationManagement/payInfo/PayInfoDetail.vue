@@ -1,5 +1,9 @@
 <template>
-  <PageWrapper :title="payInfo?.studentName + '（' + payInfo?.studentNumber + '）' + `的缴费信息`" contentBackground @back="goBack">
+  <PageWrapper
+    :title="`缴费信息：` + payInfo?.studentName + '（' + payInfo?.studentNumber + '）'"
+    contentBackground
+    @back="goBack"
+  >
     <template #extra>
       <!--      <a-button type="primary" danger> 禁用账号 </a-button>-->
       <!--      <a-button type="primary"> 修改密码 </a-button>-->

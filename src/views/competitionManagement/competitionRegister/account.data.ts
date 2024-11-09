@@ -3,7 +3,7 @@ import { getCompetitionList } from '@/api/competitionManagement/competitionManag
 import { DescItem } from '@/components/Description';
 import { validateStudentId } from '@/views/studentInformationManagement/studentValidate';
 import { isUndefined } from "@/utils/is";
-import { formatToDateTime } from "@/utils/dateUtil";
+import { formatToDate, formatToDateTime } from "@/utils/dateUtil";
 
 const genderMap = new Map([
   ['1', '男'],
@@ -71,7 +71,7 @@ export const columns: BasicColumn[] = [
     title: '比赛日期',
     dataIndex: 'competitionDate',
     customRender: ({ value }) => {
-      return formatToDateTime(value);
+      return formatToDate(value);
     },
     width: 120,
   },
@@ -139,20 +139,20 @@ export const accountFormSchema: FormSchema[] = [
     label: '参赛学生',
     field: 'studentId',
     slot: 'studentSearch',
-    rules: [
-      {
-        required: true,
-        validator: async (_, value) => {
-          console.log('validator value is ', value);
-          if (isUndefined(value)) {
-            // return Promise.resolve();
-            return Promise.reject('学生不能为空');
-          }
-          return Promise.resolve();
-        },
-        trigger: 'change',
-      },
-    ],
+    // rules: [
+    //   {
+    //     required: true,
+    //     validator: async (_, value) => {
+    //       console.log('validator value is ', value);
+    //       if (isUndefined(value)) {
+    //         // return Promise.resolve();
+    //         return Promise.reject('学生不能为空');
+    //       }
+    //       return Promise.resolve();
+    //     },
+    //     trigger: 'change',
+    //   },
+    // ],
   },
   {
     label: '备注',
@@ -167,16 +167,8 @@ export const competitionRegisterSchema: DescItem[] = [
     field: 'competitionRegisterId',
   },
   {
-    label: '赛事ID',
-    field: 'competitionId',
-  },
-  {
     label: '赛事名称',
     field: 'competitionName',
-  },
-  {
-    label: '学生ID',
-    field: 'studentId',
   },
   {
     label: '学号',
@@ -208,6 +200,9 @@ export const competitionRegisterSchema: DescItem[] = [
   {
     label: '比赛日期',
     field: 'competitionDate',
+    render: (value) => {
+      return formatToDate(value);
+    },
   },
   {
     label: '赛事介绍',

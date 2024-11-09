@@ -9,6 +9,8 @@ export type AddCourseInfoParams = {
   courseName: string;
   courseCategoryId: number;
   teacherId: number;
+  courseSalary: number;
+  courseBasicPrice: number;
   courseAddress: string;
   courseNumber: number;
   courseStartDate: string;

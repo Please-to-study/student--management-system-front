@@ -1,11 +1,7 @@
 <template>
   <PageWrapper
     :title="
-      `编程能力评级信息：` +
-      programRateInfo?.studentName +
-      `（` +
-      programRateInfo?.studentNumber +
-      `）`
+      `编程能力评级：` + programRateInfo?.studentName + `（` + programRateInfo?.studentNumber + `）`
     "
     contentBackground
     @back="goBack"
@@ -17,7 +13,7 @@
     <div class="pt-4 m-4 desc-wrap">
       <Description
         size="middle"
-        title="用户信息"
+        title="编程信息"
         :bordered="false"
         :column="3"
         :data="programRateInfo"

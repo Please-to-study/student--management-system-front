@@ -24,11 +24,12 @@
   import { accountFormSchema } from './account.data';
   import {
     AddPayInfo,
-    getSameStudent, updatePayInfo,
+    getSameStudent,
+    updatePayInfo,
   } from '@/api/studentInformationManagement/studentInformationManagement';
   import {
     AddPayInfoParams,
-    UpdatePayInfoParams
+    UpdatePayInfoParams,
   } from '@/api/studentInformationManagement/model/spendingInfo';
   import { useDebounceFn } from '@vueuse/core';
   import type { Recordable } from '@vben/types';

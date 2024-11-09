@@ -87,7 +87,7 @@ export const columns: BasicColumn[] = [
     title: '比赛日期',
     dataIndex: 'competitionDate',
     customRender: ({ value }) => {
-      return formatToDateTime(value);
+      return formatToDate(value);
     },
     width: 120,
   },
@@ -249,6 +249,9 @@ export const competitionSchema: DescItem[] = [
   {
     label: '比赛日期',
     field: 'competitionDate',
+    render: (value) => {
+      return formatToDate(value);
+    },
   },
   {
     label: '比赛语言',

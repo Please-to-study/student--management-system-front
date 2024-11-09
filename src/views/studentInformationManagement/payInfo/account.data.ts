@@ -134,7 +134,7 @@ export const accountFormSchema: FormSchema[] = [
   {
     label: '报名学生',
     field: 'studentId',
-    required: true,
+    // required: true,
     slot: 'studentSearch',
   },
   {
@@ -179,6 +179,16 @@ export const accountFormSchema: FormSchema[] = [
     label: '课时',
     component: 'InputNumber',
     required: true,
+    componentProps: ({ formModel, formActionType }) => {
+      return {
+        onChange: (e: any) => {
+          formModel.payableFee =
+            formModel.courseCategoryPrice * formModel.courseNumber -
+            formModel.payPreferential +
+            formModel.otherFee;
+        },
+      };
+    },
   },
   {
     field: 'payPreferential',
@@ -206,7 +216,7 @@ export const accountFormSchema: FormSchema[] = [
       return {
         onChange: (e: any) => {
           formModel.payableFee =
-            formModel.courseCategoryPrice * formModel.courseTime -
+            formModel.courseCategoryPrice * formModel.courseNumber -
             formModel.payPreferential +
             formModel.otherFee;
         },
@@ -283,6 +293,9 @@ export const spendingSchema: DescItem[] = [
   {
     label: '缴费时间',
     field: 'addPayInfoTime',
+    render: (value) => {
+      return formatToDateTime(value);
+    },
   },
   {
     label: '课程单价',

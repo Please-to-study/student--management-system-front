@@ -1,12 +1,11 @@
 <template>
   <PageWrapper
     :title="
-      `详情：` +
+      `参赛详情：` +
       competitionInfo?.studentName +
       `（` +
       competitionInfo?.studentNumber +
-      `）` +
-      `的参赛信息`
+      `）`
     "
     contentBackground
     @back="goBack"

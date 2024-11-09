@@ -96,9 +96,9 @@ export const accountFormSchema: FormSchema[] = [
     ifShow: false,
   },
   {
-    label: '参赛学生',
+    label: '学生',
     field: 'studentId',
-    required: true,
+    // required: true,
     slot: 'studentSearch',
   },
   {

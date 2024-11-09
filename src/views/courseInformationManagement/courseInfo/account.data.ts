@@ -117,7 +117,17 @@ export const columns: BasicColumn[] = [
   {
     title: '课程单价',
     dataIndex: 'courseCategoryPrice',
-    width: 120,
+    width: 80,
+  },
+  {
+    title: '课酬',
+    dataIndex: 'courseSalary',
+    width: 80,
+  },
+  {
+    title: '保底',
+    dataIndex: 'courseBasicPrice',
+    width: 80,
   },
   {
     title: '开课时间',
@@ -221,6 +231,18 @@ export const accountFormSchema: FormSchema[] = [
     slot: 'teacherSearch',
   },
   {
+    label: '课酬',
+    field: 'courseSalary',
+    component: 'InputNumber',
+    required: true,
+  },
+  {
+    label: '保底',
+    field: 'courseBasicPrice',
+    component: 'InputNumber',
+    required: true,
+  },
+  {
     field: 'courseAddress',
     label: '上课校区',
     component: 'Input',
@@ -319,6 +341,14 @@ export const courseInfoSchema: DescItem[] = [
   {
     label: '课程单价',
     field: 'coursePrice',
+  },
+  {
+    label: '课酬',
+    field: 'courseSalary',
+  },
+  {
+    label: '保底',
+    field: 'courseBasicPrice',
   },
   {
     label: '课程总课时',

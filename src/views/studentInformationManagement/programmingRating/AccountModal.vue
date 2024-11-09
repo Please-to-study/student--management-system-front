@@ -86,7 +86,7 @@
     // ]);
   });
 
-  const getTitle = computed(() => (!unref(isUpdate) ? '新增账号' : '编辑账号'));
+  const getTitle = computed(() => (!unref(isUpdate) ? '新增信息' : '编辑信息'));
 
   async function handleSubmit() {
     try {

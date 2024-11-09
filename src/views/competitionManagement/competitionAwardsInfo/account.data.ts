@@ -1,6 +1,6 @@
 import { BasicColumn, FormSchema } from '@/components/Table';
 import { DescItem } from '@/components/Description';
-import { formatToDateTime } from "@/utils/dateUtil";
+import { formatToDate, formatToDateTime } from "@/utils/dateUtil";
 
 export const columns: BasicColumn[] = [
   {
@@ -65,7 +65,7 @@ export const columns: BasicColumn[] = [
     title: '比赛日期',
     dataIndex: 'competitionDate',
     customRender: ({ value }) => {
-      return formatToDateTime(value);
+      return formatToDate(value);
     },
     width: 120,
   },
@@ -110,7 +110,7 @@ export const competitionAwardsSchema: DescItem[] = [
   },
   {
     label: '比赛组别',
-    field: 'competitionStyle',
+    field: 'competitionGroup',
   },
   {
     label: '主办方',
@@ -123,6 +123,9 @@ export const competitionAwardsSchema: DescItem[] = [
   {
     label: '比赛日期',
     field: 'competitionDate',
+    render: (value) => {
+      return formatToDate(value);
+    },
   },
   {
     label: '赛事介绍',

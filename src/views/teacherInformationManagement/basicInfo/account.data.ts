@@ -147,6 +147,7 @@ export const accountFormSchema: FormSchema[] = [
     component: 'Input',
     required: true,
     defaultValue: '123456',
+    ifShow: false,
   },
   {
     label: '性别',
@@ -293,10 +294,6 @@ export const teacherInfoSchema: DescItem[] = [
   {
     label: '家庭地址',
     field: 'teacherAddress',
-  },
-  {
-    label: '账号密码',
-    field: 'teacherPassword',
   },
   // {
   //   label: '教授课程',

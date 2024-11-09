@@ -79,11 +79,10 @@
     console.log('items is ', items);
     items.forEach((element) => {
       element.content =
-        '赛事名称：' +
         element.competitionName +
-        ' 比赛时间：' +
-        element.competitionDate.substring(0, 16) +
-        ' 赛事介绍：' +
+        ' ' +
+        element.competitionDate.substring(0, 10) +
+        ' ' +
         element.introduce;
       const badgeColorIndex = Math.floor(Math.random() * badgeColors.length);
       element.color = badgeColors[badgeColorIndex];

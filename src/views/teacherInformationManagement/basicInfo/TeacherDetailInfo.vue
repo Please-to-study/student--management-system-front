@@ -1,17 +1,17 @@
 <template>
   <PageWrapper
-    :title="`教师：` + teacherInfo?.teacherName + `的详细资料`"
+    :title="`教师资料：` + teacherInfo?.teacherName"
     contentBackground
     @back="goBack"
   >
     <template #extra>
-      <a-button type="primary" danger> 禁用账号 </a-button>
+<!--      <a-button type="primary" danger> 禁用账号 </a-button>-->
       <!--      <a-button type="primary"> 修改密码 </a-button>-->
     </template>
     <div class="pt-4 m-4 desc-wrap">
       <Description
         size="middle"
-        title="用户信息"
+        title="教师信息"
         :bordered="false"
         :column="3"
         :data="teacherInfo"
