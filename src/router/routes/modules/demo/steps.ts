@@ -13,6 +13,7 @@ const steps: AppRouteModule = {
     hideChildrenInMenu: true,
     icon: 'whh:paintroll',
     title: t('routes.demo.steps.page'),
+    hideMenu: true,
   },
   children: [
     {

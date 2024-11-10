@@ -15,6 +15,7 @@ const page: AppRouteModule = {
     orderNo: 20,
     icon: 'ion:aperture-outline',
     title: t('routes.demo.page.page'),
+    hideMenu: true,
   },
   children: [
     // =============================form start=============================

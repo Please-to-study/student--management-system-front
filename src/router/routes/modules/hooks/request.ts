@@ -11,6 +11,7 @@ const charts: AppRouteModule = {
     orderNo: 900,
     icon: 'ant-design:api-outlined',
     title: 'useRequest',
+    hideMenu: true,
   },
   children: [
     {

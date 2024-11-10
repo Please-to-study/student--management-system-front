@@ -18,6 +18,7 @@
   import { useDesign } from '@/hooks/web/useDesign';
   import { PageEnum } from '@/enums/pageEnum';
   import { useUserStore } from '@/store/modules/user';
+  import { Identity } from '@/api/sys/user';
 
   const props = defineProps({
     /**
@@ -54,7 +55,12 @@
   ]);
 
   function goHome() {
-    go(userStore.getUserInfo.homePath || PageEnum.BASE_HOME);
+    const { identity } = userStore.getUserInfo;
+    if (identity == Identity.Administrator) {
+      go(userStore.getUserInfo.homePath || PageEnum.MASTER_BASE_HOME);
+    } else {
+      go(userStore.getUserInfo.homePath || PageEnum.TEACHER_BASE_HOME);
+    }
   }
 </script>
 <style lang="less" scoped>

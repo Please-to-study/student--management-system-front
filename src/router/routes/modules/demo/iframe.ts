@@ -14,6 +14,7 @@ const iframe: AppRouteModule = {
     orderNo: 1000,
     icon: 'ion:tv-outline',
     title: t('routes.demo.iframe.frame'),
+    hideMenu: true,
   },
 
   children: [

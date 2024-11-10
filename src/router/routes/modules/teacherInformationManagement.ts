@@ -84,7 +84,7 @@ const teacherInformationManagement: AppRouteModule = {
       meta: {
         // affix: true,
         title: t('teacherInformationManagement.importRecord.importRecord'),
-        roles: [RoleEnum.MASTER, RoleEnum.TEACHER],
+        roles: [RoleEnum.TEACHER],
       },
     },
     {
@@ -94,7 +94,7 @@ const teacherInformationManagement: AppRouteModule = {
       meta: {
         // affix: true,
         title: t('teacherInformationManagement.uncheckedRecord.uncheckedRecord'),
-        roles: [RoleEnum.MASTER, RoleEnum.TEACHER],
+        roles: [RoleEnum.TEACHER],
       },
     },
     {
@@ -104,7 +104,7 @@ const teacherInformationManagement: AppRouteModule = {
       meta: {
         // affix: true,
         title: t('teacherInformationManagement.studyRecord.studyRecord'),
-        roles: [RoleEnum.MASTER, RoleEnum.TEACHER],
+        roles: [RoleEnum.TEACHER],
       },
     },
   ],

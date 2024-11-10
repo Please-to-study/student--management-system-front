@@ -1,8 +1,6 @@
 <template>
   <PageWrapper
-    :title="
-      `教师：` + courseRecordInfo?.teacherName + `的` + courseRecordInfo?.courseName + `的上课记录`
-    "
+    :title="`教师上课记录：` + courseRecordInfo?.courseName"
     contentBackground
     @back="goBack"
   >
@@ -13,7 +11,7 @@
     <div class="pt-4 m-4 desc-wrap">
       <Description
         size="middle"
-        title="上课记录详细信息"
+        title="上课记录信息"
         :bordered="false"
         :column="3"
         :data="courseRecordInfo"

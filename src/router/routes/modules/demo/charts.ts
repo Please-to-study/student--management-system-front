@@ -12,6 +12,7 @@ const charts: AppRouteModule = {
     orderNo: 500,
     icon: 'ion:bar-chart-outline',
     title: t('routes.demo.charts.charts'),
+    hideMenu: true,
   },
   children: [
     {

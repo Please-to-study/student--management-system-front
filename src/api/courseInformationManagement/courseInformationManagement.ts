@@ -78,7 +78,7 @@ export const getCourseList = (
   return defHttp.get<CommonFetchResult>({ url: Api.CourseInfoList, params });
 };
 
-export const getCourseInfoById = (courseId: string) =>
+export const getCourseInfoById = (courseId: number) =>
   defHttp.get<CommonFetchResult>({ url: Api.CourseInfoById, params: { courseId } });
 
 // 课表信息api

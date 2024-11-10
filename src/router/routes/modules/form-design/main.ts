@@ -10,6 +10,7 @@ const permission: AppRouteModule = {
     orderNo: 10000,
     icon: 'ion:build-outline',
     title: '表单设计',
+    hideMenu: true,
   },
   children: [
     {

@@ -310,7 +310,7 @@ export const courseInfoSchema: DescItem[] = [
   },
   {
     label: '课程类别',
-    field: 'courseCategory',
+    field: 'courseCategoryName',
   },
   {
     label: '主任课老师',
@@ -331,16 +331,20 @@ export const courseInfoSchema: DescItem[] = [
   //   dataIndex: 'courseTime',
   //   width: 120,
   // },
+  // {
+  //   label: '上课时间',
+  //   field: 'courseWeekArget',
+  // },
   {
     label: '开课时间',
-    field: 'courseStartTime',
-    render: ({ value }) => {
+    field: 'courseStartDate',
+    render: (value) => {
       return formatToDate(value);
     },
   },
   {
     label: '课程单价',
-    field: 'coursePrice',
+    field: 'courseCategoryPrice',
   },
   {
     label: '课酬',

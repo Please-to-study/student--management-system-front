@@ -12,6 +12,7 @@ const level: AppRouteModule = {
     orderNo: 2000,
     icon: 'ion:menu-outline',
     title: t('routes.demo.level.level'),
+    hideMenu: true,
   },
 
   children: [

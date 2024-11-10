@@ -12,6 +12,7 @@ const system: AppRouteModule = {
     orderNo: 2000,
     icon: 'ion:settings-outline',
     title: t('routes.demo.system.moduleName'),
+    hideMenu: true,
   },
   children: [
     {

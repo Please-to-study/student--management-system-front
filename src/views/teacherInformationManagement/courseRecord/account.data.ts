@@ -204,24 +204,16 @@ export const accountFormSchema: FormSchema[] = [
 
 export const courseRecordSchema: DescItem[] = [
   {
-    label: '教师ID',
-    field: 'teacherId',
+    label: '上课记录ID',
+    field: 'courseRecordId',
   },
   {
     label: '教师姓名',
     field: 'teacherName',
   },
   {
-    label: '课程ID',
-    field: 'courseId',
-  },
-  {
     label: '课程名称',
     field: 'courseName',
-  },
-  {
-    label: '课程类别ID',
-    field: 'courseCategoryId',
   },
   {
     label: '课程类别',
@@ -250,14 +242,23 @@ export const courseRecordSchema: DescItem[] = [
   {
     label: '开始时间',
     field: 'startTime',
+    render: (value) => {
+      return formatToDateTime(value);
+    },
   },
   {
     label: '结束时间',
     field: 'endTime',
+    render: (value) => {
+      return formatToDateTime(value);
+    },
   },
   {
     label: '上课日期',
     field: 'addCourseRecordTime',
+    render: (value) => {
+      return formatToDate(value);
+    },
   },
   {
     label: '备注',

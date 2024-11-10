@@ -1,5 +1,5 @@
 <template>
-  <PageWrapper :title="`课程` + courseInfo.courseName + `的信息`" contentBackground @back="goBack">
+  <PageWrapper :title="`课程信息：` + courseInfo?.courseName" contentBackground @back="goBack">
     <template #extra>
       <!--      <a-button type="primary" danger> 禁用账号 </a-button>-->
       <!--      <a-button type="primary"> 修改密码 </a-button>-->
@@ -12,7 +12,7 @@
     <div class="pt-4 m-4 desc-wrap">
       <Description
         size="middle"
-        title="用户信息"
+        title="课程信息"
         :bordered="false"
         :column="3"
         :data="courseInfo"
@@ -38,17 +38,18 @@
 
   const route = useRoute();
   const go = useGo();
-  // 此处可以得到用户ID
-  const courseId = ref(route.params?.courseId);
-  const { result } = await getCourseInfoById(courseId.value as string);
-  const courseInfo = result?.items[0];
-
   const { setTitle } = useTabs();
-  // TODO
-  // 本页代码仅作演示，实际应当通过userId从接口获得用户的相关资料
+  // 此处可以得到用户ID
+  const courseId = ref(route.params?.id);
+  const courseInfo = ref();
 
-  // 设置Tab的标题（不会影响页面标题）
-  setTitle('详情：课程' + courseInfo.courseName);
+  const getCourseInfo = async (id: number) => {
+    const result = await getCourseInfoById(id);
+    courseInfo.value = result?.items[0];
+    await setTitle('详情：' + courseInfo.value?.courseName);
+  };
+
+  getCourseInfo(Number(courseId.value));
 
   // 页面左侧点击返回链接时的操作
   function goBack() {

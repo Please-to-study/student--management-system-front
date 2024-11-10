@@ -12,6 +12,7 @@ const flow: AppRouteModule = {
     orderNo: 5000,
     icon: 'tabler:chart-dots',
     title: t('routes.demo.flow.name'),
+    hideMenu: true,
   },
   children: [
     {
