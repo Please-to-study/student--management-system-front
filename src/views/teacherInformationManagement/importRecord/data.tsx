@@ -1,4 +1,6 @@
-import { BasicColumn } from '@/components/Table';
+import { BasicColumn, FormSchema } from "@/components/Table";
+import { getCourseCategoryInfoList } from "@/api/configManagement";
+import { getCourseList } from "@/api/courseInformationManagement/courseInformationManagement";
 export const columnMap = new Map([
   ['日期', 'learningRecordDate'],
   ['姓名', 'studentName'],
@@ -134,6 +136,108 @@ export const columns: BasicColumn[] = [
     dataIndex: 'learningRecordEndTime',
     editRow: true,
     width: 120,
+  },
+];
+
+// 添加学习记录
+export const accountFormSchema: FormSchema[] = [
+  {
+    label: '选择学生',
+    field: 'studentNumber',
+    slot: 'studentSearch',
+    // colProps: { span: 24 },
+    // componentProps: {
+    //   style: { width: '100%' },
+    // },
+  },
+  {
+    label: '日期',
+    field: 'learningRecordDate',
+    component: 'DatePicker',
+    componentProps: {
+      style: { width: '100%' },
+      format: 'YYYY-MM-DD',
+    },
+    required: true,
+  },
+  {
+    label: '上课时段',
+    field: 'learningRecordTime',
+    component: 'TimeRangePicker',
+    componentProps: {
+      style: { width: '100%' },
+      placeholder: ['开始时间', '结束时间'],
+    },
+    colProps: { span: 18 },
+    required: true,
+  },
+  {
+    label: '评价',
+    field: 'studentCourseEvaluate',
+    component: 'InputTextArea',
+    required: true,
+  },
+  {
+    label: '内容',
+    field: 'courseContent',
+    component: 'InputTextArea',
+    required: true,
+  },
+  {
+    label: '作业',
+    field: 'materialsTitle',
+    component: 'InputTextArea',
+    required: true,
+  },
+  {
+    field: 'courseId',
+    label: '课程/班级',
+    component: 'ApiSelect',
+    componentProps: {
+      api: getCourseList,
+      params: {
+        courseName: '',
+        courseCategoryId: -1,
+        courseAddress: '',
+        courseStartDate: '',
+      },
+      resultField: 'items',
+      labelField: 'courseName',
+      valueField: 'courseId',
+    },
+    colProps: { span: 24 },
+    required: true,
+  },
+  {
+    field: 'courseTime',
+    label: '课次',
+    component: 'InputNumber',
+    required: true,
+  },
+  {
+    field: 'courseCategoryId',
+    label: '课程类别',
+    component: 'ApiSelect',
+    componentProps: {
+      api: getCourseCategoryInfoList,
+      params: {},
+      resultField: 'items',
+      labelField: 'courseCategoryName',
+      valueField: 'courseCategoryId',
+    },
+    colProps: { span: 24 },
+    required: true,
+  },
+  {
+    label: '任课老师',
+    field: 'teacherId',
+    slot: 'teacherSearch',
+  },
+  {
+    field: 'learningRecordCourseClear',
+    label: '课消',
+    component: 'InputNumber',
+    required: true,
   },
 ];
 

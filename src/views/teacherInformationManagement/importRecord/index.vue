@@ -7,6 +7,7 @@
       @fetch-success="onFetchSuccess"
     >
       <template #toolbar>
+        <a-button type="primary" @click="handleAdd">新增记录</a-button>
         <ImpExcel @success="loadDataSuccess" dateFormat="YYYY-MM-DD">
           <a-button class="m-3"> 导入Excel </a-button>
         </ImpExcel>
@@ -39,6 +40,7 @@
         <!--        </template>-->
       </template>
     </BasicTable>
+    <AccountModal @register="registerModal" @success="handleSuccess" />
   </PageWrapper>
 </template>
 <script lang="ts" setup>
@@ -67,6 +69,7 @@
   } from '@/api/courseInformationManagement/model/learningRecord';
   import { cloneDeep } from 'lodash-es';
   import { addLearningRecord } from '@/api/courseInformationManagement/courseInformationManagement';
+  import AccountModal from '@/views/teacherInformationManagement/importRecord/AccountModal.vue';
 
   defineOptions({ name: 'AccountManagement' });
 
@@ -132,6 +135,23 @@
         },
       },
     ];
+  }
+
+  function handleAdd() {
+    openModal(true, {
+      isUpdate: false,
+    });
+  }
+
+  function handleSuccess({ isUpdate, values }) {
+    // if (isUpdate) {
+    //   // 演示不刷新表格直接更新内部数据。
+    //   // 注意：updateTableDataRecord要求表格的rowKey属性为string并且存在于每一行的record的keys中
+    //   const result = updateTableDataRecord(values.id, values);
+    //   reload();
+    // } else {
+    //   reload();
+    // }
   }
 
   function handleEdit(record: EditRecordRow) {

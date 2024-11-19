@@ -13,7 +13,8 @@ import {
 import {
   AddLearningRecordList,
   AddLearningRecordParams,
-  QueryLearningRecordParams, QueryLearningRecordWithTeacherParams,
+  QueryLearningRecordParams,
+  QueryLearningRecordWithTeacherParams,
   UpdateLearningRecordParams,
 } from '@/api/courseInformationManagement/model/learningRecord';
 import { QueryCourseScheduleParams } from '@/api/courseInformationManagement/model/courseSchedule';

@@ -1,8 +1,8 @@
 import { BasicColumn, FormSchema } from '@/components/Table';
 import { DescItem } from '@/components/Description';
 import { getCourseCategoryInfoList } from '@/api/configManagement';
-import { isNull } from "@/utils/is";
-import { formatToDate, formatToDateTime } from "@/utils/dateUtil";
+import { isNull } from '@/utils/is';
+import { formatToDate, formatToDateTime } from '@/utils/dateUtil';
 
 export const weekend = [
   {
@@ -47,7 +47,6 @@ export const columns: BasicColumn[] = [
     title: '课程ID',
     dataIndex: 'courseId',
     width: 120,
-    ifShow: false,
   },
   {
     title: '课程名称',
