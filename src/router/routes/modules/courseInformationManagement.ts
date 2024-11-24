@@ -2,7 +2,7 @@ import type { AppRouteModule } from '@/router/types';
 
 import { LAYOUT } from '@/router/constant';
 import { t } from '@/hooks/web/useI18n';
-import { RoleEnum } from "@/enums/roleEnum";
+import { RoleEnum } from '@/enums/roleEnum';
 
 const courseInformationManagement: AppRouteModule = {
   path: '/courseInformationManagement',
@@ -13,6 +13,7 @@ const courseInformationManagement: AppRouteModule = {
     orderNo: 3,
     icon: 'ion:tv-outline',
     title: t('courseInformationManagement.courseManagement'),
+    roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
   },
   children: [
     {
@@ -28,7 +29,8 @@ const courseInformationManagement: AppRouteModule = {
     {
       path: 'courseDetailInfo/:id',
       name: 'CourseDetailInfo',
-      component: () => import('@/views/courseInformationManagement/courseInfo/CourseDetailInfo.vue'),
+      component: () =>
+        import('@/views/courseInformationManagement/courseInfo/CourseDetailInfo.vue'),
       meta: {
         // affix: true,
         hideMenu: true,
@@ -58,7 +60,8 @@ const courseInformationManagement: AppRouteModule = {
     {
       path: 'learningRecordDetail/:id',
       name: 'LearningRecordDetail',
-      component: () => import('@/views/courseInformationManagement/learningRecord/LearningRecordDetail.vue'),
+      component: () =>
+        import('@/views/courseInformationManagement/learningRecord/LearningRecordDetail.vue'),
       meta: {
         // affix: true,
         hideMenu: true,
@@ -78,7 +81,8 @@ const courseInformationManagement: AppRouteModule = {
     {
       path: 'reviewRecordDetail/:id',
       name: 'ReviewRecordDetail',
-      component: () => import('@/views/courseInformationManagement/reviewRecord/ReviewRecordDetail.vue'),
+      component: () =>
+        import('@/views/courseInformationManagement/reviewRecord/ReviewRecordDetail.vue'),
       meta: {
         // affix: true,
         hideMenu: true,
@@ -88,7 +92,8 @@ const courseInformationManagement: AppRouteModule = {
     {
       path: 'courseworkInformation',
       name: 'courseworkInformation',
-      component: () => import('@/views/courseInformationManagement/courseworkInformation/index.vue'),
+      component: () =>
+        import('@/views/courseInformationManagement/courseworkInformation/index.vue'),
       meta: {
         // affix: true,
         title: t('courseInformationManagement.courseworkInformation.courseworkInformation'),
@@ -98,7 +103,10 @@ const courseInformationManagement: AppRouteModule = {
     {
       path: 'courseworkInfoDetail/:id',
       name: 'CourseworkInfoDetail',
-      component: () => import('@/views/courseInformationManagement/courseworkInformation/CourseworkInfoDetail.vue'),
+      component: () =>
+        import(
+          '@/views/courseInformationManagement/courseworkInformation/CourseworkInfoDetail.vue'
+        ),
       meta: {
         // affix: true,
         hideMenu: true,

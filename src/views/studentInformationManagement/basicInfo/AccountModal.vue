@@ -8,7 +8,6 @@
   import { BasicModal, useModalInner } from '@/components/Modal';
   import { BasicForm, useForm } from '@/components/Form';
   import { accountFormSchema } from './account.data';
-  import { getDeptList } from '@/api/demo/system';
   import {
     addStudent,
     updateStudent,
@@ -47,7 +46,6 @@
       });
     }
 
-    const treeData = await getDeptList();
     updateSchema([
       {
         field: 'studentNumber',

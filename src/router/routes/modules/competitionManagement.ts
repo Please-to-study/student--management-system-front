@@ -15,6 +15,7 @@ const competitionManagement: AppRouteModule = {
     orderNo: 4,
     icon: 'ion:bar-chart-outline',
     title: t('competitionManagement.competitionManagement'),
+    roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
   },
   children: [
     {

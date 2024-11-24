@@ -13,6 +13,7 @@ const teacherInformationManagement: AppRouteModule = {
     orderNo: 2,
     icon: 'ion:layers-outline',
     title: t('teacherInformationManagement.teacherManagement'),
+    roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
   },
   children: [
     {
@@ -75,36 +76,6 @@ const teacherInformationManagement: AppRouteModule = {
         // affix: true,
         title: t('teacherInformationManagement.tuitionFee.tuitionFee'),
         roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
-      },
-    },
-    {
-      path: 'importRecord',
-      name: 'ImportRecord',
-      component: () => import('@/views/teacherInformationManagement/importRecord/index.vue'),
-      meta: {
-        // affix: true,
-        title: t('teacherInformationManagement.importRecord.importRecord'),
-        roles: [RoleEnum.TEACHER],
-      },
-    },
-    {
-      path: 'uncheckedRecord',
-      name: 'UncheckedRecord',
-      component: () => import('@/views/teacherInformationManagement/uncheckedRecord/index.vue'),
-      meta: {
-        // affix: true,
-        title: t('teacherInformationManagement.uncheckedRecord.uncheckedRecord'),
-        roles: [RoleEnum.TEACHER],
-      },
-    },
-    {
-      path: 'studyRecord',
-      name: 'StudyRecord',
-      component: () => import('@/views/teacherInformationManagement/studyRecord/index.vue'),
-      meta: {
-        // affix: true,
-        title: t('teacherInformationManagement.studyRecord.studyRecord'),
-        roles: [RoleEnum.TEACHER],
       },
     },
   ],

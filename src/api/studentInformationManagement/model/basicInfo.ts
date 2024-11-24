@@ -17,6 +17,7 @@ export type AddStudentInfoParams = {
   studentEnterGrade: string | null;
   studentCurrentGrade: string | null;
   studentAddress: string | null;
+  studentTime: string;
   studentNotes: string | null;
 };
 

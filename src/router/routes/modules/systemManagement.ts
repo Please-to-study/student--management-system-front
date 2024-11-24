@@ -2,7 +2,7 @@ import type { AppRouteModule } from '@/router/types';
 
 import { LAYOUT } from '@/router/constant';
 import { t } from '@/hooks/web/useI18n';
-import { RoleEnum } from "@/enums/roleEnum";
+import { RoleEnum } from '@/enums/roleEnum';
 
 const systemManagement: AppRouteModule = {
   path: '/systemManagement',
@@ -13,6 +13,7 @@ const systemManagement: AppRouteModule = {
     orderNo: 5,
     icon: 'ion:settings-outline',
     title: t('systemManagement.systemManagement'),
+    roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
   },
   children: [
     {

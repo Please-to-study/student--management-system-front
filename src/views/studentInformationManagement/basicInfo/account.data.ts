@@ -222,12 +222,20 @@ export const accountFormSchema: FormSchema[] = [
     component: 'Input',
     // required: true,
   },
-
   {
     label: '家庭地址',
     field: 'studentAddress',
     component: 'Input',
     // required: true,
+  },
+  {
+    label: '报名日期',
+    field: 'studentTime',
+    component: 'DatePicker',
+    componentProps: {
+      style: { width: '100%' },
+      format: 'YYYY-MM-DD',
+    },
   },
   {
     label: '备注',

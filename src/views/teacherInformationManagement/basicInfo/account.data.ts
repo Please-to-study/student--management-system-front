@@ -17,7 +17,6 @@ export const columns: BasicColumn[] = [
     title: '教师ID',
     dataIndex: 'teacherId',
     width: 120,
-    ifShow: false,
   },
   {
     title: '教师姓名',

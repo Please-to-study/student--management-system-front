@@ -1,7 +1,7 @@
 import { BasicColumn, FormSchema } from '@/components/Table';
 import { DescItem } from '@/components/Description';
-import { getCompetitionStyleInfoList, getCourseCategoryInfoList } from "@/api/configManagement";
-import { formatToDate, formatToDateTime } from "@/utils/dateUtil";
+import { getCompetitionStyleInfoList, getCourseCategoryInfoList } from '@/api/configManagement';
+import { formatToDate, formatToDateTime } from '@/utils/dateUtil';
 
 export const weekend = [
   {

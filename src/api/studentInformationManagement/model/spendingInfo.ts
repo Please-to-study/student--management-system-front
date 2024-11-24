@@ -1,7 +1,7 @@
 export type AddPayInfoParams = {
   courseCategoryId: number;
   studentId: number;
-  payeeId: number;
+  payeeName: string;
   courseNumber: number;
   courseFee: number;
   otherFee: number;

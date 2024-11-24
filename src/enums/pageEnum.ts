@@ -4,7 +4,7 @@ export enum PageEnum {
   // basic home path
   BASE_HOME = '/dashboard',
 
-  TEACHER_BASE_HOME = '/teacherInformationManagement/importRecord',
+  TEACHER_BASE_HOME = '/courseTimeManagement/importRecord',
 
   MASTER_BASE_HOME = '/studentInformationManagement',
 

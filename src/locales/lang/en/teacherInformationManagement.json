@@ -1,5 +1,6 @@
 {
   "teacherManagement": "TeacherManagement",
+  "courseTimeManagement": "CourseTimeManagement",
   "basicInfo" : {
     "basicInfo" : "BasicInfo"
   },

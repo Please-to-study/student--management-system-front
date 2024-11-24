@@ -1,5 +1,6 @@
 {
   "teacherManagement": "教师信息管理",
+  "courseTimeManagement": "课时信息管理",
   "basicInfo" : {
     "basicInfo" : "基本信息"
   },

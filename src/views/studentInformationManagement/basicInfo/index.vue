@@ -40,25 +40,26 @@
   </PageWrapper>
 </template>
 <script lang="ts" setup>
-import {reactive, ref} from 'vue';
-import {BasicTable, TableAction, useTable} from '@/components/Table';
-import {ExpExcelModal, ExportModalResult, jsonToSheetXlsx} from '@/components/Excel';
-import {
-  deleteStudent,
-  getSpecialStudentBasicInfoList,
-} from '@/api/studentInformationManagement/studentInformationManagement';
-import {PageWrapper} from '@/components/Page';
+  import { reactive, ref } from 'vue';
+  import { BasicTable, TableAction, useTable } from '@/components/Table';
+  import { ExpExcelModal, ExportModalResult, jsonToSheetXlsx } from '@/components/Excel';
+  import {
+    deleteStudent,
+    getSpecialStudentBasicInfoList,
+  } from '@/api/studentInformationManagement/studentInformationManagement';
+  import { PageWrapper } from '@/components/Page';
 
-import {useModal} from '@/components/Modal';
-import AccountModal from './AccountModal.vue';
+  import { useModal } from '@/components/Modal';
+  import AccountModal from './AccountModal.vue';
 
-import {columns, searchFormSchema} from './account.data';
-import {useGo} from '@/hooks/web/usePage';
-import {useMessage} from '@/hooks/web/useMessage';
-import {isUndefined} from '@/utils/is';
-import {RoleEnum} from "@/enums/roleEnum";
+  import { columns, searchFormSchema } from './account.data';
+  import { useGo } from '@/hooks/web/usePage';
+  import { useMessage } from '@/hooks/web/useMessage';
+  import { isUndefined } from '@/utils/is';
+  import { RoleEnum } from '@/enums/roleEnum';
+  import dayjs from "dayjs";
 
-defineOptions({ name: 'AccountManagement' });
+  defineOptions({ name: 'AccountManagement' });
 
   const { createMessage } = useMessage();
   const go = useGo();
@@ -114,6 +115,7 @@ defineOptions({ name: 'AccountManagement' });
 
   function handleEdit(record: Recordable) {
     console.log(record);
+    record.studentTime = dayjs(record.studentTime);
     openModal(true, {
       record,
       isUpdate: true,

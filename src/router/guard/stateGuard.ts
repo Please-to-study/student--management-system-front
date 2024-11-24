@@ -7,6 +7,7 @@ import { PageEnum } from '@/enums/pageEnum';
 import { removeTabChangeListener } from '@/logics/mitt/routeChange';
 
 export function createStateGuard(router: Router) {
+  // debugger;
   router.afterEach((to) => {
     // Just enter the login page and clear the authentication information
     if (to.path === PageEnum.BASE_LOGIN) {

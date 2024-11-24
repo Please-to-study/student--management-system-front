@@ -14,6 +14,7 @@ const studentInformationManagement: AppRouteModule = {
     // icon: 'ph:student',
     icon: 'teenyicons:id-outline',
     title: t('studentInformationManagement.studentManagement'),
+    roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
   },
   children: [
     {
