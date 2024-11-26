@@ -236,6 +236,7 @@ export const accountFormSchema: FormSchema[] = [
       style: { width: '100%' },
       format: 'YYYY-MM-DD',
     },
+    required: true,
   },
   {
     label: '备注',

@@ -113,7 +113,7 @@
         },
         {
           label: '删除',
-          tooltip: '删除此账号',
+          tooltip: '删除此信息',
           popConfirm: {
             title: '是否确认删除',
             placement: 'left',
@@ -243,6 +243,9 @@
   async function loadDataSuccess(excelDataList: ExcelData[]) {
     const tableData: any[] = [];
     const wrongData: number[] = [];
+    const startTime = 'learningRecordStartTime';
+    const endTime = 'learningRecordEndTime';
+    const rightTimeLength = 8;
     for (const excelData of excelDataList) {
       const {
         header,
@@ -265,8 +268,17 @@
         for (const key of mustKeyArray) {
           if (isUndefined(temp[key]) || isNull(temp[key])) {
             wrongData.push(index);
+          } else if (key == startTime && temp[key].length != rightTimeLength) {
+            wrongData.push(index);
+          } else if (
+            key == endTime &&
+            temp[key].length != rightTimeLength &&
+            !wrongData.includes(index)
+          ) {
+            wrongData.push(index);
           }
         }
+        console.log('wrongData is', wrongData);
         tableData.push(temp);
       }
       setTableData(tableData);
@@ -281,7 +293,7 @@
       if (wrongData.length > 0) {
         handleNotify(hint);
       }
-      console.log('tableData is', tableData);
+      // console.log('tableData is', tableData);
     }
   }
 

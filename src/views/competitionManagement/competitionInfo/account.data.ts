@@ -184,6 +184,7 @@ export const accountFormSchema: FormSchema[] = [
     label: '报名方式',
     field: 'competitionRegister',
     component: 'Input',
+    required: true,
   },
   {
     label: '比赛日期',
