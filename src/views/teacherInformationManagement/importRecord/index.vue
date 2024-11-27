@@ -198,7 +198,7 @@
     const tableData = getDataSource();
     const params: AddLearningRecordList = [];
     for (const data of tableData) {
-      const {
+      let {
         learningRecordDate,
         studentNumber,
         studentCourseEvaluate,
@@ -212,6 +212,8 @@
         learningRecordStartTime,
         learningRecordEndTime,
       } = data;
+      learningRecordStartTime = learningRecordStartTime.substring(0, 6) + ':00';
+      learningRecordEndTime = learningRecordEndTime.substring(0, 6) + ':00';
       const record: AddLearningRecordParams = {
         learningRecordDate,
         studentNumber: String(studentNumber),
@@ -245,7 +247,7 @@
     const wrongData: number[] = [];
     const startTime = 'learningRecordStartTime';
     const endTime = 'learningRecordEndTime';
-    const rightTimeLength = 8;
+    const rightTimeLength = 5;
     for (const excelData of excelDataList) {
       const {
         header,
@@ -268,11 +270,11 @@
         for (const key of mustKeyArray) {
           if (isUndefined(temp[key]) || isNull(temp[key])) {
             wrongData.push(index);
-          } else if (key == startTime && temp[key].length != rightTimeLength) {
+          } else if (key == startTime && temp[key].length < rightTimeLength) {
             wrongData.push(index);
           } else if (
             key == endTime &&
-            temp[key].length != rightTimeLength &&
+            temp[key].length < rightTimeLength &&
             !wrongData.includes(index)
           ) {
             wrongData.push(index);
