@@ -2,6 +2,7 @@ export type QueryCompetitionParams = {
   competitionName: string;
   competitionLanguage: string;
   competitionYear: string;
+  isFuture: Boolean;
 };
 
 export type AddCompetitionParams = {

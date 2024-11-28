@@ -4,7 +4,8 @@
     "basicSetting" : "BasicSetting",
     "payStyleSetting": "PayStyleSetting",
     "courseCategorySetting": "CourseCategorySetting",
-    "competitionStyleSetting": "CompetitionStyleSetting"
+    "competitionStyleSetting": "CompetitionStyleSetting",
+    "competitionLanguageSetting": "CompetitionLanguageSetting"
   },
   "permissionSetting": {
     "permissionSetting": "PermissionSetting"

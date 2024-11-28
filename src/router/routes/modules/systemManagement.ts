@@ -51,6 +51,15 @@ const systemManagement: AppRouteModule = {
             roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
           },
         },
+        {
+          path: 'competitionLanguageSetting',
+          name: 'CompetitionLanguageSetting',
+          component: () => import('@/views/systemManagement/competitionLanguageSetting/index.vue'),
+          meta: {
+            title: t('systemManagement.basicSetting.competitionLanguageSetting'),
+            roles: [RoleEnum.MASTER, RoleEnum.ADMINISTRATOR],
+          },
+        },
       ],
     },
     {

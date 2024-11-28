@@ -55,6 +55,7 @@ export const getCompetitionList = (
     competitionName: '',
     competitionLanguage: '',
     competitionYear: '',
+    isFuture: false,
   },
 ) => defHttp.get<CommonFetchResult>({ url: Api.QueryCompetitionList, params });
 
@@ -73,7 +74,11 @@ export const getCompetitionSchedule = (params: QueryCompetitionScheduleParams) =
 //   defHttp.get<CommonFetchResult>({ url: Api.AllCompetitionAwardsList, params });
 
 export const getCompetitionAwardsList = (
-  params: QueryCompetitionAwardsParams = { competitionName: '', competitionHonor: '' },
+  params: QueryCompetitionAwardsParams = {
+    competitionName: '',
+    competitionHonor: '',
+    competitionYear: '',
+  },
 ) => defHttp.get<CommonFetchResult>({ url: Api.QueryCompetitionAwardsList, params });
 
 export const getCompetitionAwardsById = (params: QueryCompetitionAwardsDetailParams) =>

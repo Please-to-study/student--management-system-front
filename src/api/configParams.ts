@@ -41,6 +41,16 @@ export type UpdateCompetitionStyleParams = AddCompetitionStyleParams & {
   competitionStyleId: number;
 };
 
+// 编程语言类型表 config
+export type AddCompetitionLanguageParams = {
+  competitionLanguageName: string;
+  competitionLanguageNotes: string | null;
+};
+
+export type UpdateCompetitionLanguageParams = AddCompetitionLanguageParams & {
+  competitionLanguageId: number;
+};
+
 // 权限设置 config
 export type AddAdministratorParams = {
   administratorName: string;

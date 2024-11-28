@@ -52,7 +52,7 @@
   const [registerModal, { openModal }] = useModal();
   const searchInfo = reactive<Recordable>({});
   const [registerTable, { reload, updateTableDataRecord }] = useTable({
-    title: '课时计费方式列表',
+    title: '课程类型列表',
     api: getCourseCategoryInfoList,
     searchInfo: {},
     rowKey: 'courseCategoryId',

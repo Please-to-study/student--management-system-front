@@ -74,6 +74,7 @@
       competitionName: '',
       competitionLanguage: '',
       competitionYear: '',
+      isFuture: false,
     },
     rowKey: 'competitionId',
     columns,

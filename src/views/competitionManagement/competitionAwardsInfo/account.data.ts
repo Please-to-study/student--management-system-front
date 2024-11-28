@@ -60,6 +60,10 @@ export const columns: BasicColumn[] = [
     title: '比赛语言',
     dataIndex: 'competitionLanguage',
     width: 120,
+    filters: [
+      { text: 'Male', value: 'male' },
+      { text: 'Female', value: 'female' },
+    ],
   },
   {
     title: '比赛日期',
@@ -78,16 +82,22 @@ export const columns: BasicColumn[] = [
 
 export const searchFormSchema: FormSchema[] = [
   {
+    field: 'competitionYear',
+    label: '年度',
+    component: 'Input',
+    colProps: { span: 6 },
+  },
+  {
     field: 'competitionName',
     label: '赛事名称',
     component: 'Input',
-    colProps: { span: 8 },
+    colProps: { span: 6 },
   },
   {
     field: 'competitionHonor',
     label: '获奖情况',
     component: 'Input',
-    colProps: { span: 8 },
+    colProps: { span: 6 },
   },
 ];
 

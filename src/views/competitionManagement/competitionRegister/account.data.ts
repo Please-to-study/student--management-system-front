@@ -1,9 +1,7 @@
 import { BasicColumn, FormSchema } from '@/components/Table';
 import { getCompetitionList } from '@/api/competitionManagement/competitionManagement';
 import { DescItem } from '@/components/Description';
-import { validateStudentId } from '@/views/studentInformationManagement/studentValidate';
-import { isUndefined } from "@/utils/is";
-import { formatToDate, formatToDateTime } from "@/utils/dateUtil";
+import { formatToDate, formatToDateTime } from '@/utils/dateUtil';
 
 const genderMap = new Map([
   ['1', '男'],
@@ -128,6 +126,7 @@ export const accountFormSchema: FormSchema[] = [
         competitionName: '',
         competitionLanguage: '',
         competitionYear: '',
+        isFuture: true,
       },
       resultField: 'items',
       labelField: 'competitionLabel',

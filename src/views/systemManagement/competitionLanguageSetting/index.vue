@@ -2,7 +2,7 @@
   <PageWrapper dense contentFullHeight fixedHeight contentClass="flex">
     <BasicTable @register="registerTable" class="" :searchInfo="searchInfo">
       <template #toolbar>
-        <a-button type="primary" @click="handleCreate">新增比赛类型</a-button>
+        <a-button type="primary" @click="handleCreate">新增比赛语言</a-button>
       </template>
       <template #bodyCell="{ column, record }">
         <template v-if="column.key === 'action'">
@@ -43,7 +43,10 @@
   import { columns } from './account.data';
   import { useGo } from '@/hooks/web/usePage';
   import { useMessage } from '@/hooks/web/useMessage';
-  import { deleteCompetitionStyle, getCompetitionStyleInfoList } from '@/api/configManagement';
+  import {
+    deleteCompetitionLanguage,
+    getCompetitionLanguageInfoList,
+  } from '@/api/configManagement';
 
   defineOptions({ name: 'AccountManagement' });
 
@@ -52,10 +55,10 @@
   const [registerModal, { openModal }] = useModal();
   const searchInfo = reactive<Recordable>({});
   const [registerTable, { reload, updateTableDataRecord }] = useTable({
-    title: '比赛类型列表',
-    api: getCompetitionStyleInfoList,
+    title: '比赛语言列表',
+    api: getCompetitionLanguageInfoList,
     searchInfo: {},
-    rowKey: 'competitionStyleId',
+    rowKey: 'competitionLanguageId',
     columns,
     showTableSetting: true,
     bordered: true,
@@ -81,7 +84,7 @@
   }
 
   function handleDelete(record: Recordable) {
-    deleteCompetitionStyle(record.competitionStyleId);
+    deleteCompetitionLanguage(record.competitionLanguageId);
     reload();
     console.log(record);
   }

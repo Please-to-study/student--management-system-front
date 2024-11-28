@@ -4,7 +4,8 @@
     "basicSetting" : "基础设置",
     "payStyleSetting": "课时计费方式",
     "courseCategorySetting": "课程类别",
-    "competitionStyleSetting": "比赛类型"
+    "competitionStyleSetting": "比赛类型",
+    "competitionLanguageSetting": "比赛语言"
   },
   "permissionSetting": {
     "permissionSetting": "权限设置"

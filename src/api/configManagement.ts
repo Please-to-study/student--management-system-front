@@ -2,14 +2,14 @@ import { defHttp } from '@/utils/http/axios';
 
 import { CommonFetchResult } from '@/api/model/baseModel';
 import {
-  AddAdministratorParams,
+  AddAdministratorParams, AddCompetitionLanguageParams,
   AddCompetitionStyleParams,
   AddCourseCategoryParams,
   AddSigningStyleParams,
   AddTeacherPayStyleParams,
   QueryAdministratorParams,
   SetAdministratorStatusParams,
-  UpdateAdministratorParams,
+  UpdateAdministratorParams, UpdateCompetitionLanguageParams,
   UpdateCompetitionStyleParams,
   UpdateCourseCategoryParams,
   UpdateSigningStyleParams,
@@ -40,6 +40,12 @@ enum Api {
   UpdateCompetitionStyle = '/competitionStyle/updateCompetitionStyle',
   DeleteCompetitionStyle = '/competitionStyle/deleteCompetitionStyle',
   CompetitionStyleInfoList = '/competitionStyle/getCompetitionStyle',
+
+  // 编程语言类型表
+  AddCompetitionLanguage = '/competitionLanguage/addCompetitionLanguage',
+  UpdateCompetitionLanguage = '/competitionLanguage/updateCompetitionLanguage',
+  DeleteCompetitionLanguage = '/competitionLanguage/deleteCompetitionLanguage',
+  CompetitionLanguageInfoList = '/competitionLanguage/getCompetitionLanguage',
 
   // 权限设置表
   AddAdministrator = '/administrator/addAdministrator',
@@ -100,6 +106,19 @@ export const deleteCompetitionStyle = (competitionStyleId: number) =>
 
 export const getCompetitionStyleInfoList = () =>
   defHttp.get<CommonFetchResult>({ url: Api.CompetitionStyleInfoList });
+
+// 编程语言类型表api
+export const addCompetitionLanguage = (params: AddCompetitionLanguageParams) =>
+  defHttp.post({ url: Api.AddCompetitionLanguage, params });
+
+export const updateCompetitionLanguage = (params: UpdateCompetitionLanguageParams) =>
+  defHttp.post({ url: Api.UpdateCompetitionLanguage, params });
+
+export const deleteCompetitionLanguage = (competitionLanguageId: number) =>
+  defHttp.post({ url: Api.DeleteCompetitionLanguage, params: { competitionLanguageId } });
+
+export const getCompetitionLanguageInfoList = () =>
+  defHttp.get<CommonFetchResult>({ url: Api.CompetitionLanguageInfoList });
 
 // 权限设置表api
 export const addAdministrator = (params: AddAdministratorParams) =>

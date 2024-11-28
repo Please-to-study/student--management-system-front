@@ -59,6 +59,7 @@
     title: '获奖情况列表',
     api: getCompetitionAwardsList,
     searchInfo: {
+      competitionYear: '',
       competitionName: '',
       competitionHonor: '',
     },

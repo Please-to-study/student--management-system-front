@@ -110,6 +110,12 @@ export const columns: BasicColumn[] = [
 
 export const searchFormSchema: FormSchema[] = [
   {
+    field: 'competitionYear',
+    label: '年度',
+    component: 'Input',
+    colProps: { span: 6 },
+  },
+  {
     field: 'competitionName',
     label: '赛事名称',
     component: 'Input',
@@ -118,12 +124,6 @@ export const searchFormSchema: FormSchema[] = [
   {
     field: 'competitionLanguage',
     label: '比赛语言',
-    component: 'Input',
-    colProps: { span: 6 },
-  },
-  {
-    field: 'competitionYear',
-    label: '年度',
     component: 'Input',
     colProps: { span: 6 },
   },

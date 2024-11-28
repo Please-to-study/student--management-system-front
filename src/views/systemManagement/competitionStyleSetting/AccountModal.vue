@@ -41,7 +41,7 @@
     }
   });
 
-  const getTitle = computed(() => (!unref(isUpdate) ? '新增教师' : '编辑教师'));
+  const getTitle = computed(() => (!unref(isUpdate) ? '新增比赛类型' : '编辑比赛类型'));
 
   async function handleSubmit() {
     try {

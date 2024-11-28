@@ -7,9 +7,12 @@
   import { ref, computed, unref } from 'vue';
   import { BasicModal, useModalInner } from '@/components/Modal';
   import { BasicForm, useForm } from '@/components/Form';
-  import { payStyleFormSchema } from './account.data';
-  import { AddTeacherPayStyleParams, UpdateTeacherPayStyleParams } from '@/api/configParams';
-  import { addTeacherPayStyle, updateTeacherPayStyle } from '@/api/configManagement';
+  import { competitionLanguageFormSchema } from './account.data';
+  import {
+    AddCompetitionLanguageParams,
+    UpdateCompetitionLanguageParams,
+  } from '@/api/configParams';
+  import { addCompetitionLanguage, updateCompetitionLanguage } from '@/api/configManagement';
 
   defineOptions({ name: 'AccountModal' });
 
@@ -21,7 +24,7 @@
   const [registerForm, { setFieldsValue, updateSchema, resetFields, validate }] = useForm({
     labelWidth: 100,
     baseColProps: { span: 24 },
-    schemas: payStyleFormSchema,
+    schemas: competitionLanguageFormSchema,
     showActionButtonGroup: false,
     actionColOptions: {
       span: 23,
@@ -41,7 +44,7 @@
     }
   });
 
-  const getTitle = computed(() => (!unref(isUpdate) ? '新增课时费计算方式' : '编辑课时费计算方式'));
+  const getTitle = computed(() => (!unref(isUpdate) ? '新增语言类型' : '编辑语言类型'));
 
   async function handleSubmit() {
     try {
@@ -49,12 +52,12 @@
       setModalProps({ confirmLoading: true });
       // isUpdate为false ---> 创建账号  isUpdate为true ---> 修改账号信息
       if (!unref(isUpdate)) {
-        const addParams: AddTeacherPayStyleParams = { ...values };
+        const addParams: AddCompetitionLanguageParams = { ...values };
         // debugger;
-        await addTeacherPayStyle(addParams);
+        await addCompetitionLanguage(addParams);
       } else {
-        const updateParams: UpdateTeacherPayStyleParams = { ...values };
-        await updateTeacherPayStyle(updateParams);
+        const updateParams: UpdateCompetitionLanguageParams = { ...values };
+        await updateCompetitionLanguage(updateParams);
       }
       closeModal();
       emit('success', { isUpdate: unref(isUpdate), values: { ...values, id: rowId.value } });
