@@ -83,7 +83,7 @@
     registerTable,
     { reload, getRawDataSource, setTableData, deleteTableDataRecord, getDataSource },
   ] = useTable({
-    title: '学生学习记录情况',
+    title: '导入学习记录列表',
     rowKey: 'id',
     columns,
     showTableSetting: true,

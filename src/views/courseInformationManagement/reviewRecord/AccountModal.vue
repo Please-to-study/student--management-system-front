@@ -7,7 +7,6 @@
   import { ref, computed, unref } from 'vue';
   import { BasicModal, useModalInner } from '@/components/Modal';
   import { BasicForm, useForm } from '@/components/Form';
-  import { getDeptList } from '@/api/demo/system';
   import { accountFormSchema } from '@/views/courseInformationManagement/reviewRecord/account.data';
   import { updateLearningRecord } from '@/api/courseInformationManagement/courseInformationManagement';
   import { UpdateLearningRecordParams } from '@/api/courseInformationManagement/model/learningRecord';
@@ -42,18 +41,6 @@
         ...data.record,
       });
     }
-
-    const treeData = await getDeptList();
-    updateSchema([
-      {
-        field: 'pwd',
-        show: !unref(isUpdate),
-      },
-      {
-        field: 'dept',
-        componentProps: { treeData },
-      },
-    ]);
   });
 
   const getTitle = computed(() => '审核信息');
