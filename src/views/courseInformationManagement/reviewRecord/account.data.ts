@@ -48,6 +48,11 @@ export const columns: BasicColumn[] = [
     width: 120,
   },
   {
+    title: '课次',
+    dataIndex: 'courseTime',
+    width: 120,
+  },
+  {
     title: '课程类别ID',
     dataIndex: 'courseCategoryId',
     width: 120,

@@ -29,8 +29,14 @@
               // },
               {
                 icon: 'clarity:note-edit-line',
-                tooltip: '编辑记录信息',
+                tooltip: '编辑审核意见',
                 onClick: handleEdit.bind(null, record),
+              },
+              {
+                icon: 'ant-design:close-outlined',
+                color: 'error',
+                tooltip: '审核不通过',
+                onClick: handleRefuse.bind(null, record),
               },
             ]"
           />
@@ -62,8 +68,12 @@
     identityReviewRecord,
   } from '@/api/courseInformationManagement/courseInformationManagement';
   import { useUserStore } from '@/store/modules/user';
-  import { IdentityReviewRecordList } from '@/api/courseInformationManagement/model/reviewRecord';
+  import {
+    IdentityReviewRecordList,
+    IdentityReviewRecordParams,
+  } from '@/api/courseInformationManagement/model/reviewRecord';
   import { useMessage } from '@/hooks/web/useMessage';
+  import { RoleEnum } from '@/enums/roleEnum';
 
   defineOptions({ name: 'AccountManagement' });
 
@@ -173,9 +183,16 @@
     }
   }
 
-  function handleDelete(record: Recordable) {
-    deleteLearningRecord(record.learningRecordId);
-    reload();
+  function handleRefuse(record: Recordable) {
+    // deleteLearningRecord(record.learningRecordId);
+    // reload();
+    const { userId } = userStore.getUserInfo;
+    const { learningRecordId, reviewRecordContent } = record;
+    const refuseRecordParam: IdentityReviewRecordParams = {
+      learningRecordId,
+      administratorId: userId as number,
+      reviewRecordContent,
+    };
     console.log(record);
   }
 

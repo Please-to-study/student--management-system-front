@@ -7,7 +7,6 @@
   import { ref, computed, unref } from 'vue';
   import { BasicModal, useModalInner } from '@/components/Modal';
   import { BasicForm, useForm } from '@/components/Form';
-  import { getDeptList } from '@/api/demo/system';
   import { accountFormSchema } from '@/views/courseInformationManagement/learningRecord/account.data';
   import {
     updateLearningRecord,
@@ -44,18 +43,6 @@
         ...data.record,
       });
     }
-
-    const treeData = await getDeptList();
-    updateSchema([
-      {
-        field: 'pwd',
-        show: !unref(isUpdate),
-      },
-      {
-        field: 'dept',
-        componentProps: { treeData },
-      },
-    ]);
   });
 
   const getTitle = computed(() => (!unref(isUpdate) ? '新增账号' : '编辑账号'));
