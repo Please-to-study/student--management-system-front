@@ -19,9 +19,9 @@ import {
 } from '@/api/courseInformationManagement/model/learningRecord';
 import { QueryCourseScheduleParams } from '@/api/courseInformationManagement/model/courseSchedule';
 import {
-  IdentityReviewRecordList,
-  QueryReviewRecordParams,
-} from '@/api/courseInformationManagement/model/reviewRecord';
+  IdentityReviewRecordList, IdentityReviewRecordParams,
+  QueryReviewRecordParams
+} from "@/api/courseInformationManagement/model/reviewRecord";
 
 enum Api {
   // 基本信息
@@ -46,6 +46,7 @@ enum Api {
   // 待审核记录api
   ReviewRecordList = '/learningRecord/getReviewRecord',
   IdentityReviewRecord = '/learningRecord/identityReviewRecord',
+  RefuseReviewRecord = '/learningRecord/refuseReviewRecord',
 
   // 课程作业信息
   AddMaterials = '/materialsInfo/addMaterialsInfo',
@@ -130,6 +131,9 @@ export const getReviewRecordList = (
 
 export const identityReviewRecord = (params: IdentityReviewRecordList) =>
   defHttp.post({ url: Api.IdentityReviewRecord, params }, { isTransformResponse: false });
+
+export const refuseReviewRecord = (params: IdentityReviewRecordParams) =>
+  defHttp.post({ url: Api.RefuseReviewRecord, params }, { isTransformResponse: false });
 
 // 课程作业信息功能模块api
 export const addMaterials = (params: AddMaterialsInfoParams) =>

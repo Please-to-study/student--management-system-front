@@ -38,6 +38,17 @@
                 tooltip: '审核不通过',
                 onClick: handleRefuse.bind(null, record),
               },
+              {
+                icon: 'ant-design:delete-outlined',
+                color: 'error',
+                tooltip: '删除此记录',
+                popConfirm: {
+                  title: '是否确认删除',
+                  placement: 'left',
+                  confirm: handleDelete.bind(null, record),
+                },
+                auth: RoleEnum.MASTER,
+              },
             ]"
           />
         </template>
@@ -66,6 +77,7 @@
     deleteLearningRecord,
     getReviewRecordList,
     identityReviewRecord,
+    refuseReviewRecord,
   } from '@/api/courseInformationManagement/courseInformationManagement';
   import { useUserStore } from '@/store/modules/user';
   import {
@@ -183,9 +195,7 @@
     }
   }
 
-  function handleRefuse(record: Recordable) {
-    // deleteLearningRecord(record.learningRecordId);
-    // reload();
+  async function handleRefuse(record: Recordable) {
     const { userId } = userStore.getUserInfo;
     const { learningRecordId, reviewRecordContent } = record;
     const refuseRecordParam: IdentityReviewRecordParams = {
@@ -193,7 +203,20 @@
       administratorId: userId as number,
       reviewRecordContent,
     };
-    console.log(record);
+    const { code } = await refuseReviewRecord(refuseRecordParam);
+    if (code == 0) {
+      msg.success('该条记录已退回', 1);
+      setTimeout(() => {
+        deleteTableDataRecord(learningRecordId);
+      }, 500);
+    } else {
+      msg.error('审核不通过操作失败', 0.5);
+    }
+  }
+
+  function handleDelete(record: Recordable) {
+    deleteLearningRecord(record.learningRecordId);
+    deleteTableDataRecord(record.learningRecordId);
   }
 
   function handleSuccess({ isUpdate, values }) {

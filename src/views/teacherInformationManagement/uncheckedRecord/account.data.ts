@@ -3,6 +3,8 @@ import { DescItem } from '@/components/Description';
 import { queryValidateTeacherName } from '@/views/teacherInformationManagement/teacherValidate';
 import { formatToDateTime } from '@/utils/dateUtil';
 
+export const IDENTITY_REFUSE_STATUS = 2;
+
 export const columns: BasicColumn[] = [
   {
     title: '学习记录ID',
@@ -17,97 +19,126 @@ export const columns: BasicColumn[] = [
     ifShow: false,
   },
   {
+    title: '教师记录ID',
+    dataIndex: 'courseRecordId',
+    width: 120,
+    ifShow: false,
+  },
+  {
     title: '姓名',
     dataIndex: 'studentName',
+    editRow: true,
+    width: 120,
+  },
+  {
+    title: '学号',
+    dataIndex: 'studentNumber',
+    editRow: true,
     width: 120,
   },
   {
     title: '上课评价',
     dataIndex: 'studentCourseEvaluate',
+    editRow: true,
     width: 200,
   },
   {
     title: '上课内容',
     dataIndex: 'courseContent',
+    editRow: true,
     width: 120,
   },
   {
     title: '课程作业',
     dataIndex: 'materialsTitle',
+    editRow: true,
+    width: 120,
+  },
+  {
+    title: '课程/班级',
+    dataIndex: 'courseName',
+    editRow: true,
     width: 120,
   },
   {
     title: '课程ID',
     dataIndex: 'courseId',
-    width: 120,
-    ifShow: false,
-  },
-  {
-    title: '课程名称',
-    dataIndex: 'courseName',
-    width: 120,
+    editRow: true,
+    width: 100,
   },
   {
     title: '课次',
     dataIndex: 'courseTime',
+    editRow: true,
+    width: 80,
+  },
+  {
+    title: '课程类别',
+    dataIndex: 'courseCategoryName',
+    editRow: true,
     width: 120,
   },
   {
     title: '课程类别ID',
     dataIndex: 'courseCategoryId',
-    width: 120,
-    ifShow: false,
+    width: 100,
+    editRow: true,
   },
   {
-    title: '课程类别',
-    dataIndex: 'courseCategoryName',
-    width: 120,
-  },
-  {
-    title: '课消',
-    dataIndex: 'learningRecordCourseClear',
+    title: '任课老师',
+    dataIndex: 'teacherName',
     editRow: true,
     width: 120,
   },
   {
     title: '任课老师ID',
     dataIndex: 'teacherId',
-    width: 120,
-    ifShow: false,
+    width: 100,
+    editRow: true,
   },
   {
-    title: '任课老师',
-    dataIndex: 'teacherName',
-    width: 120,
+    title: '课消',
+    dataIndex: 'learningRecordCourseClear',
+    editRow: true,
+    width: 80,
   },
   {
     title: '开始时间',
-    dataIndex: 'startTime',
-    customRender: ({ value }) => {
-      return formatToDateTime(value);
-    },
-    width: 120,
+    dataIndex: 'learningRecordStartTime',
+    // customRender: ({ value }) => {
+    //   return formatToDateTime(value);
+    // },
+    editRow: true,
+    width: 140,
   },
   {
     title: '结束时间',
-    dataIndex: 'endTime',
-    customRender: ({ value }) => {
-      return formatToDateTime(value);
-    },
-    width: 120,
+    dataIndex: 'learningRecordEndTime',
+    // customRender: ({ value }) => {
+    //   return formatToDateTime(value);
+    // },
+    editRow: true,
+    width: 140,
   },
+  // {
+  //   title: '日期',
+  //   dataIndex: 'addLearningRecordTime',
+  //   customRender: ({ value }) => {
+  //     return formatToDateTime(value);
+  //   },
+  //   editRow: true,
+  //   width: 120,
+  // },
+  // {
+  //   title: '备注',
+  //   dataIndex: 'learningRecordNotes',
+  //   editRow: true,
+  //   width: 120,
+  // },
   {
-    title: '日期',
-    dataIndex: 'addLearningRecordTime',
-    customRender: ({ value }) => {
-      return formatToDateTime(value);
-    },
-    width: 120,
-  },
-  {
-    title: '备注',
-    dataIndex: 'learningRecordNotes',
-    width: 120,
+    title: '审核意见',
+    dataIndex: 'reviewRecordContent',
+    width: 200,
   },
 ];
 

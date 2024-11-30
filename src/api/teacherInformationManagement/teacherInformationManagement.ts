@@ -14,7 +14,8 @@ import { QueryTuitionFeeParams } from '@/api/teacherInformationManagement/model/
 import { QueryTeacherScheduleParams } from '@/api/teacherInformationManagement/model/teacherSchedule';
 import { CommonFetchResult } from '@/api/model/baseModel';
 import {
-  QueryUncheckedRecordParams
+  QueryUncheckedRecordParams,
+  UpdateRefuseRecordParams
 } from "@/api/teacherInformationManagement/model/uncheckedRecord";
 
 enum Api {
@@ -37,6 +38,8 @@ enum Api {
   UpdateCourseRecordFeeChange = '/courseRecord/updateCourseRecordFeeChange',
   // 未审核记录api
   UncheckedRecord = '/learningRecord/getUncheckedRecord',
+  // 提交修改后的学习记录
+  SubmitRefuseRecord = '/learningRecord/submitRefuseRecord',
 }
 
 // 基本信息功能模块api list
@@ -89,6 +92,9 @@ export const getCourseRecordById = (courseRecordId: number) =>
 // 未审核记录api
 export const getUncheckedRecordList = (params: QueryUncheckedRecordParams) =>
   defHttp.get<CommonFetchResult>({ url: Api.UncheckedRecord, params });
+
+export const submitRefuseRecord = (params: UpdateRefuseRecordParams) =>
+  defHttp.post({ url: Api.SubmitRefuseRecord, params }, { isTransformResponse: false });
 
 // 课时费用api
 export const getTeacherTuitionFeeList = (
