@@ -1,6 +1,7 @@
 import { BasicColumn, FormSchema } from '@/components/Table';
 import { queryValidateStudentNumber } from '@/views/studentInformationManagement/studentValidate';
 import { DescItem } from '@/components/Description';
+import {getCompetitionLanguageInfoList} from "@/api/configManagement";
 
 const genderMap = new Map([
   ['1', '男'],
@@ -38,9 +39,15 @@ export const columns: BasicColumn[] = [
     width: 120,
   },
   {
-    title: '编程语言',
-    dataIndex: 'programLanguage',
+    title: '编程语言ID',
+    dataIndex: 'competitionLanguageId',
     width: 120,
+    ifShow: false,
+  },
+  {
+    title: '编程语言',
+    dataIndex: 'competitionLanguageName',
+    width: 100,
   },
   {
     title: '等级',
@@ -103,8 +110,15 @@ export const accountFormSchema: FormSchema[] = [
   },
   {
     label: '编程语言',
-    field: 'programLanguage',
-    component: 'Input',
+    field: 'competitionLanguageId',
+    component: 'ApiSelect',
+    componentProps: {
+      api: getCompetitionLanguageInfoList,
+      params: {},
+      resultField: 'items',
+      labelField: 'competitionLanguageName',
+      valueField: 'competitionLanguageId',
+    },
     required: true,
   },
   {
@@ -146,7 +160,7 @@ export const programRateSchema: DescItem[] = [
   },
   {
     label: '编程语言',
-    field: 'programLanguage',
+    field: 'competitionLanguageName',
   },
   {
     label: '等级',

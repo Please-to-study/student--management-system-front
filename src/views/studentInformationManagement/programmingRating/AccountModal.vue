@@ -23,16 +23,16 @@
   import { ApiSelect, BasicForm, useForm } from '@/components/Form';
   import { accountFormSchema } from './account.data';
   import {
-    AddProgramRateParams,
-    UpdateProgramRateParams,
-  } from '@/api/courseInformationManagement/model/learningRecord';
-  import {
     addProgramRate,
     getSameStudent,
     updateProgramRate,
   } from '@/api/studentInformationManagement/studentInformationManagement';
   import { useDebounceFn } from '@vueuse/core';
   import type { Recordable } from '@vben/types';
+  import {
+    AddProgramRateParams,
+    UpdateProgramRateParams,
+  } from '@/api/studentInformationManagement/model/programmingRating';
 
   defineOptions({ name: 'AccountModal' });
 

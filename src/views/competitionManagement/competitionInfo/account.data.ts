@@ -1,6 +1,10 @@
 import { BasicColumn, FormSchema } from '@/components/Table';
 import { DescItem } from '@/components/Description';
-import { getCompetitionStyleInfoList, getCourseCategoryInfoList } from '@/api/configManagement';
+import {
+  getCompetitionLanguageInfoList,
+  getCompetitionStyleInfoList,
+  getCourseCategoryInfoList
+} from '@/api/configManagement';
 import { formatToDate, formatToDateTime } from '@/utils/dateUtil';
 
 export const weekend = [
@@ -92,8 +96,14 @@ export const columns: BasicColumn[] = [
     width: 120,
   },
   {
+    title: '比赛语言ID',
+    dataIndex: 'competitionLanguageId',
+    ifShow: false,
+    width: 120,
+  },
+  {
     title: '比赛语言',
-    dataIndex: 'competitionLanguage',
+    dataIndex: 'competitionLanguageName',
     width: 120,
   },
   {
@@ -122,9 +132,17 @@ export const searchFormSchema: FormSchema[] = [
     colProps: { span: 6 },
   },
   {
-    field: 'competitionLanguage',
     label: '比赛语言',
-    component: 'Input',
+    field: 'competitionLanguageId',
+    component: 'ApiSelect',
+    componentProps: {
+      api: getCompetitionLanguageInfoList,
+      allowClear: true,
+      params: {},
+      resultField: 'items',
+      labelField: 'competitionLanguageName',
+      valueField: 'competitionLanguageId',
+    },
     colProps: { span: 6 },
   },
 ];
@@ -198,8 +216,16 @@ export const accountFormSchema: FormSchema[] = [
   },
   {
     label: '比赛语言',
-    field: 'competitionLanguage',
-    component: 'Input',
+    field: 'competitionLanguageId',
+    component: 'ApiSelect',
+    componentProps: {
+      api: getCompetitionLanguageInfoList,
+      params: {},
+      resultField: 'items',
+      labelField: 'competitionLanguageName',
+      valueField: 'competitionLanguageId',
+    },
+    required: true,
   },
   {
     label: '比赛介绍',
@@ -256,7 +282,7 @@ export const competitionSchema: DescItem[] = [
   },
   {
     label: '比赛语言',
-    field: 'competitionLanguage',
+    field: 'competitionLanguageName',
   },
   {
     label: '比赛介绍',

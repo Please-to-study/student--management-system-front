@@ -5,7 +5,7 @@ export type QueryProgramRateParams = {
 
 export type AddProgramRateParams = {
   studentId: string;
-  programLanguage: string;
+  programLanguageId: number;
   programRate: string;
   programNotes: string | null;
 };

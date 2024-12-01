@@ -124,7 +124,7 @@ export const accountFormSchema: FormSchema[] = [
       api: getCompetitionList,
       params: {
         competitionName: '',
-        competitionLanguage: '',
+        competitionLanguageId: -1,
         competitionYear: '',
         isFuture: true,
       },

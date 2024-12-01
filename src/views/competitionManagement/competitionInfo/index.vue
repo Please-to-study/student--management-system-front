@@ -72,7 +72,7 @@
     api: getCompetitionList,
     searchInfo: {
       competitionName: '',
-      competitionLanguage: '',
+      competitionLanguageId: -1,
       competitionYear: '',
       isFuture: false,
     },
@@ -93,9 +93,9 @@
         info.competitionName = '';
       }
       const competitionLanguageFlag =
-        isUndefined(info.competitionLanguage) || info.competitionLanguage?.length === 0;
+        isUndefined(info.competitionLanguageId) || info.competitionLanguageId?.length === 0;
       if (competitionLanguageFlag) {
-        info.competitionLanguage = '';
+        info.competitionLanguage = -1;
       }
       const competitionYearFlag =
         isUndefined(info.competitionYear) || info.competitionYear?.length === 0;

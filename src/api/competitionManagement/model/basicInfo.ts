@@ -1,6 +1,6 @@
 export type QueryCompetitionParams = {
   competitionName: string;
-  competitionLanguage: string;
+  competitionLanguageId: number;
   competitionYear: string;
   isFuture: Boolean;
 };
@@ -14,7 +14,7 @@ export type AddCompetitionParams = {
   competitionHost: string;
   competitionRegister: string;
   competitionDate: string;
-  competitionLanguage: string;
+  competitionLanguageId: number;
   introduce: string;
   competitionNotes: string;
 };

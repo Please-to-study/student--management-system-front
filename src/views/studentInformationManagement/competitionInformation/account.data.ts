@@ -68,9 +68,15 @@ export const columns: BasicColumn[] = [
     width: 120,
   },
   {
-    title: '比赛语言',
-    dataIndex: 'competitionLanguage',
+    title: '比赛语言ID',
+    dataIndex: 'competitionLanguageId',
     width: 120,
+    ifShow: false,
+  },
+  {
+    title: '比赛语言',
+    dataIndex: 'competitionLanguageName',
+    width: 100,
   },
   {
     title: '比赛日期',
@@ -121,7 +127,7 @@ export const searchFormSchema: FormSchema[] = [
       api: getCompetitionList,
       params: {
         competitionName: '',
-        competitionLanguage: '',
+        competitionLanguageId: -1,
         competitionYear: '',
         isFuture: false,
       },
@@ -173,7 +179,7 @@ export const accountFormSchema: FormSchema[] = [
       api: getCompetitionList,
       params: {
         competitionName: '',
-        competitionLanguage: '',
+        competitionLanguageId: -1,
         competitionYear: '',
         isFuture: true,
       },
@@ -246,7 +252,7 @@ export const competitionInfoSchema: DescItem[] = [
   },
   {
     label: '比赛语言',
-    field: 'competitionLanguage',
+    field: 'competitionLanguageName',
   },
   {
     label: '比赛日期',

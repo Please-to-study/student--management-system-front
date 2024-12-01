@@ -53,7 +53,7 @@ export const getAllCompetitionList = (params: BasicPageParams) =>
 export const getCompetitionList = (
   params: QueryCompetitionParams = {
     competitionName: '',
-    competitionLanguage: '',
+    competitionLanguageId: -1,
     competitionYear: '',
     isFuture: false,
   },
