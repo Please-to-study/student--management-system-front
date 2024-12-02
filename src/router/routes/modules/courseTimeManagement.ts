@@ -46,6 +46,17 @@ const courseTimeManagement: AppRouteModule = {
         roles: [RoleEnum.TEACHER],
       },
     },
+    {
+      path: 'studyRecordDetail/:id',
+      name: 'StudyRecordDetail',
+      component: () =>
+        import('@/views/teacherInformationManagement/studyRecord/studyRecordDetail.vue'),
+      meta: {
+        // affix: true,
+        hideMenu: true,
+        title: t('teacherInformationManagement.studyRecordDetail.studyRecordDetail'),
+      },
+    },
   ],
 };
 

@@ -53,6 +53,11 @@ export const columns: BasicColumn[] = [
     ifShow: false,
   },
   {
+    title: '课次',
+    dataIndex: 'courseTime',
+    width: 80,
+  },
+  {
     title: '课程类别',
     dataIndex: 'courseCategoryName',
     width: 120,
@@ -184,7 +189,7 @@ export const learningRecordSchema: DescItem[] = [
     },
   },
   {
-    label: '日期',
+    label: '审核日期',
     field: 'addLearningRecordTime',
     render: ({ value }) => {
       return formatToDateTime(value);

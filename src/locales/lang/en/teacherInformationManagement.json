@@ -27,5 +27,8 @@
   },
   "studyRecord" : {
     "studyRecord" : "StudyRecord"
+  },
+  "studyRecordDetail" : {
+    "studyRecordDetail" : "StudyRecordDetail"
   }
 }

@@ -53,7 +53,7 @@ export const columns: BasicColumn[] = [
     width: 200,
   },
   {
-    title: '日期',
+    title: '记录上传日期',
     dataIndex: 'materialsDate',
     customRender: ({ value }) => {
       return formatToDateTime(value);
@@ -157,7 +157,7 @@ export const materialsSchema: DescItem[] = [
     field: 'materialsIntroduce',
   },
   {
-    label: '日期',
+    label: '记录上传日期日期',
     field: 'materialsDate',
     render: ({ value }) => {
       return formatToDateTime(value);

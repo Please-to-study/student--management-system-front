@@ -49,6 +49,16 @@ export const columns: BasicColumn[] = [
     width: 200,
   },
   {
+    title: '课次',
+    dataIndex: 'courseTime',
+    width: 80,
+  },
+  {
+    title: '课消',
+    dataIndex: 'courseConsume',
+    width: 80,
+  },
+  {
     title: '上课人次',
     dataIndex: 'courseStudentNum',
     width: 100,
@@ -70,7 +80,7 @@ export const columns: BasicColumn[] = [
     width: 140,
   },
   {
-    title: '上课日期',
+    title: '记录上传日期',
     dataIndex: 'addCourseRecordTime',
     customRender: ({ value }) => {
       return formatToDate(value);
@@ -225,7 +235,7 @@ export const courseRecordSchema: DescItem[] = [
   },
   {
     label: '课程作业',
-    field: 'courseHomework',
+    field: 'materialsTitle',
   },
   {
     label: '上课人次',

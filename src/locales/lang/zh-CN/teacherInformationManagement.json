@@ -27,5 +27,8 @@
   },
   "studyRecord" : {
     "studyRecord" : "学生学习记录"
+  },
+  "studyRecordDetail" : {
+    "studyRecordDetail" : "学生学习记录详情"
   }
 }

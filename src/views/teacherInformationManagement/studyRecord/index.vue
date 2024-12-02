@@ -150,6 +150,6 @@
   }
 
   function handleView(record: Recordable) {
-    go('/courseInformationManagement/learningRecordDetail/' + record.learningRecordId);
+    go('/courseTimeManagement/studyRecordDetail/' + record.learningRecordId);
   }
 </script>

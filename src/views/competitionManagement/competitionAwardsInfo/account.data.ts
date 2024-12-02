@@ -1,6 +1,33 @@
 import { BasicColumn, FormSchema } from '@/components/Table';
 import { DescItem } from '@/components/Description';
-import { formatToDate, formatToDateTime } from "@/utils/dateUtil";
+import { formatToDate, formatToDateTime } from '@/utils/dateUtil';
+import { getCompetitionLanguageInfoList } from '@/api/configManagement';
+import {Ref, ref, unref} from 'vue';
+
+interface LanguageFilterModel {
+  text: string;
+  value: string;
+}
+const languageFilter = ref([]) as Ref<LanguageFilterModel[]>;
+
+async function getLanguageFilter() {
+  const languageList = await getCompetitionLanguageInfoList();
+  console.log('languageList', languageList.items);
+  // debugger;
+  const languageFilter: LanguageFilterModel[] = [];
+  languageList.items.forEach((val) => {
+    const temp = {
+      text: '',
+      value: '',
+    };
+    temp.text = val.competitionLanguageName;
+    temp.value = val.competitionLanguageName;
+    languageFilter.push(temp);
+  });
+  return languageFilter;
+}
+languageFilter.value = await getLanguageFilter();
+console.log('languageFilter', languageFilter.value);
 
 export const columns: BasicColumn[] = [
   {
@@ -58,12 +85,13 @@ export const columns: BasicColumn[] = [
   },
   {
     title: '比赛语言',
-    dataIndex: 'competitionLanguage',
+    dataIndex: 'competitionLanguageName',
     width: 120,
     filters: [
       { text: 'Male', value: 'male' },
       { text: 'Female', value: 'female' },
     ],
+    // filters: unref(languageFilter),
   },
   {
     title: '比赛日期',
@@ -128,7 +156,7 @@ export const competitionAwardsSchema: DescItem[] = [
   },
   {
     label: '比赛语言',
-    field: 'competitionLanguage',
+    field: 'competitionLanguageName',
   },
   {
     label: '比赛日期',

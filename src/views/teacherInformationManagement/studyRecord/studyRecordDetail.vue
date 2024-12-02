@@ -57,7 +57,7 @@
 
   // 页面左侧点击返回链接时的操作
   function goBack() {
-    go('/courseInformationManagement/learningRecord');
+    go('/courseTimeManagement/studyRecord');
   }
 </script>
 
