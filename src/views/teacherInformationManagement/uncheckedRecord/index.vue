@@ -28,11 +28,10 @@
   import { useUserStore } from '@/store/modules/user';
   import { useMessage } from '@/hooks/web/useMessage';
   import {
+    deleteRefuseRecord,
     getUncheckedRecordList,
     submitRefuseRecord,
   } from '@/api/teacherInformationManagement/teacherInformationManagement';
-  import { cloneDeep } from 'lodash-es';
-  import { deleteLearningRecord } from '@/api/courseInformationManagement/courseInformationManagement';
   import { UpdateRefuseRecordParams } from '@/api/teacherInformationManagement/model/uncheckedRecord';
 
   defineOptions({ name: 'AccountManagement' });
@@ -148,7 +147,7 @@
   }
 
   function handleDelete(record: Recordable) {
-    deleteLearningRecord(record.learningRecordId);
+    deleteRefuseRecord(record.learningRecordId);
     deleteTableDataRecord(record.learningRecordId);
   }
 

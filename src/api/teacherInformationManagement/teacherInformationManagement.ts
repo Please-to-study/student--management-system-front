@@ -40,6 +40,7 @@ enum Api {
   UncheckedRecord = '/learningRecord/getUncheckedRecord',
   // 提交修改后的学习记录
   SubmitRefuseRecord = '/learningRecord/submitRefuseRecord',
+  DeleteRefuseRecord = '/learningRecord/deleteRefuseRecord',
 }
 
 // 基本信息功能模块api list
@@ -95,6 +96,9 @@ export const getUncheckedRecordList = (params: QueryUncheckedRecordParams) =>
 
 export const submitRefuseRecord = (params: UpdateRefuseRecordParams) =>
   defHttp.post({ url: Api.SubmitRefuseRecord, params }, { isTransformResponse: false });
+
+export const deleteRefuseRecord = (learningRecordId: number) =>
+  defHttp.post({ url: Api.DeleteRefuseRecord, params: { learningRecordId } });
 
 // 课时费用api
 export const getTeacherTuitionFeeList = (

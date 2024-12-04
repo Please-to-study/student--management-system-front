@@ -33,6 +33,12 @@
                 onClick: handleEdit.bind(null, record),
               },
               {
+                icon: 'ant-design:close-outlined',
+                color: 'warning',
+                tooltip: '撤销记录',
+                onClick: handleRollback.bind(null, record),
+              },
+              {
                 icon: 'ant-design:delete-outlined',
                 color: 'error',
                 tooltip: '删除此记录',
@@ -71,9 +77,10 @@
   import {
     deleteLearningRecord,
     getLearningRecordList,
+    rollbackLearningRecord,
   } from '@/api/courseInformationManagement/courseInformationManagement';
-  import { ExpExcelModal, ExportModalResult, jsonToSheetXlsx } from "@/components/Excel";
-  import {RoleEnum} from "@/enums/roleEnum";
+  import { ExpExcelModal, ExportModalResult, jsonToSheetXlsx } from '@/components/Excel';
+  import { RoleEnum } from '@/enums/roleEnum';
 
   defineOptions({ name: 'AccountManagement' });
 
@@ -84,55 +91,56 @@
   const searchInfo = reactive<Recordable>({});
   const studentId = ref<string>('');
   const exportData = ref<any[]>([]);
-  const [registerTable, { reload, updateTableDataRecord, getDataSource }] = useTable({
-    title: '已审核学习记录列表',
-    api: getLearningRecordList,
-    rowKey: 'learningRecordId',
-    searchInfo: {
-      studentId: -1,
-      learningRecordDate: '',
-      courseName: '',
-      teacherName: '',
-    },
-    columns,
-    formConfig: {
-      labelWidth: 120,
-      schemas: searchFormSchema,
-      autoSubmitOnEnter: true,
-      resetFunc: customResetFunc,
-    },
-    useSearchForm: true,
-    showTableSetting: true,
-    bordered: true,
-    handleSearchInfoFn(info) {
-      const studentIdFlag = isNull(studentId.value);
-      if (studentIdFlag) {
-        info.studentId = -1;
-      } else {
-        info.studentId = studentId.value;
-      }
-      const learningRecordDateFlag =
-        isUndefined(info.learningRecordDate) || info.learningRecordDate?.length === 0;
-      if (learningRecordDateFlag) {
-        info.learningRecordDate = '';
-      }
-      const courseNameFlag = isUndefined(info.courseName) || info.courseName?.length === 0;
-      if (courseNameFlag) {
-        info.courseName = '';
-      }
-      const teacherNameFlag = isUndefined(info.teacherName) || info.teacherName?.length === 0;
-      if (teacherNameFlag) {
-        info.teacherName = '';
-      }
-      return info;
-    },
-    actionColumn: {
-      width: 120,
-      title: '操作',
-      dataIndex: 'action',
-      // slots: { customRender: 'action' },
-    },
-  });
+  const [registerTable, { reload, deleteTableDataRecord, updateTableDataRecord, getDataSource }] =
+    useTable({
+      title: '已审核学习记录列表',
+      api: getLearningRecordList,
+      rowKey: 'learningRecordId',
+      searchInfo: {
+        studentId: -1,
+        learningRecordDate: '',
+        courseName: '',
+        teacherName: '',
+      },
+      columns,
+      formConfig: {
+        labelWidth: 120,
+        schemas: searchFormSchema,
+        autoSubmitOnEnter: true,
+        resetFunc: customResetFunc,
+      },
+      useSearchForm: true,
+      showTableSetting: true,
+      bordered: true,
+      handleSearchInfoFn(info) {
+        const studentIdFlag = isNull(studentId.value);
+        if (studentIdFlag) {
+          info.studentId = -1;
+        } else {
+          info.studentId = studentId.value;
+        }
+        const learningRecordDateFlag =
+          isUndefined(info.learningRecordDate) || info.learningRecordDate?.length === 0;
+        if (learningRecordDateFlag) {
+          info.learningRecordDate = '';
+        }
+        const courseNameFlag = isUndefined(info.courseName) || info.courseName?.length === 0;
+        if (courseNameFlag) {
+          info.courseName = '';
+        }
+        const teacherNameFlag = isUndefined(info.teacherName) || info.teacherName?.length === 0;
+        if (teacherNameFlag) {
+          info.teacherName = '';
+        }
+        return info;
+      },
+      actionColumn: {
+        width: 120,
+        title: '操作',
+        dataIndex: 'action',
+        // slots: { customRender: 'action' },
+      },
+    });
 
   async function customResetFunc() {
     studentId.value = '';
@@ -172,9 +180,16 @@
     });
   }
 
+  function handleRollback(record: Recordable) {
+    rollbackLearningRecord(record.learningRecordId);
+    deleteTableDataRecord(record.learningRecordId);
+    console.log(record);
+  }
+
   function handleDelete(record: Recordable) {
     deleteLearningRecord(record.learningRecordId);
-    reload();
+    deleteTableDataRecord(record.learningRecordId);
+    // reload();
     console.log(record);
   }
 

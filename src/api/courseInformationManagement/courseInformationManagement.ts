@@ -38,6 +38,7 @@ enum Api {
   AddLearningRecord = '/learningRecord/addLearningRecord',
   UpdateLearningRecord = '/learningRecord/updateLearningRecord',
   DeleteLearningRecord = '/learningRecord/deleteLearningRecord',
+  RollbackLearningRecord = '/learningRecord/rollbackLearningRecord',
   LearningRecordList = '/learningRecord/getLearningRecord',
   LearningRecordById = '/learningRecord/getLearningRecordById',
   //教师端获取学生记录
@@ -96,6 +97,9 @@ export const updateLearningRecord = (params: UpdateLearningRecordParams) =>
 
 export const deleteLearningRecord = (learningRecordId: number) =>
   defHttp.post({ url: Api.DeleteLearningRecord, params: { learningRecordId } });
+
+export const rollbackLearningRecord = (learningRecordId: number) =>
+  defHttp.post({ url: Api.RollbackLearningRecord, params: { learningRecordId } });
 
 export const getLearningRecordList = (
   params: QueryLearningRecordParams = {
