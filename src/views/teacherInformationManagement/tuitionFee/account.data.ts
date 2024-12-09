@@ -92,7 +92,7 @@ export const searchFormSchema: FormSchema[] = [
     component: 'MonthPicker',
     componentProps: {
       style: { width: '100%' },
-      format: 'YYYY-MM-DD',
+      format: 'YYYY-MM',
     },
     colProps: { span: 6 },
   },

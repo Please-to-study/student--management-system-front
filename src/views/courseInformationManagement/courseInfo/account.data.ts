@@ -3,7 +3,9 @@ import { DescItem } from '@/components/Description';
 import { getCourseCategoryInfoList } from '@/api/configManagement';
 import { isNull } from '@/utils/is';
 import { formatToDate, formatToDateTime } from '@/utils/dateUtil';
+import { ref } from 'vue';
 
+export const unShowList = ref([0]);
 export const weekend = [
   {
     label: '星期一',
@@ -40,6 +42,17 @@ export const weekend = [
     value: 7,
     key: '7',
   },
+];
+
+export const columnMap = new Map([
+  ['日期', 'courseDate'],
+  ['开始时间', 'startTime'],
+  ['结束时间', 'endTime'],
+]);
+
+export const mustKeyArray = [
+  'startTime',
+  'endTime',
 ];
 
 export const columns: BasicColumn[] = [
@@ -94,11 +107,11 @@ export const columns: BasicColumn[] = [
   {
     title: '上课时间',
     dataIndex: 'courseWeekArget',
-    width: 110,
+    width: 130,
     customRender: ({ value }) => {
       let courseTime = '';
-      if (isNull(value)) {
-        return courseTime;
+      if (value.length == 0) {
+        return '自由排课课程';
       }
       value.forEach((courseDetail) => {
         const day = weekend.find((ele) => ele.value == courseDetail.weekEnd);
@@ -262,6 +275,63 @@ export const accountFormSchema: FormSchema[] = [
     field: 'courseNumber',
     component: 'InputNumber',
     required: true,
+  },
+  {
+    field: 'scheduleMode',
+    component: 'RadioGroup',
+    label: '排课模式',
+    defaultValue: 1,
+    componentProps: ({ schema, formModel, formActionType }) => {
+      return {
+        options: [
+          {
+            label: '周期排课',
+            value: 1,
+          },
+          {
+            label: '自由排课',
+            value: 0,
+          },
+        ],
+        onChange: (e: any) => {
+          const { updateSchema } = formActionType;
+          const isShowFlag = formModel.scheduleMode == 1;
+          updateSchema([
+            {
+              field: 'importSchedule',
+              ifShow: !isShowFlag,
+            },
+          ]);
+          unShowList.value.forEach((item) => {
+            const tempWeekField = 'weekEnd_' + item;
+            const tempOPField = '' + item;
+            const tempCourseTimeField = 'courseTime_' + item;
+            updateSchema([
+              {
+                field: tempWeekField,
+                ifShow: isShowFlag,
+              },
+              {
+                field: tempOPField,
+                ifShow: isShowFlag,
+              },
+              {
+                field: tempCourseTimeField,
+                ifShow: isShowFlag,
+              },
+            ]);
+          });
+        },
+      };
+    },
+  },
+  {
+    field: 'importSchedule',
+    label: '        ',
+    slot: 'import',
+    ifShow: false,
+    colProps: { span: 6 },
+    // required: true,
   },
   {
     field: 'weekEnd_0',

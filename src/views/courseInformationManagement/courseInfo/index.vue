@@ -50,13 +50,13 @@
   import { columns, searchFormSchema } from './account.data';
   import { useGo } from '@/hooks/web/usePage';
   import { useMessage } from '@/hooks/web/useMessage';
-  import { isNull, isUndefined } from "@/utils/is";
+  import { isNull, isUndefined } from '@/utils/is';
   import { getSpecialStudentBasicInfoList } from '@/api/studentInformationManagement/studentInformationManagement';
   import {
     deleteCourse,
     getCourseList,
   } from '@/api/courseInformationManagement/courseInformationManagement';
-  import {RoleEnum} from "@/enums/roleEnum";
+  import { RoleEnum } from '@/enums/roleEnum';
 
   defineOptions({ name: 'AccountManagement' });
 
@@ -64,55 +64,55 @@
   const go = useGo();
   const [registerModal, { openModal }] = useModal();
   const searchInfo = reactive<Recordable>({});
-  const [registerTable, { reload, updateTableDataRecord, getSearchInfo }] = useTable({
-    title: '课程列表',
-    api: getCourseList,
-    rowKey: 'courseId',
-    searchInfo: {
-      courseName: '',
-      courseCategoryId: -1,
-      courseAddress: '',
-      courseStartDate: '',
-    },
-    columns,
-    formConfig: {
-      labelWidth: 120,
-      schemas: searchFormSchema,
-      autoSubmitOnEnter: true,
-    },
-    useSearchForm: true,
-    showTableSetting: true,
-    bordered: true,
-    handleSearchInfoFn(info) {
-      const courseNameFlag =
-        isUndefined(info.courseName) || info.courseName?.length === 0;
-      if (courseNameFlag) {
-        info.courseName = '';
-      }
-      const courseCategoryIdFlag = isUndefined(info.courseCategoryId);
-      if (courseCategoryIdFlag) {
-        info.courseCategoryId = -1;
-      }
-      const courseAddressFlag =
-        isUndefined(info.courseAddress) || info.courseAddress?.length === 0;
-      if (courseAddressFlag) {
-        info.courseAddress = '';
-      }
-      const courseStartDateFlag =
-        isUndefined(info.courseStartDate) || info.courseStartDate?.length === 0;
-      if (courseStartDateFlag) {
-        info.courseStartDate = '';
-      }
-      console.log('courseStartDate is ', info);
-      return info;
-    },
-    actionColumn: {
-      width: 120,
-      title: '操作',
-      dataIndex: 'action',
-      // slots: { customRender: 'action' },
-    },
-  });
+  const [registerTable, { reload, updateTableDataRecord, deleteTableDataRecord, getSearchInfo }] =
+    useTable({
+      title: '课程列表',
+      api: getCourseList,
+      rowKey: 'courseId',
+      searchInfo: {
+        courseName: '',
+        courseCategoryId: -1,
+        courseAddress: '',
+        courseStartDate: '',
+      },
+      columns,
+      formConfig: {
+        labelWidth: 120,
+        schemas: searchFormSchema,
+        autoSubmitOnEnter: true,
+      },
+      useSearchForm: true,
+      showTableSetting: true,
+      bordered: true,
+      handleSearchInfoFn(info) {
+        const courseNameFlag = isUndefined(info.courseName) || info.courseName?.length === 0;
+        if (courseNameFlag) {
+          info.courseName = '';
+        }
+        const courseCategoryIdFlag = isUndefined(info.courseCategoryId);
+        if (courseCategoryIdFlag) {
+          info.courseCategoryId = -1;
+        }
+        const courseAddressFlag =
+          isUndefined(info.courseAddress) || info.courseAddress?.length === 0;
+        if (courseAddressFlag) {
+          info.courseAddress = '';
+        }
+        const courseStartDateFlag =
+          isUndefined(info.courseStartDate) || info.courseStartDate?.length === 0;
+        if (courseStartDateFlag) {
+          info.courseStartDate = '';
+        }
+        console.log('courseStartDate is ', info);
+        return info;
+      },
+      actionColumn: {
+        width: 120,
+        title: '操作',
+        dataIndex: 'action',
+        // slots: { customRender: 'action' },
+      },
+    });
 
   function handleCreate() {
     openModal(true, {
@@ -121,7 +121,7 @@
   }
 
   function handleEdit(record: Recordable) {
-    console.log(record);
+    console.log('ceshi', record);
     openModal(true, {
       record,
       isUpdate: true,
@@ -130,7 +130,8 @@
 
   function handleDelete(record: Recordable) {
     deleteCourse(record.courseId);
-    reload();
+    deleteTableDataRecord(record.courseId);
+    // reload();
     console.log(record);
   }
 

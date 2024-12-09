@@ -17,8 +17,9 @@ export type AddCourseInfoParams = {
   courseIntroduce: string;
   courseNotes: string;
   courseWeekArget: any[];
+  courseSemesterArget: any[];
 };
 
 export type UpdateCourseInfoParams = AddCourseInfoParams & {
-  courseId: string;
+  courseId: number;
 };
